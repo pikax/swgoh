@@ -1,6 +1,7 @@
 {
   "name": "swgoh",
   "version": "0.1.0",
+  "description": "Unofficial node library for swgoh.gg",
   "main": "dist/index.js",
   "repository": "https://github.com/pikax/swgoh.git",
   "author": "pikax",
