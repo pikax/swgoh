@@ -149,7 +149,7 @@ function parseCollection($) {
             code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
             description: na$.text(),
             imageSrc: i$.attr("src").slice(2),
-            star: a$.find("div.star:not(star-inactive)").length,
+            star: 7 - a$.find("div.star-inactive").length,
             gearLevel: GearLevel[gl],
             level: +(a$.find("div.char-portrait-full-level").text()),
             galacticPower: +gp[0],
