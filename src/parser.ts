@@ -25,7 +25,7 @@ return <any>$("body > div.container.p-t-md > div.content-container > div.content
 
       imageSrc: i$.attr("src").slice(2),
 
-      star: a$.find("div.star:not(star-inactive)").length,
+      star: 7 - a$.find("div.star-inactive").length,
       gearLevel: <GearLevel> (GearLevel[gl] as any), //todo fix this cast
       level: +(a$.find("div.char-portrait-full-level").text()),
 
