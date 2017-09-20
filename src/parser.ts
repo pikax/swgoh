@@ -156,8 +156,8 @@ const parseUser = ($: CheerioStatic): User => {
 		level: panelMenus[2],
 
 
-		allyCode: p[0],
-		joined: p[1],
+		allyCode: p[1] && p[0],
+		joined: p[1] || p[0],
 
 
 		guild: aGuild,
