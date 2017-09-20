@@ -113,3 +113,5 @@ fabric.properties
 
 .rpt2_cache
 .idea
+
+src/**/*.js*

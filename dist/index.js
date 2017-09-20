@@ -190,8 +190,8 @@ var parseUser = function ($) {
         userId: panelMenus[0],
         arenaRank: panelMenus[1],
         level: panelMenus[2],
-        allyCode: p[0],
-        joined: p[1],
+        allyCode: p[1] && p[0],
+        joined: p[1] || p[0],
         guild: aGuild,
         guildUrl: aGuildUrl
     };
