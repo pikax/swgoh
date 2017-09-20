@@ -12,14 +12,26 @@ export declare enum GearLevel {
     XI = 11,
     XII = 12,
 }
-export interface Character {
+export interface CharacterCore {
     code: string;
     description: string;
     imageSrc: string;
     star: number;
     gearLevel: GearLevel;
     level: number;
+}
+export interface Character extends CharacterCore {
     galacticPower: number;
+    maxGalacticPower: number;
+}
+export interface Ship {
+    code: string;
+    description: string;
+    imageSrc: string;
+    star: number;
+    level: number;
+    galacticPower: number;
+    crew: CharacterCore[];
     maxGalacticPower: number;
 }
 export interface Guild {
@@ -63,3 +75,4 @@ export interface UserInfo {
 }
 export declare type Profile = User & UserStats & UserInfo;
 export declare type Collection = Character[];
+export declare type ShipCollection = Ship[];
