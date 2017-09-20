@@ -43,12 +43,15 @@ npm i swgoh
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+
+# [0.1.2] - 2017-09-20
 - Added support for ships
 
-# [0.1.1] - 2017-06-19
+# [0.1.1] - 2017-08-19
 - Fixed issue with stars when getting collection
 
-# [0.1.0] - 2017-06-19
+# [0.1.0] - 2017-08-19
 - First release, support collection (toons), player info and guild info.
 
 
