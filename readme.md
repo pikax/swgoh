@@ -22,7 +22,7 @@ swgoh.profile(username).then(function (p) {
   return swgoh.guild(p.guildUrl);
 }).then(console.log);
 swgoh.collection(username).then(console.log);
-swgoh.ships(username).then(console.log);
+swgoh.ship(username).then(console.log);
 ```
 
 ## Motivation
