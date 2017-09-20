@@ -69,14 +69,16 @@ export function parseShips($: CheerioStatic): ShipCollection {
 
 			const stars = ship$.find("div.ship-portrait-full-star-inactive").length;
 
+			const img = ship$.find(".ship-portrait-full-frame-img").attr("src")			;
+
 			return <Ship>{
 				code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
 				description: na$.text(),
 
-				imageSrc: '',
+				imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
 
 				star: stars ? 7 - stars : 0,
-				level: 0,
+				level: +ship$.find(".ship-portrait-full-frame-level").text(),
 				galacticPower: 0,
 
 
