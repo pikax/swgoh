@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var url = require('url');
 var cheerio = require('cheerio');
+var url = require('url');
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -76,46 +76,6 @@ function __generator(thisArg, body) {
     }
 }
 
-var requestretry = require("requestretry");
-var Queue = require("promise-queue");
-var TICK = 33;
-var config = {
-    simultaneousRequests: 10,
-    safeQueueSize: 5,
-    maxQueueSize: 50,
-    tick: 33
-};
-var ConcurrentQueue = /** @class */ (function () {
-    function ConcurrentQueue(_config) {
-        if (_config === void 0) { _config = config; }
-        this._config = _config;
-        this._queue = new Queue(30);
-    }
-    ConcurrentQueue.prototype.queue = function (uri) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this._queue.getQueueLength() > this._config.maxQueueSize)) return [3 /*break*/, 3];
-                        _a.label = 1;
-                    case 1:
-                        if (!(this._queue.getQueueLength() < this._config.safeQueueSize)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, promiseSetTimeout(TICK)];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 1];
-                    case 3: return [2 /*return*/, this._queue.add(function () { return requestretry(uri); })];
-                }
-            });
-        });
-    };
-    return ConcurrentQueue;
-}());
-function promiseSetTimeout(ms) {
-    return new Promise((function (resolve$$1) { return setTimeout(resolve$$1, ms); }));
-}
-//# sourceMappingURL=queue.js.map
-
 var GearLevel;
 (function (GearLevel) {
     GearLevel[GearLevel["I"] = 1] = "I";
@@ -131,7 +91,6 @@ var GearLevel;
     GearLevel[GearLevel["XI"] = 11] = "XI";
     GearLevel[GearLevel["XII"] = 12] = "XII";
 })(GearLevel || (GearLevel = {}));
-//# sourceMappingURL=interface.js.map
 
 function parseCollection($) {
     return $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div > div.player-char-portrait")
@@ -143,7 +102,7 @@ function parseCollection($) {
         var a$ = _$.find("a");
         var i$ = a$.find("img");
         var gp$ = p$.find("div.collection-char-gp");
-        var gp = gp$.attr("title").replace(",", "").match(/\d+/g); // fix points
+        var gp = gp$.attr("title").replace(/,/g, '').match(/\d+/g); // fix points
         var gl = a$.find("div.char-portrait-full-gear-level").text();
         return {
             code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
@@ -169,6 +128,54 @@ function parseGuild($) {
         var description = _$.find("strong").text();
         return { username: username, description: description };
     }).get();
+}
+function parseShips($) {
+    return $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
+        .map(function (x) {
+        var _$ = $(this);
+        var na$ = _$.find('div.collection-ship-name > a'); //name
+        var m$ = _$.find(".collection-ship-main"); //main
+        var ship$ = m$.find('div.collection-ship-primary > div > a');
+        var crew$ = m$.find('div.collection-ship-secondary');
+        var gp$ = crew$.find("div.collection-char-gp");
+        var gpTitle = gp$.attr("title");
+        var gp = gpTitle
+            ? gpTitle.replace(/,/g, '').match(/\d+/g) // fix points
+            : [undefined, undefined, undefined];
+        var stars = ship$.find("div.ship-portrait-full-star-inactive").length;
+        var img = ship$.find(".ship-portrait-full-frame-img").attr("src");
+        var crewMembers = crew$.find('.collection-ship-crew-member')
+            .map(function (x) {
+            var _$ = $(this);
+            var na$ = _$.find(".char-portrait-full-link");
+            var a$ = _$.find("a");
+            var i$ = a$.find("img");
+            var name = _$.find('.player-char-portrait').attr("title");
+            var gl = a$.find("div.char-portrait-full-gear-level").text();
+            if (!na$.attr("href"))
+                return; //TODO fix me
+            return {
+                code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
+                description: name,
+                imageSrc: i$.attr("src").slice(2),
+                star: 7 - a$.find("div.star-inactive").length,
+                gearLevel: GearLevel[gl],
+                level: +(a$.find("div.char-portrait-full-level").text()),
+            };
+        })
+            .get();
+        return {
+            code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
+            description: na$.text(),
+            imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
+            star: stars ? 7 - stars : 0,
+            level: +ship$.find(".ship-portrait-full-frame-level").text(),
+            crew: crewMembers,
+            galacticPower: +gp[0],
+            maxGalacticPower: +gp[1],
+        };
+    })
+        .get();
 }
 var parseUser = function ($) {
     var b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
@@ -220,7 +227,45 @@ var parseInfo = function ($) {
         shipBattlesWon: p[9],
     };
 };
-//# sourceMappingURL=parser.js.map
+
+var requestretry = require("requestretry");
+var Queue = require("promise-queue");
+var TICK = 33;
+var config = {
+    simultaneousRequests: 10,
+    safeQueueSize: 5,
+    maxQueueSize: 50,
+    tick: 33
+};
+var ConcurrentQueue = /** @class */ (function () {
+    function ConcurrentQueue(_config) {
+        if (_config === void 0) { _config = config; }
+        this._config = _config;
+        this._queue = new Queue(30);
+    }
+    ConcurrentQueue.prototype.queue = function (uri) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(this._queue.getQueueLength() > this._config.maxQueueSize)) return [3 /*break*/, 3];
+                        _a.label = 1;
+                    case 1:
+                        if (!(this._queue.getQueueLength() < this._config.safeQueueSize)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, promiseSetTimeout(TICK)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 1];
+                    case 3: return [2 /*return*/, this._queue.add(function () { return requestretry(uri); })];
+                }
+            });
+        });
+    };
+    return ConcurrentQueue;
+}());
+function promiseSetTimeout(ms) {
+    return new Promise((function (resolve$$1) { return setTimeout(resolve$$1, ms); }));
+}
 
 var swgohgg = "https://swgoh.gg";
 var Swgoh = /** @class */ (function () {
@@ -239,6 +284,10 @@ var Swgoh = /** @class */ (function () {
         var uri = url.resolve(swgohgg, "/u/" + username + "/collection");
         return this.getCheerio(uri).then(parseCollection);
     };
+    Swgoh.prototype.ship = function (username) {
+        var uri = url.resolve(swgohgg, "/u/" + username + "/ships");
+        return this.getCheerio(uri).then(parseShips);
+    };
     Swgoh.prototype.guild = function (opts) {
         var uri;
         if (typeof opts === "string") {
@@ -252,8 +301,6 @@ var Swgoh = /** @class */ (function () {
     return Swgoh;
 }());
 var swgoh = new Swgoh();
-
-//# sourceMappingURL=index.js.map
 
 exports.swgoh = swgoh;
 exports.Swgoh = Swgoh;
