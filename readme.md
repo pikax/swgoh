@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Node library to get information of **swgoh** parsing [swgoh.gg](https://swgoh.gg), you can get **profile**, **characters**, **guild members** and **ships**.
+Node library to get information of **swgoh** parsing [swgoh.gg][swgoh], you can get **profile**, **characters**, **guild members** and **ships**.
 
 ## Code Example
 
@@ -27,7 +27,7 @@ swgoh.ship(username).then(console.log);
 
 ## Motivation
 
-With TB just released, this library provides easy way to get data from [swgoh.gg](https://swgoh.gg)
+With TB just released, this library provides easy way to get data from [swgoh.gg][swgoh]
 
 ## Installation
 
@@ -44,6 +44,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+# [0.1.3] - 2017-09-20
+- Fix "Profile Data undefined" when not showing AllyCode on Swgoh ([#2][i2])
 
 # [0.1.2] - 2017-09-20
 - Added support for ships
@@ -64,3 +66,5 @@ MIT
 
 The developer of this application does not have any affiliation with the Capital Games, Disney, Lucasfilm Limited or swgoh.gg.
 
+[swgoh]: https://swgoh.gg
+[i2]: https://github.com/pikax/swgoh/issues/2
