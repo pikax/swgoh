@@ -1,5 +1,14 @@
 import {
-	Character, Collection, GearLevel, Guild, Profile, Ship, ShipCollection, User, UserInfo,
+	Character,
+	CharacterCore,
+	Collection,
+	GearLevel,
+	Guild,
+	Profile,
+	Ship,
+	ShipCollection,
+	User,
+	UserInfo,
 	UserStats
 } from "./interface";
 
@@ -16,7 +25,7 @@ export function parseCollection($: CheerioStatic): Collection {
 			const a$ = _$.find("a");
 			const i$ = a$.find("img");
 			const gp$ = p$.find("div.collection-char-gp");
-			const gp = gp$.attr("title").replace(",", "").match(/\d+/g); // fix points
+			const gp = gp$.attr("title").replace(/,/g, '').match(/\d+/g); // fix points
 
 
 			const gl: number = a$.find("div.char-portrait-full-gear-level").text() as any;
@@ -58,18 +67,54 @@ export function parseShips($: CheerioStatic): ShipCollection {
 	return <any> $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
 		.map(function (x) {
 			const _$ = $(this);
-			const na$ =  _$.find('div.collection-ship-name > a'); //name
+			const na$ = _$.find('div.collection-ship-name > a'); //name
 
 			const m$ = _$.find(".collection-ship-main"); //main
 
 
 			const ship$ = m$.find('div.collection-ship-primary > div > a');
-			const crew$ = m$.find('div.collection-ship-secundary');
+			const crew$ = m$.find('div.collection-ship-secondary');
 
+
+			const gp$ = crew$.find("div.collection-char-gp");
+			const gpTitle = gp$.attr("title");
+			const gp = gpTitle
+				? gpTitle.replace(/,/g, '').match(/\d+/g) // fix points
+				: [undefined, undefined, undefined];
 
 			const stars = ship$.find("div.ship-portrait-full-star-inactive").length;
 
-			const img = ship$.find(".ship-portrait-full-frame-img").attr("src")			;
+			const img = ship$.find(".ship-portrait-full-frame-img").attr("src");
+
+			const crewMembers = crew$.find('.collection-ship-crew-member')
+				.map(function (x) {
+					const _$ = $(this);
+					const na$ = _$.find(".char-portrait-full-link");
+
+					const a$ = _$.find("a");
+					const i$ = a$.find("img");
+
+					const name = _$.find('.player-char-portrait').attr("title");
+
+
+					const gl: number = a$.find("div.char-portrait-full-gear-level").text() as any;
+
+					if (!na$.attr("href"))
+						return; //TODO fix me
+
+					return <CharacterCore>{
+						code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
+						description: name,
+
+						imageSrc: i$.attr("src").slice(2),
+
+						star: 7 - a$.find("div.star-inactive").length,
+						gearLevel: <GearLevel> (GearLevel[gl] as any), //todo fix this cast
+						level: +(a$.find("div.char-portrait-full-level").text()),
+					}
+				})
+				.get();
+
 
 			return <Ship>{
 				code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
@@ -79,12 +124,12 @@ export function parseShips($: CheerioStatic): ShipCollection {
 
 				star: stars ? 7 - stars : 0,
 				level: +ship$.find(".ship-portrait-full-frame-level").text(),
-				galacticPower: 0,
 
 
-				crew: [],
+				crew: crewMembers as any,
 
-				maxGalacticPower: 0,
+				galacticPower: +gp[0],
+				maxGalacticPower: +gp[1],
 			}
 		})
 		.get();
