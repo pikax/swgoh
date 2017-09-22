@@ -23,6 +23,9 @@ swgoh.profile(username).then(function (p) {
 }).then(console.log);
 swgoh.collection(username).then(console.log);
 swgoh.ship(username).then(console.log);
+
+return
+
 ```
 
 ## Motivation
@@ -44,6 +47,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Fix 7* ships not parse star correctly ([#3][i3])
+- Added guild units fetch (Same as the [swgoh][swgoh] [guild unit API][swgohApiGuildUnit] )
 
 # [0.1.3] - 2017-09-20
 - Fix "Profile Data undefined" when not showing AllyCode on Swgoh ([#2][i2])
@@ -58,7 +62,6 @@ All notable changes to this project will be documented in this file.
 - First release, support collection (toons), player info and guild info.
 
 
-
 ## License
 
 MIT
@@ -68,5 +71,6 @@ MIT
 The developer of this application does not have any affiliation with the Capital Games, Disney, Lucasfilm Limited or swgoh.gg.
 
 [swgoh]: https://swgoh.gg
+[swgohApiGuildUnit]: https://swgoh.gg/api/guilds/1/units/
 [i2]: https://github.com/pikax/swgoh/issues/2
 [i3]: https://github.com/pikax/swgoh/issues/3

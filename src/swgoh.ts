@@ -1,9 +1,10 @@
 import * as cheerio from 'cheerio'
 import * as url from 'url';
-import {Collection, Guild, Profile, ShipCollection} from "./interface";
+import {Collection, Guild, Profile, ShipCollection, SwgohggUnits} from "./interface";
 import {parseCollection, parseGuild, parseProfile, parseShips} from "./parser";
 
 import {ConcurrentQueue} from "./queue";
+import {isNumber} from "util";
 
 
 const swgohgg = "https://swgoh.gg";
@@ -43,6 +44,28 @@ export class Swgoh {
 			uri = url.resolve(swgohgg, `/g/${opts.id}/${opts.name}`);
 		}
 		return this.getCheerio(uri).then(parseGuild);
+	}
+
+	units(guildUrl: string)
+	units(opts: { id: number, name: string })
+	units(opts: string | { id: number, name: string }): Promise<SwgohggUnits> {
+		let id: number;
+		if (typeof opts === "string") {
+			const m = opts.match(/\d+/);
+			if(!m){
+				throw new Error(`"${opts}" is not a valid guild url`);
+			}
+			id = +m[0];
+			if(isNaN(id) || !isNumber(id)){
+				throw new Error(`Unable to parse guild id from url "${opts}"`);
+			}
+		}
+		else {
+			id = opts.id;
+		}
+
+		const uri = url.resolve(swgohgg, `/api/guilds/${id}/units/`);
+		return this._queue.queue(uri).then(x=>x.body);
 	}
 }
 
