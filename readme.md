@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Node library to get information of **swgoh** parsing [swgoh.gg][swgoh], you can get **profile**, **characters**, **guild members** and **ships**.
+Node library to get information of **swgoh** parsing [swgoh.gg][swgoh], you can get **profile**, **characters**, **guild members**, **ships** and **units**.
 
 ## Code Example
 
@@ -26,7 +26,7 @@ swgoh.ship(username).then(console.log);
 
 
 const guild = "/g/232/requiem/"; // or {id:232}
-swgoh.ship(guild).then(console.log);
+swgoh.units(guild).then(console.log);
 
 ```
 

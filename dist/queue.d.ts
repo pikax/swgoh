@@ -10,6 +10,6 @@ export declare class ConcurrentQueue {
     private _config;
     private readonly _queue;
     constructor(_config?: QueueConfig);
-    queue(uri: RequiredUriUrl): Promise<any>;
+    queue(uri: RequiredUriUrl | string): Promise<any>;
 }
 export declare function promiseSetTimeout(ms: number): Promise<any>;
