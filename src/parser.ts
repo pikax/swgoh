@@ -30,6 +30,7 @@ export function parseCollection($: CheerioStatic): Collection {
 
 			const gl: number = a$.find("div.char-portrait-full-gear-level").text() as any;
 
+
 			return <Character>{
 				code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
 				description: na$.text(),
@@ -68,7 +69,6 @@ export function parseShips($: CheerioStatic): ShipCollection {
 		.map(function (x) {
 			const _$ = $(this);
 			const na$ = _$.find('div.collection-ship-name > a'); //name
-
 			const m$ = _$.find(".collection-ship-main"); //main
 
 
@@ -116,13 +116,15 @@ export function parseShips($: CheerioStatic): ShipCollection {
 				.get();
 
 
+			const hasShip =  na$.attr("href").startsWith('/u');
+
 			return <Ship>{
 				code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
 				description: na$.text(),
 
 				imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
 
-				star: stars ? 7 - stars : 0,
+				star: hasShip ?  7 - stars : 0,
 				level: +ship$.find(".ship-portrait-full-frame-level").text(),
 
 
