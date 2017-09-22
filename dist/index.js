@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var cheerio = require('cheerio');
 var url = require('url');
+var util = require('util');
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -164,11 +165,12 @@ function parseShips($) {
             };
         })
             .get();
+        var hasShip = na$.attr("href").startsWith('/u');
         return {
             code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
             description: na$.text(),
             imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
-            star: stars ? 7 - stars : 0,
+            star: hasShip ? 7 - stars : 0,
             level: +ship$.find(".ship-portrait-full-frame-level").text(),
             crew: crewMembers,
             galacticPower: +gp[0],
@@ -297,6 +299,24 @@ var Swgoh = /** @class */ (function () {
             uri = url.resolve(swgohgg, "/g/" + opts.id + "/" + opts.name);
         }
         return this.getCheerio(uri).then(parseGuild);
+    };
+    Swgoh.prototype.units = function (opts) {
+        var id;
+        if (typeof opts === "string") {
+            var m = opts.match(/\d+/);
+            if (!m) {
+                throw new Error("\"" + opts + "\" is not a valid guild url");
+            }
+            id = +m[0];
+        }
+        else {
+            id = opts.id;
+        }
+        if (isNaN(id) || !util.isNumber(id)) {
+            throw new Error("Unable to parse guild id from url \"" + opts + "\"");
+        }
+        var uri = url.resolve(swgohgg, "/api/guilds/" + id + "/units/");
+        return this._queue.queue(uri).then(function (x) { return x.body; });
     };
     return Swgoh;
 }());

@@ -73,6 +73,15 @@ export interface UserInfo {
     raidsWon: number;
     shipBattlesWon: number;
 }
+export interface SwgohggUnit {
+    player: string;
+    character_stars: number;
+    character_level: number;
+    power: number;
+}
+export declare type SwgohggUnits = {
+    [id: string]: SwgohggUnit[];
+};
 export declare type Profile = User & UserStats & UserInfo;
 export declare type Collection = Character[];
 export declare type ShipCollection = Ship[];

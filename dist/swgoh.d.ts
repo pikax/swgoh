@@ -12,5 +12,10 @@ export declare class Swgoh {
         id: number;
         name: string;
     }): any;
+    units(guildUrl: string): any;
+    units(opts: {
+        id: number;
+        name: string;
+    }): any;
 }
 export declare const swgoh: Swgoh;
