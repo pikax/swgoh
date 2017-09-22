@@ -24,7 +24,9 @@ swgoh.profile(username).then(function (p) {
 swgoh.collection(username).then(console.log);
 swgoh.ship(username).then(console.log);
 
-return
+
+const guild = "/g/232/requiem/"; // or {id:232}
+swgoh.ship(guild).then(console.log);
 
 ```
 

@@ -56,12 +56,13 @@ export class Swgoh {
 				throw new Error(`"${opts}" is not a valid guild url`);
 			}
 			id = +m[0];
-			if(isNaN(id) || !isNumber(id)){
-				throw new Error(`Unable to parse guild id from url "${opts}"`);
-			}
 		}
 		else {
 			id = opts.id;
+		}
+
+		if(isNaN(id) || !isNumber(id)){
+			throw new Error(`Unable to parse guild id from url "${opts}"`);
 		}
 
 		const uri = url.resolve(swgohgg, `/api/guilds/${id}/units/`);
