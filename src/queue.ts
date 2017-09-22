@@ -36,7 +36,7 @@ export class ConcurrentQueue {
     this._queue = new Queue(30);
   }
 
-  async queue(uri: RequiredUriUrl): Promise<any> {
+  async queue(uri: RequiredUriUrl|string): Promise<any> {
     if (this._queue.getQueueLength() > this._config.maxQueueSize) {
       while (this._queue.getQueueLength() < this._config.safeQueueSize) {
         await promiseSetTimeout(TICK);

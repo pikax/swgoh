@@ -94,8 +94,18 @@ export interface UserInfo {
 }
 
 
-export type Profile = User & UserStats & UserInfo;
+export interface SwgohggUnit {
+	player: string;
+	character_stars: number;
+	character_level: number;
+	power: number;
+}
 
+
+
+export type SwgohggUnits = {[id:string]: SwgohggUnit[]};
+
+export type Profile = User & UserStats & UserInfo;
 
 export type Collection = Character[];
 export type ShipCollection = Ship[];
