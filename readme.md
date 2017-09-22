@@ -48,6 +48,9 @@ npm i swgoh
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+
+# [0.2.1] - 2017-09-22
 - Fix 7* ships not parse star correctly ([#3][i3])
 - Added guild units fetch (Same as the [swgoh][swgoh] [guild unit API][swgohApiGuildUnit] )
 
