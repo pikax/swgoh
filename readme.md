@@ -43,6 +43,7 @@ npm i swgoh
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+- Fix 7* ships not parse star correctly ([#3][i3])
 
 # [0.1.3] - 2017-09-20
 - Fix "Profile Data undefined" when not showing AllyCode on Swgoh ([#2][i2])
@@ -68,3 +69,4 @@ The developer of this application does not have any affiliation with the Capital
 
 [swgoh]: https://swgoh.gg
 [i2]: https://github.com/pikax/swgoh/issues/2
+[i3]: https://github.com/pikax/swgoh/issues/3
