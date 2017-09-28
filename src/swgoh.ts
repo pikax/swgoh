@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio'
 import * as url from 'url';
-import {Collection, Guild, Profile, ShipCollection, SwgohggUnits} from "./interface";
-import {parseCollection, parseGuild, parseProfile, parseShips} from "./parser";
+import {Collection, Guild, ModCollection, Profile, ShipCollection, SwgohggUnits} from "./interface";
+import {parseCollection, parseGuild, parseModCollection, parseProfile, parseShips} from "./parser";
 
 import {ConcurrentQueue} from "./queue";
 import {isNumber} from "util";
@@ -26,6 +26,28 @@ export class Swgoh {
 	collection(username: string): Promise<Collection> {
 		const uri = url.resolve(swgohgg, `/u/${username}/collection`);
 		return this.getCheerio(uri).then(parseCollection);
+	}
+
+	async mods(username: string): Promise<ModCollection>{
+		const modsUri = `/u/${username}/mods` ;
+		let mods = [];
+		let done = false;
+
+		let uri = url.resolve(swgohgg, modsUri);
+		do {
+			const $: CheerioStatic = await this.getCheerio(uri);
+			mods = mods.concat(await parseModCollection($));
+
+			const href =$("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > nav > ul > li > a").last().attr("href");
+
+			if(href.startsWith(modsUri)){
+				uri = url.resolve(uri, href);
+			}else{
+				done = true;
+			}
+		}while(!done);
+
+		return mods;
 	}
 
 	ship(username: string): Promise<ShipCollection> {

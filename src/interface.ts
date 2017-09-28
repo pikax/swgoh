@@ -13,6 +13,7 @@ export enum GearLevel {
 	XII = 12,
 }
 
+
 export interface CharacterCore {
 	code: string;
 	description: string;
@@ -102,10 +103,97 @@ export interface SwgohggUnit {
 }
 
 
+/*Mod*/
 
-export type SwgohggUnits = {[id:string]: SwgohggUnit[]};
+export enum ModSlot {
+	Transmitter,
+	Receiver,
+	Processor,
+	HoloArray,
+	DataBus,
+	Multiplexer
+}
+
+export enum ModSet {
+	Health,
+	Defense,
+	CriticalDamage,
+	CriticalChance,
+	Tenacity,
+	Offense,
+	Potency,
+	Speed,
+}
+
+
+// todo probably replace this names on the enum
+export const TranslatedModName = {
+	[ModSlot.Transmitter]: "Square",
+	[ModSlot.Receiver]: "Arrow",
+	[ModSlot.Processor]: "Diamond",
+	[ModSlot.HoloArray]: "Triangle",
+	[ModSlot.DataBus]: "Circle",
+	[ModSlot.Multiplexer]: "Cross",
+};
+
+
+export enum ModPrimary {
+	Speed = "Speed",
+	CriticalChance = "Critical Chance",
+	CriticalDamage = "Critical Damage",
+	Potency = "Potency",
+	Tenacity = "Tenacity",
+	Accuracy = "Accuracy",
+	CriticalAvoidance = "Critical Avoidance",
+	Offense = "Offense",
+	Defense = "Defense",
+	Health = "Health",
+	Protection = "Protection",
+}
+
+
+export enum ModSecondary {
+	Speed = "Speed",
+	CriticalChance = "Critical Chance",
+	Potency = "Potency",
+	Tenacity = "Tenacity",
+	Offense = "Offense",
+	Defense = "Defense",
+	Health = "Health",
+	Protection = "Protection",
+	Offense100 = "Offense %",
+	Defense100 = "Defense %",
+	Health100 = "Health %",
+	Protection100 = "Protection %",
+}
+
+
+export type ModPrimaryValue = { type: ModPrimary, value: string };
+export type ModSecondaryValue = { type: ModSecondary, value: string };
+
+export interface Mod {
+	description: string;
+
+	tier: number;
+
+	level: number;
+	slot: ModSlot;
+
+	primary: ModPrimaryValue,
+	secondary: [ModSecondaryValue, ModPrimaryValue, ModSecondaryValue, ModSecondaryValue]
+
+	character: string;
+}
+
+
+/*End Mod*/
+
+
+export type SwgohggUnits = { [id: string]: SwgohggUnit[] };
 
 export type Profile = User & UserStats & UserInfo;
 
 export type Collection = Character[];
 export type ShipCollection = Ship[];
+
+export type ModCollection = Mod[];
