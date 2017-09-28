@@ -92,6 +92,66 @@ var GearLevel;
     GearLevel[GearLevel["XI"] = 11] = "XI";
     GearLevel[GearLevel["XII"] = 12] = "XII";
 })(GearLevel || (GearLevel = {}));
+/*Mod*/
+var ModSlot;
+(function (ModSlot) {
+    ModSlot[ModSlot["Transmitter"] = 0] = "Transmitter";
+    ModSlot[ModSlot["Receiver"] = 1] = "Receiver";
+    ModSlot[ModSlot["Processor"] = 2] = "Processor";
+    ModSlot[ModSlot["HoloArray"] = 3] = "HoloArray";
+    ModSlot[ModSlot["DataBus"] = 4] = "DataBus";
+    ModSlot[ModSlot["Multiplexer"] = 5] = "Multiplexer";
+})(ModSlot || (ModSlot = {}));
+var ModSet;
+(function (ModSet) {
+    ModSet[ModSet["Health"] = 0] = "Health";
+    ModSet[ModSet["Defense"] = 1] = "Defense";
+    ModSet[ModSet["CriticalDamage"] = 2] = "CriticalDamage";
+    ModSet[ModSet["CriticalChance"] = 3] = "CriticalChance";
+    ModSet[ModSet["Tenacity"] = 4] = "Tenacity";
+    ModSet[ModSet["Offense"] = 5] = "Offense";
+    ModSet[ModSet["Potency"] = 6] = "Potency";
+    ModSet[ModSet["Speed"] = 7] = "Speed";
+})(ModSet || (ModSet = {}));
+// todo probably replace this names on the enum
+var TranslatedModName = (_a = {},
+    _a[ModSlot.Transmitter] = "Square",
+    _a[ModSlot.Receiver] = "Arrow",
+    _a[ModSlot.Processor] = "Diamond",
+    _a[ModSlot.HoloArray] = "Triangle",
+    _a[ModSlot.DataBus] = "Circle",
+    _a[ModSlot.Multiplexer] = "Cross",
+    _a);
+var ModPrimary;
+(function (ModPrimary) {
+    ModPrimary["Speed"] = "Speed";
+    ModPrimary["CriticalChance"] = "Critical Chance";
+    ModPrimary["CriticalDamage"] = "Critical Damage";
+    ModPrimary["Potency"] = "Potency";
+    ModPrimary["Tenacity"] = "Tenacity";
+    ModPrimary["Accuracy"] = "Accuracy";
+    ModPrimary["CriticalAvoidance"] = "Critical Avoidance";
+    ModPrimary["Offense"] = "Offense";
+    ModPrimary["Defense"] = "Defense";
+    ModPrimary["Health"] = "Health";
+    ModPrimary["Protection"] = "Protection";
+})(ModPrimary || (ModPrimary = {}));
+var ModSecondary;
+(function (ModSecondary) {
+    ModSecondary["Speed"] = "Speed";
+    ModSecondary["CriticalChance"] = "Critical Chance";
+    ModSecondary["Potency"] = "Potency";
+    ModSecondary["Tenacity"] = "Tenacity";
+    ModSecondary["Offense"] = "Offense";
+    ModSecondary["Defense"] = "Defense";
+    ModSecondary["Health"] = "Health";
+    ModSecondary["Protection"] = "Protection";
+    ModSecondary["Offense100"] = "Offense %";
+    ModSecondary["Defense100"] = "Defense %";
+    ModSecondary["Health100"] = "Health %";
+    ModSecondary["Protection100"] = "Protection %";
+})(ModSecondary || (ModSecondary = {}));
+var _a;
 
 function parseCollection($) {
     return $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div > div.player-char-portrait")
@@ -145,6 +205,7 @@ function parseShips($) {
             : [undefined, undefined, undefined];
         var stars = ship$.find("div.ship-portrait-full-star-inactive").length;
         var img = ship$.find(".ship-portrait-full-frame-img").attr("src");
+        // todo move to other place
         var crewMembers = crew$.find('.collection-ship-crew-member')
             .map(function (x) {
             var _$ = $(this);
@@ -229,6 +290,55 @@ var parseInfo = function ($) {
         shipBattlesWon: p[9],
     };
 };
+var parseModCollection = function ($) {
+    var m = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > div > div > div")
+        .map(function (x) {
+        var _$ = $(this);
+        var tier = _$.find(".statmod-pip").length;
+        var character = _$.find(".char-portrait-img").attr("alt");
+        var level = _$.find(".statmod-level").text();
+        var description = _$.find(".statmod-img").attr("alt");
+        var mod = _$.find(".pc-statmod").first();
+        /*
+export enum ModSlot {
+Transmitter,
+Receiver,
+Processor,
+HoloArray,
+DataBus,
+Multiplexer
+}*/
+        var slot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
+        slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot4") && ModSlot.HoloArray || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot5") && ModSlot.DataBus || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot6") && ModSlot.Multiplexer || slot;
+        var primaryStat = _$.find(".statmod-stats-1");
+        var secondaryStats = _$.find(".statmod-stats-2 > .statmod-stat");
+        var primary = {
+            type: primaryStat.find(".statmod-stat-label").text(),
+            value: primaryStat.find(".statmod-stat-value").text(),
+        };
+        var secondary = secondaryStats.map(function (s) {
+            var ss = $(this);
+            return {
+                type: ss.find(".statmod-stat-label").text(),
+                value: ss.find(".statmod-stat-value").text(),
+            };
+        }).get();
+        return {
+            character: character,
+            tier: tier,
+            description: description,
+            level: level,
+            slot: TranslatedModName[slot],
+            primary: primary,
+            secondary: secondary,
+        };
+    }).get();
+    return m;
+};
 
 var requestretry = require("requestretry");
 var Queue = require("promise-queue");
@@ -285,6 +395,40 @@ var Swgoh = /** @class */ (function () {
     Swgoh.prototype.collection = function (username) {
         var uri = url.resolve(swgohgg, "/u/" + username + "/collection");
         return this.getCheerio(uri).then(parseCollection);
+    };
+    Swgoh.prototype.mods = function (username) {
+        return __awaiter(this, void 0, void 0, function () {
+            var modsUri, mods, done, uri, $, _a, _b, href;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        modsUri = "/u/" + username + "/mods";
+                        mods = [];
+                        done = false;
+                        uri = url.resolve(swgohgg, modsUri);
+                        _c.label = 1;
+                    case 1: return [4 /*yield*/, this.getCheerio(uri)];
+                    case 2:
+                        $ = _c.sent();
+                        _b = (_a = mods).concat;
+                        return [4 /*yield*/, parseModCollection($)];
+                    case 3:
+                        mods = _b.apply(_a, [_c.sent()]);
+                        href = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > nav > ul > li > a").last().attr("href");
+                        if (href.startsWith(modsUri)) {
+                            uri = url.resolve(uri, href);
+                        }
+                        else {
+                            done = true;
+                        }
+                        _c.label = 4;
+                    case 4:
+                        if (!done) return [3 /*break*/, 1];
+                        _c.label = 5;
+                    case 5: return [2 /*return*/, mods];
+                }
+            });
+        });
     };
     Swgoh.prototype.ship = function (username) {
         var uri = url.resolve(swgohgg, "/u/" + username + "/ships");

@@ -1,11 +1,12 @@
-import {ModPrimaryValue, ModSecondaryValue} from "src/interface";
 import {
 	Character,
 	CharacterCore,
 	Collection,
 	GearLevel,
 	Guild,
-	ModCollection,
+	ModCollection, ModPrimary,
+	ModPrimaryValue,
+	Mod,
 	ModSlot,
 	Profile,
 	Ship,
@@ -13,7 +14,7 @@ import {
 	TranslatedModName,
 	User,
 	UserInfo,
-	UserStats,
+	UserStats
 } from "./interface";
 
 
@@ -250,18 +251,17 @@ export enum ModSlot {
 
 
 			const primary: ModPrimaryValue = {
-				type: primaryStat.find(".statmod-stat-label").text(),
+				type: primaryStat.find(".statmod-stat-label").text() as ModPrimary,
 				value: primaryStat.find(".statmod-stat-value").text(),//.replace(/\+|%/g,''), // NOTE no need to use number
 			};
 
-			const secondary = secondaryStats.map(function(s){
-				const ss= $(this);
+			const secondary = secondaryStats.map(function (s) {
+				const ss = $(this);
 				return {
-					type: ss.find(".statmod-stat-label").text(),
+					type: ss.find(".statmod-stat-label").text() ,
 					value: ss.find(".statmod-stat-value").text(),//.replace(/\+|%/g,''), // NOTE no need to use number
 				}
 			}).get();
-
 
 
 			return {
@@ -277,7 +277,7 @@ export enum ModSlot {
 				secondary,
 			}
 
-		}).get()
+		}).get();
 
 	return m as any;
 };

@@ -1,6 +1,6 @@
 {
   "name": "swgoh",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Unofficial node library for swgoh.gg",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

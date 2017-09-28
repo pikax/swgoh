@@ -50,6 +50,9 @@ npm i swgoh
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+
+# [0.3.1] - 2017-09-28
 - Player mods collection
 
 # [0.2.1] - 2017-09-22
