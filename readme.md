@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Node library to get information of **swgoh** parsing [swgoh.gg][swgoh], you can get **profile**, **characters**, **guild members**, **ships** and **units**.
+Node library to get information of **swgoh** parsing [swgoh.gg][swgoh], you can get **profile**, **characters**, **guild members**, **ships**, **units** and **mods**.
 
 ## Code Example
 
@@ -28,6 +28,8 @@ swgoh.ship(username).then(console.log);
 const guild = "/g/232/requiem/"; // or {id:232}
 swgoh.units(guild).then(console.log);
 
+swgoh.mods(username).then(console.log);
+
 ```
 
 ## Motivation
@@ -48,7 +50,7 @@ npm i swgoh
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-
+- Player mods collection
 
 # [0.2.1] - 2017-09-22
 - Fix 7* ships not parse star correctly ([#3][i3])
