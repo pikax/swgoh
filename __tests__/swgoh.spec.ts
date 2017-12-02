@@ -3,7 +3,7 @@ import './__config__/init_mocks';
 
 import {swgoh, Swgoh} from "../src";
 import {ConcurrentQueue, QueueConfig} from '../src/queue'
-import {pikax, collection, ships, mods, guildUrl} from "./__config__/results";
+import {pikax, collection, ships, mods, guildUrl, gattsu} from "./__config__/results";
 
 
 describe('swgoh', () => {
@@ -23,6 +23,37 @@ describe('swgoh', () => {
     expect(p.username).toBe(pikax.username);
   });
 
+  it('should get profile "gattsu" #2', async ()=>{
+    const profile = await swgoh.profile("gattsu");
+
+    expect(profile.galacticPower).toBeGreaterThanOrEqual(gattsu.galacticPower);
+    expect(profile.charactersGalacticPower).toBeGreaterThanOrEqual(gattsu.charactersGalacticPower);
+    expect(profile.shipsGalacticPower).toBeGreaterThanOrEqual(gattsu.shipsGalacticPower);
+    expect(profile.pVEBattlesWon).toBeGreaterThanOrEqual(gattsu.pVEBattlesWon);
+    expect(profile.pVEHardBattlesWon).toBeGreaterThanOrEqual(gattsu.pVEHardBattlesWon);
+    expect(profile.galacticWarBattlesWon).toBeGreaterThanOrEqual(gattsu.galacticWarBattlesWon);
+    expect(profile.arenaBattlesWon).toBeGreaterThanOrEqual(gattsu.arenaBattlesWon);
+    expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(gattsu.guildCurrencyEarned);
+    expect(profile.raidsWon).toBeGreaterThanOrEqual(gattsu.raidsWon);
+    expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(gattsu.shipBattlesWon);
+    expect(profile.collectionScore).toBeGreaterThanOrEqual(gattsu.collectionScore);
+    expect(profile.characters).toBeGreaterThanOrEqual(gattsu.characters);
+    expect(profile.characters7).toBeGreaterThanOrEqual(gattsu.characters7);
+    expect(profile.username).toBe(gattsu.username);
+    expect(profile.userId).toBe(gattsu.userId);
+    expect(profile.allyCode).toBeUndefined();
+    expect(profile.joined).toBe(gattsu.joined);
+
+    expect(profile.characters6).toBeGreaterThanOrEqual(0);
+    expect(profile.gearXII).toBeGreaterThanOrEqual(0);
+    expect(profile.gearXI).toBeGreaterThanOrEqual(0);
+    expect(profile.gearX).toBeGreaterThanOrEqual(0);
+    expect(profile.gearIX).toBeGreaterThanOrEqual(0);
+    expect(profile.gearVIII).toBeGreaterThanOrEqual(0);
+    expect(profile.arenaRank).toBeGreaterThanOrEqual(1);
+    expect(profile.level).toBeGreaterThanOrEqual(gattsu.level);
+
+  });
 
   it('should get profile info', async () => {
     const profile = await swgoh.profile(pikax.username);
@@ -47,14 +78,14 @@ describe('swgoh', () => {
     expect(profile.allyCode).toBe(pikax.allyCode);
     expect(profile.joined).toBe(pikax.joined);
 
-    expect(pikax.characters6).toBeGreaterThanOrEqual(0);
-    expect(pikax.gearXII).toBeGreaterThanOrEqual(2);
-    expect(pikax.gearXI).toBeGreaterThanOrEqual(0);
-    expect(pikax.gearX).toBeGreaterThanOrEqual(0);
-    expect(pikax.gearIX).toBeGreaterThanOrEqual(0);
-    expect(pikax.gearVIII).toBeGreaterThanOrEqual(0);
-    expect(pikax.arenaRank).toBeGreaterThanOrEqual(1);
-    expect(pikax.level).toBeGreaterThanOrEqual(pikax.level);
+    expect(profile.characters6).toBeGreaterThanOrEqual(0);
+    expect(profile.gearXII).toBeGreaterThanOrEqual(2);
+    expect(profile.gearXI).toBeGreaterThanOrEqual(0);
+    expect(profile.gearX).toBeGreaterThanOrEqual(0);
+    expect(profile.gearIX).toBeGreaterThanOrEqual(0);
+    expect(profile.gearVIII).toBeGreaterThanOrEqual(0);
+    expect(profile.arenaRank).toBeGreaterThanOrEqual(1);
+    expect(profile.level).toBeGreaterThanOrEqual(pikax.level);
 
 
     expect(profile.guild).not.toBeNull();
