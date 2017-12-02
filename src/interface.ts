@@ -1,3 +1,6 @@
+// TODO mode refactor this and prefix interfaces with I
+
+
 export enum GearLevel {
   I = 1,
   II = 3,
@@ -192,7 +195,6 @@ export interface Mod {
 
 /* Info */
 
-
 // TODO change to CharacterCore
 export interface CharacterCoreStats {
   code: string;
@@ -245,7 +247,6 @@ export interface CharacterBaseGear {
   white: number;
 }
 
-
 //from /character/stats
 export type CharacterStats = CharacterCoreStats
   & CharacterBaseStats
@@ -254,8 +255,45 @@ export type CharacterStats = CharacterCoreStats
   & CharacterBaseAbilities
   & CharacterBaseGear;
 
-
 /* end info */
+
+
+/* Ship stats */
+
+export interface ShipType{
+  isCapital: boolean;
+}
+
+
+export interface ShipBaseStats {
+  power: number;
+  speed: number;
+  health: number;
+  protection: number;
+}
+
+export interface ShipBaseOffensive {
+  physicalDmg: number;
+  physicalCrit: number;
+  specialDmg: number;
+  specialCrit: number;
+  potency: number;
+}
+
+export interface ShipBaseDefensive {
+  armor: number;
+  resistance: number;
+  tenacity: number; // %
+}
+
+
+export type ShipStats = CharacterCoreStats
+  & ShipType
+  & ShipBaseStats
+  & ShipBaseOffensive
+  & ShipBaseDefensive
+  ;
+/* end ship stats*/
 
 
 export type SwgohggUnits = { [id: string]: SwgohggUnit[] };

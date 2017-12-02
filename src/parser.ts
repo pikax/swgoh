@@ -15,7 +15,7 @@ import {
   User,
   UserInfo,
   UserStats, CharacterStats, CharacterCoreStats, CharacterBaseStats, CharacterBaseOffensive, CharacterBaseDefensive,
-  CharacterBaseGear, CharacterBaseAbilities
+  CharacterBaseGear, CharacterBaseAbilities, ShipStats, ShipBaseStats, ShipBaseOffensive, ShipBaseDefensive, ShipType
 } from "./interface";
 
 
@@ -285,7 +285,7 @@ export enum ModSlot {
 
 
 export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
-  const c = $("#characters > tbody > tr")
+  const c = $("#characters").find("tbody > tr")
     .map(function (x): CharacterStats {
       const _$ = $(this);
 
@@ -360,5 +360,64 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
 };
 
 
-const fixNumber = (txt: string): number => +txt.replace(/,/g, '');
+export const parseShipStats = ($: CheerioStatic): ShipStats[] => {
+
+  const c = $("#units").find("tbody > tr")
+    .map(function (x): ShipStats {
+      const _$ = $(this);
+
+      const a = _$.find("td > a");
+      const href = a.attr("href");
+
+      const code = href.match(/(?:\/ships\/)([^\/]*)/)[1];
+      const description = a.text();
+      const tds = _$.find("td").get().slice(1).map((x: any) => (x.lastChild || {}).nodeValue);
+
+      const core: CharacterCoreStats = {
+        code,
+        description
+      };
+
+      // base stats
+      const base: ShipBaseStats = {
+        power: +tds[0],
+        speed: +tds[1],
+        health: fixNumber(tds[2]),
+        protection: fixNumber(tds[8]),
+      };
+
+      const shipType: ShipType = {
+        isCapital: base.health === null
+      };
+
+
+      const offensive: ShipBaseOffensive = {
+        physicalDmg: +tds[3],
+        physicalCrit: +tds[4],
+        specialDmg: +tds[5],
+        specialCrit: +tds[6],
+        potency: +tds[7],
+      };
+
+      const defensive: ShipBaseDefensive = {
+        armor: +tds[9],
+        resistance: +tds[10],
+        tenacity: parsePercent100(tds[11]),
+      };
+
+
+      return {
+        ...core,
+        ...shipType,
+        ...base,
+        ...offensive,
+        ...defensive,
+      }
+    });
+
+  return c.get() as any as ShipStats[];
+};
+
+
+const fixNumber = (txt: string): number => txt && +txt.replace(/,/g, '') || null;
 const parsePercent100 = (txt: string): number => (+txt.replace("%", '')) / 100;

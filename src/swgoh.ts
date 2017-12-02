@@ -1,7 +1,13 @@
 import * as cheerio from 'cheerio'
 import * as url from 'url';
-import {CharacterStats, Collection, Guild, ModCollection, Profile, ShipCollection, SwgohggUnits} from "./interface";
-import {parseCharacterStats, parseCollection, parseGuild, parseModCollection, parseProfile, parseShips} from "./parser";
+import {
+  CharacterStats, Collection, Guild, ModCollection, Profile, ShipCollection, ShipStats,
+  SwgohggUnits
+} from "./interface";
+import {
+  parseCharacterStats, parseCollection, parseGuild, parseModCollection, parseProfile, parseShips,
+  parseShipStats
+} from "./parser";
 
 import {ConcurrentQueue} from "./queue";
 import {isNumber} from "util";
@@ -95,6 +101,11 @@ export class Swgoh {
 	baseCharacterStats(): Promise<CharacterStats[]>{
     const uri = url.resolve(swgohgg, '/characters/stats');
     return this.getCheerio(uri).then(parseCharacterStats);
+	}
+
+  baseShipStats(): Promise<ShipStats[]>{
+    const uri = url.resolve(swgohgg, '/ships/stats');
+    return this.getCheerio(uri).then(parseShipStats);
 	}
 }
 
