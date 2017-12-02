@@ -114,8 +114,9 @@ fabric.properties
 .rpt2_cache
 .idea
 
-src/**/*.js*
+src/**/*.js
+src/**/*.js.map
 
 __tests__
 test
-coverage
+co

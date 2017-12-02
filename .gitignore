@@ -112,9 +112,9 @@ fabric.properties
 
 
 .rpt2_cache
-src/**/*.js*
+src/**/*.js
+src/**/*.js.map
 src/**/*.d.ts
-test/**/*
 
 coverage
 .idea/**/*
