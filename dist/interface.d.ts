@@ -98,7 +98,12 @@ export declare enum ModSet {
     Speed = 7,
 }
 export declare const TranslatedModName: {
-    [x: number]: string;
+    [ModSlot.Transmitter]: string;
+    [ModSlot.Receiver]: string;
+    [ModSlot.Processor]: string;
+    [ModSlot.HoloArray]: string;
+    [ModSlot.DataBus]: string;
+    [ModSlot.Multiplexer]: string;
 };
 export declare enum ModPrimary {
     Speed = "Speed",

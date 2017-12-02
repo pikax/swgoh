@@ -414,7 +414,7 @@ var Swgoh = /** @class */ (function () {
                         return [4 /*yield*/, parseModCollection($)];
                     case 3:
                         mods = _b.apply(_a, [_c.sent()]);
-                        href = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > nav > ul > li > a").last().attr("href");
+                        href = $("li.media.list-group-item.p-a.collection-mod-list  a").last().attr("href");
                         if (href.startsWith(modsUri)) {
                             uri = url.resolve(uri, href);
                         }
