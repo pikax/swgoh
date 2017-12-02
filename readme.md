@@ -51,6 +51,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+# [0.3.2] - 2017-12-02
+- Fix [#4 - Mods Lookup Failing][i4]
 
 # [0.3.1] - 2017-09-28
 - Player mods collection
@@ -84,3 +86,4 @@ The developer of this application does not have any affiliation with the Capital
 [swgohApiGuildUnit]: https://swgoh.gg/api/guilds/1/units/
 [i2]: https://github.com/pikax/swgoh/issues/2
 [i3]: https://github.com/pikax/swgoh/issues/3
+[i4]: https://github.com/pikax/swgoh/issues/4
