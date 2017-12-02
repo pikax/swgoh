@@ -115,3 +115,5 @@ fabric.properties
 .idea
 
 src/**/*.js*
+
+test
