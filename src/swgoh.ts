@@ -38,7 +38,7 @@ export class Swgoh {
 			const $: CheerioStatic = await this.getCheerio(uri);
 			mods = mods.concat(await parseModCollection($));
 
-			const href =$("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > nav > ul > li > a").last().attr("href");
+			const href =$("li.media.list-group-item.p-a.collection-mod-list  a").last().attr("href");
 
 			if(href.startsWith(modsUri)){
 				uri = url.resolve(uri, href);
