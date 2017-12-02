@@ -11,9 +11,9 @@ import {
 
 import {ConcurrentQueue} from "./queue";
 import {isNumber} from "util";
+import {swgohgg} from "./config";
 
 
-const swgohgg = "https://swgoh.gg";
 
 export class Swgoh {
 
@@ -44,7 +44,7 @@ export class Swgoh {
 			const $: CheerioStatic = await this.getCheerio(uri);
 			mods = mods.concat(await parseModCollection($));
 
-			const href =$("li.media.list-group-item.p-a.collection-mod-list  a").last().attr("href");
+			const href =$("li.media.list-group-item.p-a.collection-mod-list a").last().attr("href");
 
 			if(href.startsWith(modsUri)){
 				uri = url.resolve(uri, href);
@@ -95,17 +95,6 @@ export class Swgoh {
 
 		const uri = url.resolve(swgohgg, `/api/guilds/${id}/units/`);
 		return this._queue.queue(uri).then(x=>x.body);
-	}
-
-
-	baseCharacterStats(): Promise<CharacterStats[]>{
-    const uri = url.resolve(swgohgg, '/characters/stats');
-    return this.getCheerio(uri).then(parseCharacterStats);
-	}
-
-  baseShipStats(): Promise<ShipStats[]>{
-    const uri = url.resolve(swgohgg, '/ships/stats');
-    return this.getCheerio(uri).then(parseShipStats);
 	}
 }
 

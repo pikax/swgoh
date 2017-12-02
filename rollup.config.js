@@ -1,4 +1,4 @@
-var pkg = require( './package.json' );
+const pkg = require( './package.json' );
 import typescript from 'rollup-plugin-typescript2';
 
 module.exports =  {

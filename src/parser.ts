@@ -239,7 +239,7 @@ export enum ModSlot {
   DataBus,
   Multiplexer
 }*/
-      let slot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
+      let slot: ModSlot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
       slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
       slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
       slot = !slot && mod.hasClass("pc-statmod-slot4") && ModSlot.HoloArray || slot;
@@ -297,6 +297,7 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
       const description = a.text();
       const tds = _$.find("td").get().slice(1).map((x: any) => x.lastChild.nodeValue);
 
+
       const core: CharacterCoreStats = {
         code,
         description
@@ -307,7 +308,7 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
         power: +tds[0],
         speed: +tds[1],
         health: fixNumber(tds[2]),
-        maxAbility: +tds[3],
+        maxAbility: tds[3] !== "None" ? +tds[3] : null,
       };
       const offensive: CharacterBaseOffensive = {
         physicalDmg: +tds[4],
@@ -344,7 +345,6 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
         baseAbility: tds[25] !== "None" ? +tds[25] : null,
         aoeAbility: +tds[26],
       };
-
 
       return {
         ...core,

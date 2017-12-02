@@ -30,8 +30,10 @@ swgoh.units(guild).then(console.log);
 
 swgoh.mods(username).then(console.log);
 
-swgoh.baseCharacterStats().then(console.log);
-swgoh.baseShipStats().then(console.log);
+
+
+//cached characters & ships (no requests)
+import {characters, ships} from 'swgoh';
 
 ```
 
@@ -53,8 +55,8 @@ npm i swgoh
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-- Base Character & Ship stats 
-
+- Cache for Characters & Ship stats 
+- Added Jest Tests
 
 # [0.3.2] - 2017-12-02
 - Fix [#4 - Mods Lookup Failing][i4]
