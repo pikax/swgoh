@@ -83,13 +83,14 @@ All notable changes to this project will be documented in this file.
 
 ## License
 
-MIT
+[MIT][license]
 
 ## Disclaimer
 
 The developer of this application does not have any affiliation with the Capital Games, Disney, Lucasfilm Limited or swgoh.gg.
 
 [swgoh]: https://swgoh.gg
+[license]: https://github.com/pikax/swgoh/blob/master/LICENSE
 [swgohApiGuildUnit]: https://swgoh.gg/api/guilds/1/units/
 [i2]: https://github.com/pikax/swgoh/issues/2
 [i3]: https://github.com/pikax/swgoh/issues/3
