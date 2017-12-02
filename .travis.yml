@@ -6,4 +6,4 @@ cache:
   directories:
       - node_modules
 script: yarn coverage
-after_script: "yarn coveralls"
+after_script: "yarn coveralls < coverage/lcov.info"
