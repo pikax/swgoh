@@ -1,4 +1,4 @@
-var requestretry = require("requestretry");
+const requestretry = require("requestretry");
 import {RequiredUriUrl, UriOptions} from "request";
 
 const Queue = require("promise-queue") as Queue;

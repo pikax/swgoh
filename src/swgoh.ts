@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio'
 import * as url from 'url';
-import {Collection, Guild, ModCollection, Profile, ShipCollection, SwgohggUnits} from "./interface";
-import {parseCollection, parseGuild, parseModCollection, parseProfile, parseShips} from "./parser";
+import {CharacterStats, Collection, Guild, ModCollection, Profile, ShipCollection, SwgohggUnits} from "./interface";
+import {parseCharacterStats, parseCollection, parseGuild, parseModCollection, parseProfile, parseShips} from "./parser";
 
 import {ConcurrentQueue} from "./queue";
 import {isNumber} from "util";
@@ -89,6 +89,12 @@ export class Swgoh {
 
 		const uri = url.resolve(swgohgg, `/api/guilds/${id}/units/`);
 		return this._queue.queue(uri).then(x=>x.body);
+	}
+
+
+	baseCharacterStats(): Promise<CharacterStats[]>{
+    const uri = url.resolve(swgohgg, '/characters/stats');
+    return this.getCheerio(uri).then(parseCharacterStats);
 	}
 }
 
