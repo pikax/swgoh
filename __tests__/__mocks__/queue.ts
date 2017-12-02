@@ -29,6 +29,7 @@ import * as path from "path";
 
 class MOCKEDConcurrentQueue {
   constructor(config) {
+    console.log('mocking')
   }
 
   queue = async (opts) => {
@@ -43,12 +44,11 @@ class MOCKEDConcurrentQueue {
     const match = getMatch(uri);
 
     if (!match) {
-      throw new Error('invalid match' + uri);
+      throw new Error('invalid match: ' + uri);
     }
 
     const fp = path.resolve(__dirname, '..', '__mockData__', match.p);
     const body = await readFile(fp);
-    console.log(body.length)
 
     return {
       body

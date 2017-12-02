@@ -116,6 +116,7 @@ src/**/*.js*
 src/**/*.d.ts
 test/**/*
 
+coverage
 .idea/**/*
 
 

@@ -3,15 +3,19 @@
 interface MapValue {
   r: RegExp,
   p: string,
-  e: any,
 }
-import {stats} from "./results";
-
 
 const map: MapValue[] = [
-  {r: /u\/[^\/]*\/collection\/\d+\/.*$/, p: "user_darth-maul.html", e: {}}, //user toon info
-  {r: /characters\/stats/, p: "stats.html", e: stats},
-  {r: /ships\/stats/, p: "shipStats.html", e: {}},
+  {r: /u\/[^\/]*\/collection\/\d+\/.*$/, p: "user_darth-maul.html"}, //user toon info
+  {r: /characters\/stats/, p: "stats.html"},
+  {r: /ships\/stats/, p: "shipStats.html"},
+  {r: /collection/, p: 'collection.html'},
+  {r: /u\/[^\/]*\/$/, p: 'user.html'},
+  {r: /u\/[^\/]*\/ships/, p: 'ships.html'},
+  {r: /u\/[^\/]*\/mods\/$/, p: 'mods.html'},
+  {r: /mods\/\?page/, p: 'mods_last.html'},
+  {r: /g\/\d+\//, p: 'guild.html'},
+  {r: /api\/guilds\/\d+\//, p: 'units.json'},
 ];
 
 
@@ -20,8 +24,8 @@ export function getMatch(uri: string): MapValue {
   if (r.length > 1) {
     throw {message: "to many matches for: " + uri, matches: r};
   }
-  if(r.length === 0){
-    console.log('no match found for '+uri);
+  if (r.length === 0) {
+    console.log('no match found for ' + uri);
     return;
   }
   return r[0];

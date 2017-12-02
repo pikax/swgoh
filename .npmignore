@@ -118,3 +118,4 @@ src/**/*.js*
 
 __tests__
 test
+coverage

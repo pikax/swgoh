@@ -7,3 +7,4 @@ export function readFileSync(directory: string, filename: string){
 
   return fs.readFileSync(f);
 }
+

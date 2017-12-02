@@ -30,12 +30,12 @@ export class Swgoh {
 	}
 
 	collection(username: string): Promise<Collection> {
-		const uri = url.resolve(swgohgg, `/u/${username}/collection`);
+		const uri = url.resolve(swgohgg, `/u/${username}/collection/`);
 		return this.getCheerio(uri).then(parseCollection);
 	}
 
 	async mods(username: string): Promise<ModCollection>{
-		const modsUri = `/u/${username}/mods` ;
+		const modsUri = `/u/${username}/mods/` ;
 		let mods = [];
 		let done = false;
 
@@ -57,7 +57,7 @@ export class Swgoh {
 	}
 
 	ship(username: string): Promise<ShipCollection> {
-		const uri = url.resolve(swgohgg, `/u/${username}/ships`);
+		const uri = url.resolve(swgohgg, `/u/${username}/ships/`);
 		return this.getCheerio(uri).then(parseShips);
 	}
 
@@ -66,10 +66,22 @@ export class Swgoh {
 	guild(opts: string | { id: number, name: string }): Promise<Guild> {
 		let uri: string;
 		if (typeof opts === "string") {
+      const m = opts.match(/\d+/);
+      if(!m){
+        throw new Error(`Error: "${opts}" is not a valid guild url`);
+      }
 			uri = url.resolve(swgohgg, opts);
 		}
 		else {
-			uri = url.resolve(swgohgg, `/g/${opts.id}/${opts.name}`);
+			const id = opts.id;
+      if(isNaN(id) || !isNumber(id)){
+        throw new Error(`Error: Unable to parse guild id from "${opts}"`);
+      }
+      const name = opts.name;
+      if(!name || name === ''){
+        throw new Error(`Error: Unable to parse guild name from "${opts}"`);
+      }
+			uri = url.resolve(swgohgg, `/g/${id}/${name}/`);
 		}
 		return this.getCheerio(uri).then(parseGuild);
 	}
@@ -80,8 +92,8 @@ export class Swgoh {
 		let id: number;
 		if (typeof opts === "string") {
 			const m = opts.match(/\d+/);
-			if(!m){
-				throw new Error(`"${opts}" is not a valid guild url`);
+        if(!m){
+				throw new Error(`Error: "${opts}" is not a valid guild url`);
 			}
 			id = +m[0];
 		}
@@ -90,7 +102,7 @@ export class Swgoh {
 		}
 
 		if(isNaN(id) || !isNumber(id)){
-			throw new Error(`Unable to parse guild id from url "${opts}"`);
+			throw new Error(`Error: Unable to parse guild id from url "${opts}"`);
 		}
 
 		const uri = url.resolve(swgohgg, `/api/guilds/${id}/units/`);

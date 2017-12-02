@@ -3,8 +3,6 @@
 import {swgoh, ships, characters} from '../src'
 import {baseCharacterStats, baseShipStats} from "../src/cache";
 
-// import {stats} from './__config__/results'
-
 describe('test base', () => {
 
   it('character stats',  async () => {
@@ -19,7 +17,6 @@ describe('test base', () => {
 
 
 
-
   it('cache character stats',  async () => {
     const c = await baseCharacterStats();
     expect(characters).toMatchObject(c);
@@ -29,7 +26,4 @@ describe('test base', () => {
     const s = await baseShipStats();
     expect(ships).toMatchObject(s);
   });
-
-
-
 });
