@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/pikax/swgoh/badge.svg?branch=master)](https://coveralls.io/github/pikax/swgoh?branch=master)
+
 [changelog](#changelog)
 
 ## Synopsis
