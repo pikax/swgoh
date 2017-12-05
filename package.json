@@ -26,6 +26,7 @@
     "testMatch": [
       "**/__tests__/*.(ts|tsx|js)"
     ],
+    "collectCoverageFrom": ["!dist/*", "src/**/*"],
     "coverageDirectory": "coverage",
     "mapCoverage": true
   },
