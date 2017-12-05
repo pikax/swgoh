@@ -12,7 +12,8 @@
     "test": "jest",
     "test:watch": "cross-env mock=1 jest --watch",
     "coverage": "jest --coverage",
-    "snapshot": "jest --updateSnapshot"
+    "snapshot": "jest --updateSnapshot",
+    "static": "ts-node tools/build_static.ts"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -43,7 +44,8 @@
     "rollup": "^0.49.2",
     "rollup-plugin-typescript2": "^0.5.2",
     "ts-jest": "^21.2.4",
-    "typescript": "^2.5.2"
+    "typescript": "^2.5.2",
+    "ts-node": "^3.3.0"
   },
   "optionalDependencies": {
     "cross-env": "^5.1.1"
