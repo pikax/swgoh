@@ -1,6 +1,8 @@
 // TODO mode refactor this and prefix interfaces with I
 
 
+import It = jest.It;
+
 export enum GearLevel {
   I = 1,
   II = 3,
@@ -187,7 +189,7 @@ export interface Mod {
   primary: ModPrimaryValue,
   secondary: [ModSecondaryValue, ModPrimaryValue, ModSecondaryValue, ModSecondaryValue]
 
-  character: string;
+  character: string; // TODO move this to other place
 }
 
 /*End Mod*/
@@ -260,7 +262,7 @@ export type CharacterStats = CharacterCoreStats
 
 /* Ship stats */
 
-export interface ShipType{
+export interface ShipType {
   isCapital: boolean;
 }
 
@@ -294,6 +296,140 @@ export type ShipStats = CharacterCoreStats
   & ShipBaseDefensive
   ;
 /* end ship stats*/
+
+
+/* toon info*/
+
+
+export interface IToonGalacticPower {
+  current: number;
+  max: number;
+}
+
+export interface IToonGalacticPowerBreakdown {
+  overall: IToonGalacticPower;
+  level: IToonGalacticPower;
+  stars: IToonGalacticPower;
+  abilityLevels: IToonGalacticPower;
+  gearPieces: IToonGalacticPower;
+  mods: IToonGalacticPower;
+}
+
+
+export interface IToonPower {
+  power: number;
+  statPower: number;
+}
+
+export interface IToonPrimaryAttributes {
+  srt: string;
+  agi: string;
+  int: string;
+}
+
+export interface IToonPrimaryAttributeGrowth {
+  str: string;
+  agi: string;
+  int: string;
+}
+
+
+export interface IToonGeneral {
+  health: number;
+  protection: number;
+  speed: number;
+  criticalDamagePerc: number;
+  potencyPerc: number;
+  tenacityPerc: number;
+  healthStealPerc: number;
+}
+
+export interface IToonPhysicalOffence {
+  physicalDamage: number;
+  physicalCriticalChancePerc: number;
+  armorPenetration: number;
+  physicalAccuracyPerc: number;
+}
+
+export interface IToonPhysicalSurvivability {
+  armorPerc: number;
+  dodgeChangePerc: number;
+  physicalCriticalAvoidancePerc: number;
+}
+
+export interface IToonSpecialSurvivability {
+  resistancePerc: number;
+  deflectionChangePerc: number;
+  specialCriticalAvoidancePerc: number;
+}
+
+
+export interface IToonMods {
+  Square: Mod;
+  Arrow: Mod;
+  Diamond: Mod;
+  Triangle: Mod;
+  Circle: Mod;
+  Cross: Mod;
+}
+
+//TODO/Note probably merge the percentages together
+export interface IToonModCombinedStats{
+  tenacityPerc: number;
+  defencePerc: number;
+  speed: number;
+  offence: number;
+  criticalChangePerc: number;
+  healthPerc: number;
+  protectionPerc: number;
+  potencyPerc: number;
+  health: number;
+  protection: number;
+  defense: number;
+}
+
+
+export interface IToonSkill {
+  code: string;
+  description: string;
+
+  imageSrc: string;
+
+  level: string;
+  maxLevel: string;
+}
+
+
+
+//TODO implement
+export interface IToonGear {
+
+}
+
+//TODO implement
+export interface IToonCurrentGear {
+
+}
+
+//TODO implement
+export interface IToonAbilityClasses {
+
+}
+
+
+//TODO implement
+export interface IToonCurrentGear{
+
+}
+
+
+//TODO implement name/side/type/faction
+export interface IToonDescription{
+
+}
+
+
+/* end toon info*/
 
 
 export type SwgohggUnits = { [id: string]: SwgohggUnit[] };

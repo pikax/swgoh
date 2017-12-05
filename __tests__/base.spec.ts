@@ -1,29 +1,32 @@
 // jest.setMock('../src/queue', require("./__mocks__/queue").default)
 
-import {swgoh, ships, characters} from '../src'
-import {baseCharacterStats, baseShipStats} from "../src/cache";
+import {swgoh} from '../src'
+import {getShips, getCharacters} from "../src/static";
 
 describe('test base', () => {
 
   it('character stats',  async () => {
-    const characters = await baseCharacterStats();
+    const characters = await getCharacters(false);
     expect(characters).toMatchSnapshot()
   });
 
   it('ships stats',  async () => {
-    const characters = await baseShipStats();
+    const characters = await getShips(false);
     expect(characters).toMatchSnapshot()
   });
 
 
 
   it('cache character stats',  async () => {
-    const c = await baseCharacterStats();
-    expect(characters).toMatchObject(c);
+    const c = await getCharacters(true);
+    const cc = require('../static/characters.json');
+    expect(c).toMatchObject(cc);
   });
 
   it('cache ships stats',  async () => {
-    const s = await baseShipStats();
-    expect(ships).toMatchObject(s);
+    const s = await getShips(true);
+    const cs = require('../static/ships.json');
+
+    expect(s).toMatchObject(cs);
   });
 });

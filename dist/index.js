@@ -43,7 +43,7 @@ var __assign = Object.assign || function __assign(t) {
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve$$1, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve$$1(result.value) : new P(function (resolve$$1) { resolve$$1(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -77,6 +77,7 @@ function __generator(thisArg, body) {
     }
 }
 
+// TODO mode refactor this and prefix interfaces with I
 var GearLevel;
 (function (GearLevel) {
     GearLevel[GearLevel["I"] = 1] = "I";
@@ -92,6 +93,7 @@ var GearLevel;
     GearLevel[GearLevel["XI"] = 11] = "XI";
     GearLevel[GearLevel["XII"] = 12] = "XII";
 })(GearLevel || (GearLevel = {}));
+/* end user base*/
 /*Mod*/
 var ModSlot;
 (function (ModSlot) {
@@ -114,14 +116,7 @@ var ModSet;
     ModSet[ModSet["Speed"] = 7] = "Speed";
 })(ModSet || (ModSet = {}));
 // todo probably replace this names on the enum
-var TranslatedModName = (_a = {},
-    _a[ModSlot.Transmitter] = "Square",
-    _a[ModSlot.Receiver] = "Arrow",
-    _a[ModSlot.Processor] = "Diamond",
-    _a[ModSlot.HoloArray] = "Triangle",
-    _a[ModSlot.DataBus] = "Circle",
-    _a[ModSlot.Multiplexer] = "Cross",
-    _a);
+var TranslatedModName = (_a = {}, _a[ModSlot.Transmitter] = "Square", _a[ModSlot.Receiver] = "Arrow", _a[ModSlot.Processor] = "Diamond", _a[ModSlot.HoloArray] = "Triangle", _a[ModSlot.DataBus] = "Circle", _a[ModSlot.Multiplexer] = "Cross", _a);
 var ModPrimary;
 (function (ModPrimary) {
     ModPrimary["Speed"] = "Speed";
@@ -300,14 +295,14 @@ var parseModCollection = function ($) {
         var description = _$.find(".statmod-img").attr("alt");
         var mod = _$.find(".pc-statmod").first();
         /*
-export enum ModSlot {
-Transmitter,
-Receiver,
-Processor,
-HoloArray,
-DataBus,
-Multiplexer
-}*/
+  export enum ModSlot {
+    Transmitter,
+    Receiver,
+    Processor,
+    HoloArray,
+    DataBus,
+    Multiplexer
+  }*/
         var slot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
         slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
         slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
@@ -380,6 +375,7 @@ function promiseSetTimeout(ms) {
 }
 
 var swgohgg = "https://swgoh.gg";
+
 var Swgoh = /** @class */ (function () {
     function Swgoh(_queue) {
         if (_queue === void 0) { _queue = new ConcurrentQueue(); }
@@ -393,7 +389,7 @@ var Swgoh = /** @class */ (function () {
         return this.getCheerio(uri).then(parseProfile);
     };
     Swgoh.prototype.collection = function (username) {
-        var uri = url.resolve(swgohgg, "/u/" + username + "/collection");
+        var uri = url.resolve(swgohgg, "/u/" + username + "/collection/");
         return this.getCheerio(uri).then(parseCollection);
     };
     Swgoh.prototype.mods = function (username) {
@@ -402,7 +398,7 @@ var Swgoh = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        modsUri = "/u/" + username + "/mods";
+                        modsUri = "/u/" + username + "/mods/";
                         mods = [];
                         done = false;
                         uri = url.resolve(swgohgg, modsUri);
@@ -414,7 +410,7 @@ var Swgoh = /** @class */ (function () {
                         return [4 /*yield*/, parseModCollection($)];
                     case 3:
                         mods = _b.apply(_a, [_c.sent()]);
-                        href = $("li.media.list-group-item.p-a.collection-mod-list  a").last().attr("href");
+                        href = $("li.media.list-group-item.p-a.collection-mod-list a").last().attr("href");
                         if (href.startsWith(modsUri)) {
                             uri = url.resolve(uri, href);
                         }
@@ -431,16 +427,28 @@ var Swgoh = /** @class */ (function () {
         });
     };
     Swgoh.prototype.ship = function (username) {
-        var uri = url.resolve(swgohgg, "/u/" + username + "/ships");
+        var uri = url.resolve(swgohgg, "/u/" + username + "/ships/");
         return this.getCheerio(uri).then(parseShips);
     };
     Swgoh.prototype.guild = function (opts) {
         var uri;
         if (typeof opts === "string") {
+            var m = opts.match(/\d+/);
+            if (!m) {
+                throw new Error("Error: \"" + opts + "\" is not a valid guild url");
+            }
             uri = url.resolve(swgohgg, opts);
         }
         else {
-            uri = url.resolve(swgohgg, "/g/" + opts.id + "/" + opts.name);
+            var id = opts.id;
+            if (isNaN(id) || !util.isNumber(id)) {
+                throw new Error("Error: Unable to parse guild id from \"" + opts + "\"");
+            }
+            var name = opts.name;
+            if (!name || name === '') {
+                throw new Error("Error: Unable to parse guild name from \"" + opts + "\"");
+            }
+            uri = url.resolve(swgohgg, "/g/" + id + "/" + name + "/");
         }
         return this.getCheerio(uri).then(parseGuild);
     };
@@ -449,7 +457,7 @@ var Swgoh = /** @class */ (function () {
         if (typeof opts === "string") {
             var m = opts.match(/\d+/);
             if (!m) {
-                throw new Error("\"" + opts + "\" is not a valid guild url");
+                throw new Error("Error: \"" + opts + "\" is not a valid guild url");
             }
             id = +m[0];
         }
@@ -457,7 +465,7 @@ var Swgoh = /** @class */ (function () {
             id = opts.id;
         }
         if (isNaN(id) || !util.isNumber(id)) {
-            throw new Error("Unable to parse guild id from url \"" + opts + "\"");
+            throw new Error("Error: Unable to parse guild id from url \"" + opts + "\"");
         }
         var uri = url.resolve(swgohgg, "/api/guilds/" + id + "/units/");
         return this._queue.queue(uri).then(function (x) { return x.body; });
@@ -466,5 +474,26 @@ var Swgoh = /** @class */ (function () {
 }());
 var swgoh = new Swgoh();
 
+var requestretry$1 = require("requestretry");
+var baseurl = "https://raw.githubusercontent.com/pikax/swgoh/master/static/";
+function getCharacters(cached) {
+    if (cached === void 0) { cached = true; }
+    if (cached) {
+        return require("../static/characters.json");
+    }
+    return requestretry$1(url.resolve(baseurl, "characters.json"))
+        .then(function (x) { return x.body; });
+}
+function getShips(cached) {
+    if (cached === void 0) { cached = true; }
+    if (cached) {
+        return require("../static/ships.json");
+    }
+    return requestretry$1(url.resolve(baseurl, "ships.json"))
+        .then(function (x) { return x.body; });
+}
+
 exports.swgoh = swgoh;
 exports.Swgoh = Swgoh;
+exports.getCharacters = getCharacters;
+exports.getShips = getShips;

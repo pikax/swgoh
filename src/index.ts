@@ -1,3 +1,3 @@
 export {swgoh,Swgoh} from './swgoh';
 
-export {characters, ships} from './cache';
+export {getCharacters, getShips} from './static';
