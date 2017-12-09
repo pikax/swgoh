@@ -110,6 +110,12 @@ describe('swgoh', () => {
     //todo add ship check to validate data
   });
 
+
+  it('should get ship with missing crew members', async () => {
+    const fleet = await swgoh.ship("taggar91");
+    expect(fleet).not.toBeNull();
+});
+
   it('should get mods', async () => {
     const m = await swgoh.mods(pikax.username);
     expect(m).not.toBeNull();

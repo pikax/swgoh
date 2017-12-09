@@ -106,8 +106,9 @@ export function parseShips($: CheerioStatic): ShipCollection {
 
           const gl: number = a$.find("div.char-portrait-full-gear-level").text() as any;
 
+          // NOTE if the user doesn't have that crew member unlocked it should skip it
           if (!na$.attr("href"))
-            return; //TODO fix me
+            return;
 
           return <CharacterCore>{
             code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
