@@ -353,7 +353,7 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
         ...defensive,
         ...gear,
         ...abilities
-      }
+      } as CharacterStats
     });
 
   return c.get() as any as CharacterStats[];
@@ -412,7 +412,7 @@ export const parseShipStats = ($: CheerioStatic): ShipStats[] => {
         ...base,
         ...offensive,
         ...defensive,
-      }
+      } as ShipStats
     });
 
   return c.get() as any as ShipStats[];

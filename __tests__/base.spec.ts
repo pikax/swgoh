@@ -1,31 +1,53 @@
 // jest.setMock('../src/queue', require("./__mocks__/queue").default)
 
-import {swgoh} from '../src'
-import {getShips, getCharacters} from "../src/static";
+import {getCharacters, getShips, swgoh} from '../src'
+import {ConcurrentQueue, QueueConfig} from '../src/queue'
+import {parseCharacterStats, parseShipStats} from '../src/parser'
+import * as cheerio from 'cheerio'
+
+const queue = new ConcurrentQueue(QueueConfig);
+
+
 
 describe('test base', () => {
 
   it('character stats',  async () => {
-    const characters = await getCharacters(false);
+    const characters = await queue.queue("https://swgoh.gg/characters/stats/")
+      .then(x=>x.body)
+      .then(x=>cheerio.load(x))
+      .then(parseCharacterStats);
+
     expect(characters).toMatchSnapshot()
   });
 
   it('ships stats',  async () => {
-    const characters = await getShips(false);
-    expect(characters).toMatchSnapshot()
+    const ships = await queue.queue("https://swgoh.gg/ships/stats/")
+      .then(x=>x.body)
+      .then(x=>cheerio.load(x))
+      .then(parseShipStats);
+
+    expect(ships).toMatchSnapshot()
   });
 
 
 
   it('cache character stats',  async () => {
     const c = await getCharacters(true);
-    const cc = require('../static/characters.json');
+    const cc = await queue.queue("https://swgoh.gg/characters/stats/")
+      .then(x=>x.body)
+      .then(x=>cheerio.load(x))
+      .then(parseCharacterStats);
     expect(c).toMatchObject(cc);
   });
 
   it('cache ships stats',  async () => {
     const s = await getShips(true);
-    const cs = require('../static/ships.json');
+
+    const cs = await queue.queue("https://swgoh.gg/ships/stats/")
+      .then(x=>x.body)
+      .then(x=>cheerio.load(x))
+      .then(parseShipStats);
+
 
     expect(s).toMatchObject(cs);
   });
