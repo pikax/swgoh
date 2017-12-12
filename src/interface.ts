@@ -322,15 +322,15 @@ export interface IToonPower {
 }
 
 export interface IToonPrimaryAttributes {
-  srt: string;
-  agi: string;
-  int: string;
+  str: number;
+  agi: number;
+  int: number;
 }
 
-export interface IToonPrimaryAttributeGrowth {
-  str: string;
-  agi: string;
-  int: string;
+export interface IToonPrimaryAttributesGrowth {
+  strGrowth: number;
+  agiGrowth: number;
+  intGrowth: number;
 }
 
 
@@ -350,6 +350,15 @@ export interface IToonPhysicalOffence {
   armorPenetration: number;
   physicalAccuracyPerc: number;
 }
+
+export interface IToonSpecialOffence {
+  specialDamage: number;
+  specialCriticalChancePerc: number;
+  resistancePenetration: number;
+  specialAccuracyPerc: number;
+}
+
+
 
 export interface IToonPhysicalSurvivability {
   armorPerc: number;
@@ -374,7 +383,7 @@ export interface IToonMods {
 }
 
 //TODO/Note probably merge the percentages together
-export interface IToonModCombinedStats{
+export interface IToonModCombinedStats {
   tenacityPerc: number;
   defencePerc: number;
   speed: number;
@@ -400,32 +409,60 @@ export interface IToonSkill {
 }
 
 
+export interface IToonGearPiece {
+  code: string;
+}
 
-//TODO implement
+
 export interface IToonGear {
-
+  pieces: IToonGearPiece[]
 }
 
-//TODO implement
+
 export interface IToonCurrentGear {
+  requiredGear: IToonGear,
 
+  missingPieces: IToonGearPiece[]
 }
 
-//TODO implement
+
+//TODO change to enum
+export interface AbilityClass {
+  code: string,
+  description: string;
+}
+
 export interface IToonAbilityClasses {
-
-}
-
-
-//TODO implement
-export interface IToonCurrentGear{
-
+  abilities: AbilityClass[]
 }
 
 
 //TODO implement name/side/type/faction
-export interface IToonDescription{
+export interface IToonDescription {
+  code: string;
+  description: string;
 
+  imageSrc: string;
+
+  star: number;
+  level: number;
+
+  categories: string[]; //todo change this....
+}
+
+
+export interface IToonStats extends IToonPower {
+  primary: IToonPrimaryAttributes & IToonPrimaryAttributesGrowth;
+
+  general: IToonGeneral;
+
+  physicalOffense: IToonPhysicalOffence;
+
+  physicalSurvivability: IToonPhysicalSurvivability;
+
+  specialOffense: IToonSpecialOffence;
+
+  specialSurvivability: IToonSpecialSurvivability;
 }
 
 
@@ -440,3 +477,9 @@ export type Collection = Character[];
 export type ShipCollection = Ship[];
 
 export type ModCollection = Mod[];
+
+
+export type UserToonInfo = IToonDescription & IToonAbilityClasses
+  & IToonCurrentGear & IToonSkill & IToonModCombinedStats & IToonMods
+  & IToonStats
+  & IToonGalacticPowerBreakdown;

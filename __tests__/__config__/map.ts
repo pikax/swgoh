@@ -9,7 +9,7 @@ const map: MapValue[] = [
   {r: /u\/[^\/]*\/collection\/\d+\/.*$/, p: "user_darth-maul.html"}, //user toon info
   {r: /characters\/stats/, p: "stats.html"},
   {r: /ships\/stats/, p: "shipStats.html"},
-  {r: /collection/, p: 'collection.html'},
+  {r: /collection\/$/, p: 'collection.html'},
   {r: /u\/pikax\/$/, p: 'user.html'},
   {r: /u\/gattsu\/$/, p: 'no_allyCode.html'},
   {r: /u\/pikax\/ships/, p: 'ships.html'},
@@ -30,6 +30,7 @@ export function getMatch(uri: string): MapValue {
     console.log('no match found for ' + uri);
     return;
   }
+
   return r[0];
 }
 
