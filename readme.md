@@ -64,6 +64,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Cache for Characters & Ship stats 
 - Added Jest Tests
+- Toon parsing
 
 # [0.3.2] - 2017-12-02
 - Fix [#4 - Mods Lookup Failing][i4]
