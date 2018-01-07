@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/pikax/swgoh.svg?branch=master)](https://travis-ci.org/pikax/swgoh)
-[![npm version](https://badge.fury.io/js/swgoh.svg)](https://badge.fury.io/js/swgoh)
-[![Coverage Status](https://coveralls.io/repos/github/pikax/swgoh/badge.svg?branch=master)](https://coveralls.io/github/pikax/swgoh?branch=master)
-[![dependencies Status](https://david-dm.org/pikax/swgoh/status.svg)](https://david-dm.org/pikax/swgoh)
-[![devDependencies Status](https://david-dm.org/pikax/swgoh/dev-status.svg)](https://david-dm.org/pikax/swgoh?type=dev)
-[![Discord](https://img.shields.io/badge/discord-chat-blue.svg)](#discord)
+[![Build Status](https://travis-ci.org/pikax/swgoh.svg?branch=master)][travis]
+[![npm version](https://badge.fury.io/js/swgoh.svg)][package]
+[![Coverage Status](https://coveralls.io/repos/github/pikax/swgoh/badge.svg?branch=master)][coverage]
+[![dependencies Status](https://david-dm.org/pikax/swgoh/status.svg)][dependencies]
+[![devDependencies Status](https://david-dm.org/pikax/swgoh/dev-status.svg)][devDependencies]
+[![Discord](https://img.shields.io/badge/discord-chat-blue.svg)][discord]
 
 
 [changelog](#changelog)
@@ -106,4 +106,11 @@ The developer of this application does not have any affiliation with the Capital
 [i2]: https://github.com/pikax/swgoh/issues/2
 [i3]: https://github.com/pikax/swgoh/issues/3
 [i4]: https://github.com/pikax/swgoh/issues/4
+
+[badgeFury]: https://badge.fury.io/js/swgoh
+[travis]: https://travis-ci.org/pikax/swgoh
+[package]: https://www.npmjs.com/package/swgoh
+[coverage]: https://coveralls.io/github/pikax/swgoh?branch=master
+[dependencies]: https://david-dm.org/pikax/swgoh
+[devDependencies]: https://david-dm.org/pikax/swgoh?type=dev
 [discord]: https://discord.gg/5HPbT5K
