@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/pikax/swgoh/badge.svg?branch=master)](https://coveralls.io/github/pikax/swgoh?branch=master)
 [![dependencies Status](https://david-dm.org/pikax/swgoh/status.svg)](https://david-dm.org/pikax/swgoh)
 [![devDependencies Status](https://david-dm.org/pikax/swgoh/dev-status.svg)](https://david-dm.org/pikax/swgoh?type=dev)
+[![Discord](https://img.shields.io/badge/discord-chat-blue.svg)](#discord)
 
 
 [changelog](#changelog)
@@ -105,3 +106,4 @@ The developer of this application does not have any affiliation with the Capital
 [i2]: https://github.com/pikax/swgoh/issues/2
 [i3]: https://github.com/pikax/swgoh/issues/3
 [i4]: https://github.com/pikax/swgoh/issues/4
+[discord]: https://discord.gg/5HPbT5K

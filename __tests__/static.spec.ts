@@ -1,5 +1,5 @@
 
-import {swgoh} from '../src'
+import {swgoh} from '../index'
 import {getShips, getCharacters} from "../src/static";
 
 describe('test base', () => {
