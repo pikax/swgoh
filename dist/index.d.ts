@@ -1,2 +1,2 @@
-export { swgoh, Swgoh } from './swgoh';
-export { getCharacters, getShips } from './static';
+export { swgoh, Swgoh } from './src/swgoh';
+export { getCharacters, getShips } from './src/static';

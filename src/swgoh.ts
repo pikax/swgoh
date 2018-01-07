@@ -58,8 +58,8 @@ export class Swgoh {
     return this.getCheerio(uri).then(parseShips);
   }
 
-  guild(guildUrl: string)
-  guild(opts: { id: number, name: string })
+  guild(guildUrl: string): Promise<Guild>
+  guild(opts: { id: number, name: string }): Promise<Guild>
   guild(opts: string | { id: number, name: string }): Promise<Guild> {
     let uri: string;
     if (typeof opts === "string") {
@@ -83,8 +83,8 @@ export class Swgoh {
     return this.getCheerio(uri).then(parseGuild);
   }
 
-  units(guildUrl: string)
-  units(opts: { id: number, name: string })
+  units(guildUrl: string): Promise<SwgohggUnits>
+  units(opts: { id: number, name: string }): Promise<SwgohggUnits>
   units(opts: string | { id: number, name: string }): Promise<SwgohggUnits> {
     let id: number;
     if (typeof opts === "string") {

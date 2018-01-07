@@ -140,6 +140,8 @@ export const parseToonStats = ($: CheerioStatic): IToonStats => {
     specialCriticalAvoidancePerc: parsePercent100($$[28]),
   };
 
+
+
   return {
     ...power,
 

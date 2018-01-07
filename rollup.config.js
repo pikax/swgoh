@@ -2,7 +2,7 @@ const pkg = require( './package.json' );
 import typescript from 'rollup-plugin-typescript2';
 
 module.exports =  {
-  input: './src/index.ts',
+  input: 'index.ts',
 
   plugins:[
     typescript({clean:true}),

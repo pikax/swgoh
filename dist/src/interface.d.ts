@@ -230,14 +230,14 @@ export interface IToonPower {
     statPower: number;
 }
 export interface IToonPrimaryAttributes {
-    srt: string;
-    agi: string;
-    int: string;
+    str: number;
+    agi: number;
+    int: number;
 }
-export interface IToonPrimaryAttributeGrowth {
-    str: string;
-    agi: string;
-    int: string;
+export interface IToonPrimaryAttributesGrowth {
+    strGrowth: number;
+    agiGrowth: number;
+    intGrowth: number;
 }
 export interface IToonGeneral {
     health: number;
@@ -253,6 +253,12 @@ export interface IToonPhysicalOffence {
     physicalCriticalChancePerc: number;
     armorPenetration: number;
     physicalAccuracyPerc: number;
+}
+export interface IToonSpecialOffence {
+    specialDamage: number;
+    specialCriticalChancePerc: number;
+    resistancePenetration: number;
+    specialAccuracyPerc: number;
 }
 export interface IToonPhysicalSurvivability {
     armorPerc: number;
@@ -292,15 +298,38 @@ export interface IToonSkill {
     level: string;
     maxLevel: string;
 }
+export interface IToonGearPiece {
+    code: string;
+}
 export interface IToonGear {
+    pieces: IToonGearPiece[];
 }
 export interface IToonCurrentGear {
+    requiredGear: IToonGear;
+    missingPieces: IToonGearPiece[];
+}
+export interface AbilityClass {
+    code: string;
+    description: string;
 }
 export interface IToonAbilityClasses {
-}
-export interface IToonCurrentGear {
+    abilities: AbilityClass[];
 }
 export interface IToonDescription {
+    code: string;
+    description: string;
+    imageSrc: string;
+    star: number;
+    level: number;
+    categories: string[];
+}
+export interface IToonStats extends IToonPower {
+    primary: IToonPrimaryAttributes & IToonPrimaryAttributesGrowth;
+    general: IToonGeneral;
+    physicalOffense: IToonPhysicalOffence;
+    physicalSurvivability: IToonPhysicalSurvivability;
+    specialOffense: IToonSpecialOffence;
+    specialSurvivability: IToonSpecialSurvivability;
 }
 export declare type SwgohggUnits = {
     [id: string]: SwgohggUnit[];
@@ -309,3 +338,4 @@ export declare type Profile = User & UserStats & UserInfo;
 export declare type Collection = Character[];
 export declare type ShipCollection = Ship[];
 export declare type ModCollection = Mod[];
+export declare type UserToonInfo = IToonDescription & IToonAbilityClasses & IToonCurrentGear & IToonSkill & IToonModCombinedStats & IToonMods & IToonStats & IToonGalacticPowerBreakdown;

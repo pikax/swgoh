@@ -1,4 +1,4 @@
-import {ModCollection, ModPrimary, ModPrimaryValue, ModSlot, TranslatedModName} from "../interface";
+import {ModCollection, ModPrimary, ModPrimaryValue, ModSlot, TranslatedModName, Mod} from "../interface";
 
 
 export const parseModCollection = ($: CheerioStatic): ModCollection => {

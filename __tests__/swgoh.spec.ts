@@ -1,7 +1,7 @@
-import './__config__/init_mocks';
+//import './__config__/init_mocks';
 
 
-import {swgoh, Swgoh} from "../src";
+import {swgoh, Swgoh} from "../index";
 import {ConcurrentQueue, QueueConfig} from '../src/queue'
 import {pikax, collection, ships, mods, guildUrl, gattsu} from "./__config__/results";
 

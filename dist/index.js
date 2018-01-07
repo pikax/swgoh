@@ -148,6 +148,108 @@ var ModSecondary;
 })(ModSecondary || (ModSecondary = {}));
 var _a;
 
+var parseModCollection = function ($) {
+    var m = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > div > div > div")
+        .map(function (x) {
+        var _$ = $(this);
+        var tier = _$.find(".statmod-pip").length;
+        var character = _$.find(".char-portrait-img").attr("alt");
+        var level = _$.find(".statmod-level").text();
+        var description = _$.find(".statmod-img").attr("alt");
+        var mod = _$.find(".pc-statmod").first();
+        /*
+  export enum ModSlot {
+    Transmitter,
+    Receiver,
+    Processor,
+    HoloArray,
+    DataBus,
+    Multiplexer
+  }*/
+        var slot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
+        slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot4") && ModSlot.HoloArray || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot5") && ModSlot.DataBus || slot;
+        slot = !slot && mod.hasClass("pc-statmod-slot6") && ModSlot.Multiplexer || slot;
+        var primaryStat = _$.find(".statmod-stats-1");
+        var secondaryStats = _$.find(".statmod-stats-2 > .statmod-stat");
+        var primary = {
+            type: primaryStat.find(".statmod-stat-label").text(),
+            value: primaryStat.find(".statmod-stat-value").text(),
+        };
+        var secondary = secondaryStats.map(function (s) {
+            var ss = $(this);
+            return {
+                type: ss.find(".statmod-stat-label").text(),
+                value: ss.find(".statmod-stat-value").text(),
+            };
+        }).get();
+        return {
+            character: character,
+            tier: tier,
+            description: description,
+            level: level,
+            slot: TranslatedModName[slot],
+            primary: primary,
+            secondary: secondary,
+        };
+    }).get();
+    return m;
+};
+
+function parseShips($) {
+    return $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
+        .map(function (x) {
+        var _$ = $(this);
+        var na$ = _$.find('div.collection-ship-name > a'); //name
+        var m$ = _$.find(".collection-ship-main"); //main
+        var ship$ = m$.find('div.collection-ship-primary > div > a');
+        var crew$ = m$.find('div.collection-ship-secondary');
+        var gp$ = crew$.find("div.collection-char-gp");
+        var gpTitle = gp$.attr("title");
+        var gp = gpTitle
+            ? gpTitle.replace(/,/g, '').match(/\d+/g) // fix points
+            : [undefined, undefined, undefined];
+        var stars = ship$.find("div.ship-portrait-full-star-inactive").length;
+        var img = ship$.find(".ship-portrait-full-frame-img").attr("src");
+        // todo move to other place
+        var crewMembers = crew$.find('.collection-ship-crew-member')
+            .map(function (x) {
+            var _$ = $(this);
+            var na$ = _$.find(".char-portrait-full-link");
+            var a$ = _$.find("a");
+            var i$ = a$.find("img");
+            var name = _$.find('.player-char-portrait').attr("title");
+            var gl = a$.find("div.char-portrait-full-gear-level").text();
+            // NOTE if the user doesn't have that crew member unlocked it should skip it
+            if (!na$.attr("href"))
+                return;
+            return {
+                code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
+                description: name,
+                imageSrc: i$.attr("src").slice(2),
+                star: 7 - a$.find("div.star-inactive").length,
+                gearLevel: GearLevel[gl],
+                level: +(a$.find("div.char-portrait-full-level").text()),
+            };
+        })
+            .get();
+        var hasShip = na$.attr("href").startsWith('/u');
+        return {
+            code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
+            description: na$.text(),
+            imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
+            star: hasShip ? 7 - stars : 0,
+            level: +ship$.find(".ship-portrait-full-frame-level").text(),
+            crew: crewMembers,
+            galacticPower: +gp[0],
+            maxGalacticPower: +gp[1],
+        };
+    })
+        .get();
+}
+
 function parseCollection($) {
     return $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div > div.player-char-portrait")
         .map(function (x) {
@@ -184,56 +286,6 @@ function parseGuild($) {
         var description = _$.find("strong").text();
         return { username: username, description: description };
     }).get();
-}
-function parseShips($) {
-    return $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
-        .map(function (x) {
-        var _$ = $(this);
-        var na$ = _$.find('div.collection-ship-name > a'); //name
-        var m$ = _$.find(".collection-ship-main"); //main
-        var ship$ = m$.find('div.collection-ship-primary > div > a');
-        var crew$ = m$.find('div.collection-ship-secondary');
-        var gp$ = crew$.find("div.collection-char-gp");
-        var gpTitle = gp$.attr("title");
-        var gp = gpTitle
-            ? gpTitle.replace(/,/g, '').match(/\d+/g) // fix points
-            : [undefined, undefined, undefined];
-        var stars = ship$.find("div.ship-portrait-full-star-inactive").length;
-        var img = ship$.find(".ship-portrait-full-frame-img").attr("src");
-        // todo move to other place
-        var crewMembers = crew$.find('.collection-ship-crew-member')
-            .map(function (x) {
-            var _$ = $(this);
-            var na$ = _$.find(".char-portrait-full-link");
-            var a$ = _$.find("a");
-            var i$ = a$.find("img");
-            var name = _$.find('.player-char-portrait').attr("title");
-            var gl = a$.find("div.char-portrait-full-gear-level").text();
-            if (!na$.attr("href"))
-                return; //TODO fix me
-            return {
-                code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
-                description: name,
-                imageSrc: i$.attr("src").slice(2),
-                star: 7 - a$.find("div.star-inactive").length,
-                gearLevel: GearLevel[gl],
-                level: +(a$.find("div.char-portrait-full-level").text()),
-            };
-        })
-            .get();
-        var hasShip = na$.attr("href").startsWith('/u');
-        return {
-            code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
-            description: na$.text(),
-            imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
-            star: hasShip ? 7 - stars : 0,
-            level: +ship$.find(".ship-portrait-full-frame-level").text(),
-            crew: crewMembers,
-            galacticPower: +gp[0],
-            maxGalacticPower: +gp[1],
-        };
-    })
-        .get();
 }
 var parseUser = function ($) {
     var b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
@@ -284,55 +336,6 @@ var parseInfo = function ($) {
         raidsWon: p[8],
         shipBattlesWon: p[9],
     };
-};
-var parseModCollection = function ($) {
-    var m = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > div > div > div")
-        .map(function (x) {
-        var _$ = $(this);
-        var tier = _$.find(".statmod-pip").length;
-        var character = _$.find(".char-portrait-img").attr("alt");
-        var level = _$.find(".statmod-level").text();
-        var description = _$.find(".statmod-img").attr("alt");
-        var mod = _$.find(".pc-statmod").first();
-        /*
-  export enum ModSlot {
-    Transmitter,
-    Receiver,
-    Processor,
-    HoloArray,
-    DataBus,
-    Multiplexer
-  }*/
-        var slot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
-        slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
-        slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
-        slot = !slot && mod.hasClass("pc-statmod-slot4") && ModSlot.HoloArray || slot;
-        slot = !slot && mod.hasClass("pc-statmod-slot5") && ModSlot.DataBus || slot;
-        slot = !slot && mod.hasClass("pc-statmod-slot6") && ModSlot.Multiplexer || slot;
-        var primaryStat = _$.find(".statmod-stats-1");
-        var secondaryStats = _$.find(".statmod-stats-2 > .statmod-stat");
-        var primary = {
-            type: primaryStat.find(".statmod-stat-label").text(),
-            value: primaryStat.find(".statmod-stat-value").text(),
-        };
-        var secondary = secondaryStats.map(function (s) {
-            var ss = $(this);
-            return {
-                type: ss.find(".statmod-stat-label").text(),
-                value: ss.find(".statmod-stat-value").text(),
-            };
-        }).get();
-        return {
-            character: character,
-            tier: tier,
-            description: description,
-            level: level,
-            slot: TranslatedModName[slot],
-            primary: primary,
-            secondary: secondary,
-        };
-    }).get();
-    return m;
 };
 
 var requestretry = require("requestretry");
