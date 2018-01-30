@@ -18,7 +18,24 @@ export class Swgoh {
   }
 
   private getCheerio(uri) {
-    return this._queue.queue(uri).then(x => cheerio.load(x.body));
+    return this._queue.queue(uri)
+      .then(this.validateRequest)
+      .then(x => cheerio.load(x.body));
+  }
+
+  private validateRequest(request: {body:string}){
+    if(request.body.indexOf("<title>Login &middot; SWGOH.GG</title>") >= 0){
+      throw new Error('Login is required');
+    }
+
+    return request;
+  }
+
+  login(username: string, password: string) {
+
+
+
+    return this.getCheerio("https://swgoh.gg/u/pikax/collection/82/darth");
   }
 
   profile(username: string): Promise<Profile> {
