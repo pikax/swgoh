@@ -1,4 +1,6 @@
 import * as cheerio from 'cheerio'
+import * as request from 'request';
+import {RequiredUriUrl} from "request";
 import * as url from 'url';
 import {
   Collection, Guild, ModCollection, Profile, ShipCollection, SwgohggUnits
@@ -31,11 +33,56 @@ export class Swgoh {
     return request;
   }
 
-  login(username: string, password: string) {
+  async login(username: string, password: string): Promise<boolean> {
+    // see https://github.com/bahmutov/csrf-login/blob/master/src/csrf-login.js to fix this
+    const uri = url.resolve(swgohgg, "/accounts/login");
+    const jar= request.jar();
+		const host =  "swgoh.gg";
 
 
+		request = request.defaults({
+			jar: jar,
+			// baseUrl: host
+		});
 
-    return this.getCheerio("https://swgoh.gg/u/pikax/collection/82/darth");
+
+		const $login = await this._queue.queue({uri, jar}).then(x => cheerio.load(x.body));
+
+    const csrfmiddlewaretoken = $login("input[name=csrfmiddlewaretoken]").attr("value");
+
+    const csrf = csrfmiddlewaretoken;
+
+    const csrfName = "csrfmiddlewaretoken";
+
+    const form = {
+        username,
+        password,
+        csrfmiddlewaretoken,
+    };
+
+
+    console.log(csrfmiddlewaretoken);
+
+    const r: RequiredUriUrl ={
+      uri,
+      formData: form,
+      method: "POST",
+			jar,
+
+			followAllRedirects: true,
+			headers: {
+				referer: host
+			}
+    };
+
+		jar.setCookie(request.cookie('csrftoken=' + csrf), uri)
+
+    console.log(r)
+    const html =  await this._queue.queue(r).then(x=>x.body as string);
+    console.log('html:'+html)
+
+    //todo change to regex expression with word probalby
+    return html.indexOf(username) >= 0;
   }
 
   profile(username: string): Promise<Profile> {
