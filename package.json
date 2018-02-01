@@ -38,14 +38,14 @@
     "requestretry": "^1.13.0"
   },
   "devDependencies": {
-    "@types/jest": "^22.0.1",
+    "@types/jest": "^22.1.1",
     "coveralls": "^3.0.0",
     "jest": "^22.1.4",
-    "rollup": "^0.55.1",
+    "rollup": "^0.55.3",
     "rollup-plugin-typescript2": "^0.10.0",
     "ts-jest": "^22.0.2",
     "ts-node": "^4.1.0",
-    "typescript": "^2.6.2"
+    "typescript": "^2.7.1"
   },
   "optionalDependencies": {
     "cross-env": "^5.1.3"
