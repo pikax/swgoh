@@ -14,7 +14,6 @@ describe("parser", () => {
 
 
    /* it('should parse stats', async () => {
-      //TODO we need to be logged in to do this
       const cs = await queue.queue("https://swgoh.gg/u/pikax/collection/82/darth")
         .then(x => x.body)
         .then(x => cheerio.load(x))
@@ -61,8 +60,8 @@ describe("parser", () => {
       expect(cs.specialSurvivability.deflectionChangePerc).toBeCloseTo(darthMaul.specialSurvivability.deflectionChangePerc, 5);
       expect(cs.specialSurvivability.specialCriticalAvoidancePerc).toBeCloseTo(darthMaul.specialSurvivability.specialCriticalAvoidancePerc, 5);
     })
-
 */
+
     it('should parse galactic power breakdown', ()=>{
 
     })
