@@ -7,12 +7,21 @@ import {
 } from "./interface";
 import {
     parseCollection, parseGuild, parseModCollection, parseProfile, parseShips
-} from "./parser";
+} from "./parser/index";
 
 import {ConcurrentQueue} from "./queue";
 import {isNumber} from "util";
 import {swgohgg} from "./config";
 import {OptionsWithUri} from "request";
+import {defaults, jar} from "request";
+
+
+
+const swgohJar = jar();
+defaults({
+    jar: swgohJar
+});
+
 
 
 export class Swgoh {
@@ -34,26 +43,19 @@ export class Swgoh {
         return request;
     }
 
+
+    //based on https://github.com/bahmutov/csrf-login/blob/master/src/csrf-login.js
     async login(username: string, password: string): Promise<boolean> {
-        // see https://github.com/bahmutov/csrf-login/blob/master/src/csrf-login.js to fix this
         const uri = url.resolve(swgohgg, "/accounts/login/");
         const jar = request.jar();
         const host = "swgoh.gg";
 
-        request.defaults({
-            jar: jar,
-            // baseUrl: host
-        });
-
+        //TODO some cleaning
 
         const $login = await this._queue.queue({uri, jar} as any).then(x => cheerio.load(x.body));
-
         const csrfmiddlewaretoken = $login("input[name=csrfmiddlewaretoken]").attr("value");
 
         const csrf = csrfmiddlewaretoken;
-
-        const csrfName = "csrfmiddlewaretoken";
-
         const form = {
             username,
             password,
@@ -61,7 +63,7 @@ export class Swgoh {
         };
 
 
-        console.log(csrfmiddlewaretoken);
+        // console.log(csrfmiddlewaretoken);
 
         const r: OptionsWithUri = {
             uri,
@@ -79,11 +81,11 @@ export class Swgoh {
 
         console.log(jar.getCookieString(uri));
 
-        console.log(r)
+        // console.log(r)
         const html = await this._queue.queue(r as any).then(x => x.body as string);
-        console.log('html:' + html)
+        // console.log('html:' + html)
 
-        //todo change to regex expression with word probalby
+        //todo change to regex expression with word probably
         return html.indexOf(username) >= 0;
     }
 

@@ -13,5 +13,5 @@ module.exports =  {
 
     format:'cjs' //probably changing to es when node supports it
   },
-  external: [ 'cheerio', 'lodash', 'debug', 'url', 'vm', 'util']
+  external: [ 'cheerio', 'request', 'lodash', 'debug', 'url', 'vm', 'util']
 };

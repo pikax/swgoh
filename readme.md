@@ -38,6 +38,13 @@ swgoh.units(guild).then(console.log);
 
 swgoh.mods(username).then(console.log);
 
+// login
+const user = {
+    username: 'pikax',
+    password: 'MysuperSecurePassword'
+}
+
+swgoh.login(user.username, user.password); //Promise<boolean>
 
 
 //cached characters & ships
@@ -64,6 +71,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Toon info parsing
+- Login support
 
 # [0.4.1] - 2018-01-07
 - Cache for Characters & Ship stats 
