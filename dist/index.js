@@ -3,6 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var cheerio = require('cheerio');
+var request = require('request');
 var url = require('url');
 var util = require('util');
 
@@ -41,10 +42,10 @@ var __assign = Object.assign || function __assign(t) {
 
 
 function __awaiter(thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve$$1, reject) {
+    return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve$$1(result.value) : new P(function (resolve$$1) { resolve$$1(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
@@ -374,18 +375,72 @@ var ConcurrentQueue = /** @class */ (function () {
     return ConcurrentQueue;
 }());
 function promiseSetTimeout(ms) {
-    return new Promise((function (resolve$$1) { return setTimeout(resolve$$1, ms); }));
+    return new Promise((function (resolve) { return setTimeout(resolve, ms); }));
 }
 
 var swgohgg = "https://swgoh.gg";
 
+var swgohJar = request.jar();
+request.defaults({
+    jar: swgohJar
+});
 var Swgoh = /** @class */ (function () {
     function Swgoh(_queue) {
         if (_queue === void 0) { _queue = new ConcurrentQueue(); }
         this._queue = _queue;
     }
     Swgoh.prototype.getCheerio = function (uri) {
-        return this._queue.queue(uri).then(function (x) { return cheerio.load(x.body); });
+        return this._queue.queue(uri)
+            .then(this.validateRequest)
+            .then(function (x) { return cheerio.load(x.body); });
+    };
+    Swgoh.prototype.validateRequest = function (request$$1) {
+        if (request$$1.body.indexOf("<title>Login &middot; SWGOH.GG</title>") >= 0) {
+            throw new Error('Login is required');
+        }
+        return request$$1;
+    };
+    //based on https://github.com/bahmutov/csrf-login/blob/master/src/csrf-login.js
+    Swgoh.prototype.login = function (username, password) {
+        return __awaiter(this, void 0, void 0, function () {
+            var uri, jar, host, $login, csrfmiddlewaretoken, csrf, form, r, html;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        uri = url.resolve(swgohgg, "/accounts/login/");
+                        jar = request.jar();
+                        host = "swgoh.gg";
+                        return [4 /*yield*/, this._queue.queue({ uri: uri, jar: jar }).then(function (x) { return cheerio.load(x.body); })];
+                    case 1:
+                        $login = _a.sent();
+                        csrfmiddlewaretoken = $login("input[name=csrfmiddlewaretoken]").attr("value");
+                        csrf = csrfmiddlewaretoken;
+                        form = {
+                            username: username,
+                            password: password,
+                            csrfmiddlewaretoken: csrfmiddlewaretoken,
+                        };
+                        r = {
+                            uri: uri,
+                            form: form,
+                            method: "POST",
+                            jar: jar,
+                            followAllRedirects: true,
+                            headers: {
+                                referer: host
+                            }
+                        };
+                        jar.setCookie(request.cookie('csrftoken=' + csrf), uri);
+                        console.log(jar.getCookieString(uri));
+                        return [4 /*yield*/, this._queue.queue(r).then(function (x) { return x.body; })];
+                    case 2:
+                        html = _a.sent();
+                        // console.log('html:' + html)
+                        //todo change to regex expression with word probably
+                        return [2 /*return*/, html.indexOf(username) >= 0];
+                }
+            });
+        });
     };
     Swgoh.prototype.profile = function (username) {
         var uri = url.resolve(swgohgg, "/u/" + username + "/");

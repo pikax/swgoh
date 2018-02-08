@@ -4,6 +4,8 @@ export declare class Swgoh {
     private _queue;
     constructor(_queue?: ConcurrentQueue);
     private getCheerio(uri);
+    private validateRequest(request);
+    login(username: string, password: string): Promise<boolean>;
     profile(username: string): Promise<Profile>;
     collection(username: string): Promise<Collection>;
     mods(username: string): Promise<ModCollection>;
