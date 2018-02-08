@@ -6,6 +6,8 @@ import {ConcurrentQueue, QueueConfig} from '../src/queue'
 import {pikax, collection, ships, mods, guildUrl, gattsu} from "./__config__/results";
 
 
+jest.setTimeout(30000);
+
 describe('swgoh', () => {
 
   it('should create new intance', async ()=>{
