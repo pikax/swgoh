@@ -198,6 +198,24 @@ var parseModCollection = function ($) {
     }).get();
     return m;
 };
+var _MOD_PAGES_REGEX = /(?:of )(\d+)$/gm;
+var getModPages = function ($) {
+    var selector = 'li.media.list-group-item.p-a.collection-mod-list > div.pull-right > ul > li > a';
+    var numPages = $(selector).text();
+    /* const elements = $(selector);
+ 
+     const e1 = elements[0]; //if first page
+     const e2 = elements[1]; //if other pages
+ 
+     let numPages = e1.children.length === 1
+         ? e1.children[0].nodeValue
+         : e2.children[0].nodeValue;*/
+    var m = _MOD_PAGES_REGEX.exec(numPages);
+    if (!m) {
+        return null;
+    }
+    return +m[1];
+};
 
 function parseShips($) {
     return $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
@@ -454,34 +472,25 @@ var Swgoh = /** @class */ (function () {
     };
     Swgoh.prototype.mods = function (username) {
         return __awaiter(this, void 0, void 0, function () {
-            var modsUri, mods, done, uri, $, _a, _b, href;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var _this = this;
+            var modsUri, uri, $, modsPage, promises, pMods;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         modsUri = "/u/" + username + "/mods/";
-                        mods = [];
-                        done = false;
                         uri = url.resolve(swgohgg, modsUri);
-                        _c.label = 1;
-                    case 1: return [4 /*yield*/, this.getCheerio(uri)];
+                        return [4 /*yield*/, this.getCheerio(uri)];
+                    case 1:
+                        $ = _a.sent();
+                        modsPage = getModPages($) - 1;
+                        promises = Array.from({ length: modsPage }, function (k, i) { return i + 2; })
+                            .map(function (x) { return _this.getCheerio(uri + ("?page=" + x))
+                            .then(function (x) { return parseModCollection(x); }); });
+                        return [4 /*yield*/, Promise.all(promises.slice())];
                     case 2:
-                        $ = _c.sent();
-                        _b = (_a = mods).concat;
-                        return [4 /*yield*/, parseModCollection($)];
-                    case 3:
-                        mods = _b.apply(_a, [_c.sent()]);
-                        href = $("li.media.list-group-item.p-a.collection-mod-list a").last().attr("href");
-                        if (href.startsWith(modsUri)) {
-                            uri = url.resolve(uri, href);
-                        }
-                        else {
-                            done = true;
-                        }
-                        _c.label = 4;
-                    case 4:
-                        if (!done) return [3 /*break*/, 1];
-                        _c.label = 5;
-                    case 5: return [2 /*return*/, mods];
+                        pMods = _a.sent();
+                        pMods.unshift(parseModCollection($)); //insert at the beginning
+                        return [2 /*return*/, [].concat.apply([], pMods)]; //flat
                 }
             });
         });

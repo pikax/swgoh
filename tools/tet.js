@@ -1,5 +1,17 @@
-import {swgoh} from '../dist'
+// import {swgoh} from '../dist'
 
-swgoh.guild();
+const swgoh = require('../dist').swgoh;
 
-swgoh.mods().then(x=>x[0]).then(x=>x.)
+const process = async (profile)=>{
+    return swgoh.mods(profile);
+};
+
+
+const start = new Date();
+
+
+process('pikax')
+    .then(p=>{
+        var end = new Date() - start;
+        console.info("Execution time: %dms", end);
+    })

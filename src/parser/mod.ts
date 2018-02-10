@@ -1,71 +1,95 @@
 import {ModCollection, ModPrimary, ModPrimaryValue, ModSlot, TranslatedModName, Mod} from "../interface";
 
 
-export const parseModCollection = ($: CheerioStatic): ModCollection => {
+    export const parseModCollection = ($: CheerioStatic): ModCollection => {
 
-  const m = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > div > div > div")
-    .map(function (x) {
-      const _$ = $(this);
-
-
-      const tier = _$.find(".statmod-pip").length;
-      const character = _$.find(".char-portrait-img").attr("alt");
-      const level = _$.find(".statmod-level").text();
-
-      const description = _$.find(".statmod-img").attr("alt");
+    const m = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > div > div > div")
+        .map(function (x) {
+            const _$ = $(this);
 
 
-      const mod = _$.find(".pc-statmod").first();
+            const tier = _$.find(".statmod-pip").length;
+            const character = _$.find(".char-portrait-img").attr("alt");
+            const level = _$.find(".statmod-level").text();
 
-      /*
-export enum ModSlot {
-  Transmitter,
-  Receiver,
-  Processor,
-  HoloArray,
-  DataBus,
-  Multiplexer
-}*/
-      let slot: ModSlot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
-      slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
-      slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
-      slot = !slot && mod.hasClass("pc-statmod-slot4") && ModSlot.HoloArray || slot;
-      slot = !slot && mod.hasClass("pc-statmod-slot5") && ModSlot.DataBus || slot;
-      slot = !slot && mod.hasClass("pc-statmod-slot6") && ModSlot.Multiplexer || slot;
+            const description = _$.find(".statmod-img").attr("alt");
 
 
-      const primaryStat = _$.find(".statmod-stats-1");
-      const secondaryStats = _$.find(".statmod-stats-2 > .statmod-stat");
+            const mod = _$.find(".pc-statmod").first();
+
+            /*
+      export enum ModSlot {
+        Transmitter,
+        Receiver,
+        Processor,
+        HoloArray,
+        DataBus,
+        Multiplexer
+      }*/
+            let slot: ModSlot = mod.hasClass("pc-statmod-slot1") && ModSlot.Transmitter;
+            slot = !slot && mod.hasClass("pc-statmod-slot2") && ModSlot.Receiver || slot;
+            slot = !slot && mod.hasClass("pc-statmod-slot3") && ModSlot.Processor || slot;
+            slot = !slot && mod.hasClass("pc-statmod-slot4") && ModSlot.HoloArray || slot;
+            slot = !slot && mod.hasClass("pc-statmod-slot5") && ModSlot.DataBus || slot;
+            slot = !slot && mod.hasClass("pc-statmod-slot6") && ModSlot.Multiplexer || slot;
 
 
-      const primary: ModPrimaryValue = {
-        type: primaryStat.find(".statmod-stat-label").text() as ModPrimary,
-        value: primaryStat.find(".statmod-stat-value").text(),//.replace(/\+|%/g,''), // NOTE no need to use number
-      };
-
-      const secondary = secondaryStats.map(function (s) {
-        const ss = $(this);
-        return {
-          type: ss.find(".statmod-stat-label").text(),
-          value: ss.find(".statmod-stat-value").text(),//.replace(/\+|%/g,''), // NOTE no need to use number
-        }
-      }).get();
+            const primaryStat = _$.find(".statmod-stats-1");
+            const secondaryStats = _$.find(".statmod-stats-2 > .statmod-stat");
 
 
-      return {
-        character,
-        tier,
+            const primary: ModPrimaryValue = {
+                type: primaryStat.find(".statmod-stat-label").text() as ModPrimary,
+                value: primaryStat.find(".statmod-stat-value").text(),//.replace(/\+|%/g,''), // NOTE no need to use number
+            };
 
-        description,
+            const secondary = secondaryStats.map(function (s) {
+                const ss = $(this);
+                return {
+                    type: ss.find(".statmod-stat-label").text(),
+                    value: ss.find(".statmod-stat-value").text(),//.replace(/\+|%/g,''), // NOTE no need to use number
+                }
+            }).get();
 
-        level,
-        slot: TranslatedModName[slot],
 
-        primary: primary,
-        secondary,
-      }
+            return {
+                character,
+                tier,
 
-    }).get();
+                description,
 
-  return m as any;
+                level,
+                slot: TranslatedModName[slot],
+
+                primary: primary,
+                secondary,
+            }
+
+        }).get();
+
+    return m as any;
 };
+
+
+const _MOD_PAGES_REGEX = /(?:of )(\d+)$/gm;
+export const getModPages = ($: CheerioStatic): number => {
+    const selector = 'li.media.list-group-item.p-a.collection-mod-list > div.pull-right > ul > li > a';
+    const numPages = $(selector).text();
+   /* const elements = $(selector);
+
+    const e1 = elements[0]; //if first page
+    const e2 = elements[1]; //if other pages
+
+    let numPages = e1.children.length === 1
+        ? e1.children[0].nodeValue
+        : e2.children[0].nodeValue;*/
+
+
+    const m = _MOD_PAGES_REGEX.exec(numPages);
+
+    if (!m) {
+        return null;
+    }
+    return +m[1];
+};
+

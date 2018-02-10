@@ -6,7 +6,7 @@ import {
     Collection, Guild, ModCollection, Profile, ShipCollection, SwgohggUnits
 } from "./interface";
 import {
-    parseCollection, parseGuild, parseModCollection, parseProfile, parseShips
+    parseCollection, getModPages, parseGuild, parseModCollection, parseProfile, parseShips
 } from "./parser/index";
 
 import {ConcurrentQueue} from "./queue";
@@ -16,12 +16,10 @@ import {OptionsWithUri} from "request";
 import {defaults, jar} from "request";
 
 
-
 const swgohJar = jar();
 defaults({
     jar: swgohJar
 });
-
 
 
 export class Swgoh {
@@ -101,24 +99,26 @@ export class Swgoh {
 
     async mods(username: string): Promise<ModCollection> {
         const modsUri = `/u/${username}/mods/`;
-        let mods = [];
-        let done = false;
 
-        let uri = url.resolve(swgohgg, modsUri);
-        do {
-            const $: CheerioStatic = await this.getCheerio(uri);
-            mods = mods.concat(await parseModCollection($));
+        const uri = url.resolve(swgohgg, modsUri);
 
-            const href = $("li.media.list-group-item.p-a.collection-mod-list a").last().attr("href");
+        const $: CheerioStatic = await this.getCheerio(uri);
 
-            if (href.startsWith(modsUri)) {
-                uri = url.resolve(uri, href);
-            } else {
-                done = true;
-            }
-        } while (!done);
+        const modsPage = getModPages($) - 1;
 
-        return mods;
+        const promises = Array.from({length: modsPage},
+            (k, i) => i + 2)
+            .map(x => this.getCheerio(uri + `?page=${x}`)
+                .then(x => parseModCollection(x))
+            );
+
+
+        const pMods: ModCollection[] = await Promise.all([
+            ...promises,
+        ]);
+
+        pMods.unshift(parseModCollection($)); //insert at the beginning
+        return [].concat.apply([], pMods); //flat
     }
 
     ship(username: string): Promise<ShipCollection> {

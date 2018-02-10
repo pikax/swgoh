@@ -73,6 +73,9 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.4.5] 2018-02-10
+- Improved retrieving mods performance
+
 # [0.4.4] 2018-02-10
 - Added lastUpdatedUTC to profile [#5][i5]
 

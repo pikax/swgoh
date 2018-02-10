@@ -140,7 +140,6 @@ describe('swgoh', () => {
     it('should get guild info: opts', async () => {
         const g = await swgoh.guild({id: 232, name: "requiem"})
         expect(g).not.toBeNull();
-debugger
         expect(g.length).toBeGreaterThanOrEqual(20);
     });
 
