@@ -296,6 +296,7 @@ var parseUser = function ($) {
     var g = b$.find("p > strong > a");
     var aGuild = g.text(); //get
     var aGuildUrl = g.attr("href");
+    var lastUpdatedUTC = $('li > span.header-text > div > span').attr("data-datetime");
     return {
         username: name,
         userId: panelMenus[0],
@@ -304,7 +305,8 @@ var parseUser = function ($) {
         allyCode: p[1] && p[0],
         joined: p[1] || p[0],
         guild: aGuild,
-        guildUrl: aGuildUrl
+        guildUrl: aGuildUrl,
+        lastUpdatedUTC: lastUpdatedUTC
     };
 };
 var parseStats = function ($) {

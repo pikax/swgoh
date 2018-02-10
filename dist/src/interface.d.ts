@@ -49,6 +49,7 @@ export interface User {
     guildUrl: string;
     allyCode: string;
     joined: Date;
+    lastUpdatedUTC?: string;
 }
 export interface UserStats {
     collectionScore: number;

@@ -73,7 +73,7 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
-# [0.4.3] 2018-02-10
+# [0.4.4] 2018-02-10
 - Added lastUpdatedUTC to profile [#5][i5]
 
 # [0.4.2] 2018-02-08
