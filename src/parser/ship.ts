@@ -98,7 +98,7 @@ export const parseShipStats = ($: CheerioStatic): ShipStats[] => {
 
       const code = href.match(/(?:\/ships\/)([^\/]*)/)[1];
       const description = a.text();
-      const tds = _$.find("td").get().slice(1).map((x: any) => (x.lastChild || {}).nodeValue);
+      const tds = _$.find("td").get().slice(1).map((x: any) => (x.lastChild || {nodeValue: null}).nodeValue);
 
       const core: CharacterCoreStats = {
         code,

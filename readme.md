@@ -73,6 +73,12 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.4.3] 2018-02-10
+- Added lastUpdatedUTC to profile [#5][i5]
+
+# [0.4.2] 2018-02-08
+- Updated cached files
+
 # [0.4.1] - 2018-01-07
 - Cache for Characters & Ship stats 
 - Added Jest Tests
@@ -114,6 +120,9 @@ The developer of this application does not have any affiliation with the Capital
 [i2]: https://github.com/pikax/swgoh/issues/2
 [i3]: https://github.com/pikax/swgoh/issues/3
 [i4]: https://github.com/pikax/swgoh/issues/4
+[i5]: https://github.com/pikax/swgoh/issues/5
+
+
 
 [badgeFury]: https://badge.fury.io/js/swgoh
 [travis]: https://travis-ci.org/pikax/swgoh

@@ -28,7 +28,7 @@ const getCheerio = (uri)=> {
 
 const a = [];
 
-let p = getCheerio(charactersUrl)
+let p:any = getCheerio(charactersUrl)
 	.then(parseCharacterStats)
 	.then(x=>{
 			return writeFile(path.resolve(__dirname, './../static/characters.json'), JSON.stringify(x))
