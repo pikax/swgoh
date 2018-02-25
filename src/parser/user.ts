@@ -40,6 +40,8 @@ export function parseProfile($: CheerioStatic): Profile {
 
 }
 
+
+//TODO change to have information about guild
 export function parseGuild($: CheerioStatic): Guild {
     return <any>$("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-0.b-t-0 > div > table > tbody > tr > td > a")
         .map(function () {

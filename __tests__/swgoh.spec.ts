@@ -214,4 +214,14 @@ describe('swgoh', () => {
             expect(e.message).toContain("Error");
         }
     });
+
+
+    /*
+    it('should try to get logged in only info', async ()=>{
+
+        swgoh.
+
+
+    })*/
+
 });

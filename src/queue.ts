@@ -37,18 +37,19 @@ export class ConcurrentQueue {
   }
 
   async queue(uri: RequiredUriUrl|string): Promise<any> {
-    if (this._queue.getQueueLength() > this._config.maxQueueSize) {
+    /*if (this._queue.getQueueLength() > this._config.maxQueueSize) {
       while (this._queue.getQueueLength() < this._config.safeQueueSize) {
         await promiseSetTimeout(TICK);
       }
-    }
+    }*/
 
     return this._queue.add(() => requestretry(uri));
   }
 
 }
 
-
+/*
 export function promiseSetTimeout(ms: number): Promise<any> {
   return new Promise((resolve => setTimeout(resolve, ms)));
 }
+*/
