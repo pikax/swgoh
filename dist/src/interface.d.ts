@@ -34,12 +34,10 @@ export interface Ship {
     crew: CharacterCore[];
     maxGalacticPower: number;
 }
-export interface Guild {
-    users: {
-        username: string;
-        description: string;
-    };
-}
+export declare type Guild = {
+    username: string;
+    description: string;
+}[];
 export interface User {
     username: string;
     userId: number;
