@@ -21,9 +21,6 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-/* global Reflect, Promise */
-
-
 
 var __assign = Object.assign || function __assign(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -32,14 +29,6 @@ var __assign = Object.assign || function __assign(t) {
     }
     return t;
 };
-
-
-
-
-
-
-
-
 
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -284,7 +273,7 @@ function parseCollection($) {
         return {
             code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
             description: na$.text(),
-            imageSrc: i$.attr("src").slice(2),
+            imageSrc: i$.attr("data-src").slice(2),
             star: 7 - a$.find("div.star-inactive").length,
             gearLevel: GearLevel[gl],
             level: +(a$.find("div.char-portrait-full-level").text()),
@@ -297,6 +286,7 @@ function parseCollection($) {
 function parseProfile($) {
     return __assign({}, parseInfo($), parseStats($), parseUser($));
 }
+//TODO change to have information about guild
 function parseGuild($) {
     return $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-0.b-t-0 > div > table > tbody > tr > td > a")
         .map(function () {
@@ -361,7 +351,6 @@ var parseInfo = function ($) {
 
 var requestretry = require("requestretry");
 var Queue = require("promise-queue");
-var TICK = 33;
 var config = {
     simultaneousRequests: 10,
     safeQueueSize: 5,
@@ -377,26 +366,22 @@ var ConcurrentQueue = /** @class */ (function () {
     ConcurrentQueue.prototype.queue = function (uri) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this._queue.getQueueLength() > this._config.maxQueueSize)) return [3 /*break*/, 3];
-                        _a.label = 1;
-                    case 1:
-                        if (!(this._queue.getQueueLength() < this._config.safeQueueSize)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, promiseSetTimeout(TICK)];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 1];
-                    case 3: return [2 /*return*/, this._queue.add(function () { return requestretry(uri); })];
-                }
+                /*if (this._queue.getQueueLength() > this._config.maxQueueSize) {
+                  while (this._queue.getQueueLength() < this._config.safeQueueSize) {
+                    await promiseSetTimeout(TICK);
+                  }
+                }*/
+                return [2 /*return*/, this._queue.add(function () { return requestretry(uri); })];
             });
         });
     };
     return ConcurrentQueue;
 }());
-function promiseSetTimeout(ms) {
-    return new Promise((function (resolve) { return setTimeout(resolve, ms); }));
+/*
+export function promiseSetTimeout(ms: number): Promise<any> {
+  return new Promise((resolve => setTimeout(resolve, ms)));
 }
+*/
 
 var swgohgg = "https://swgoh.gg";
 

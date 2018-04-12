@@ -126,6 +126,7 @@ export class Swgoh {
         return this.getCheerio(uri).then(parseShips);
     }
 
+    //guildUrl like '/g/232/requiem/'
     guild(guildUrl: string): Promise<Guild>
     guild(opts: { id: number, name: string }): Promise<Guild>
     guild(opts: string | { id: number, name: string }): Promise<Guild> {
