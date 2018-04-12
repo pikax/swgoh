@@ -17,12 +17,11 @@ export function parseCollection($: CheerioStatic): Collection {
 
             const gl: number = a$.find("div.char-portrait-full-gear-level").text() as any;
 
-
             return <Character>{
                 code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
                 description: na$.text(),
 
-                imageSrc: i$.attr("src").slice(2),
+                imageSrc: i$.attr("data-src").slice(2),
 
                 star: 7 - a$.find("div.star-inactive").length,
                 gearLevel: <GearLevel> (GearLevel[gl] as any), //todo fix this cast
