@@ -73,6 +73,9 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.4.6] 2018-04-12
+- Fix [#6 - imageSrc is undefined][i6]
+
 # [0.4.5] 2018-02-10
 - Improved retrieving mods performance
 
@@ -124,6 +127,7 @@ The developer of this application does not have any affiliation with the Capital
 [i3]: https://github.com/pikax/swgoh/issues/3
 [i4]: https://github.com/pikax/swgoh/issues/4
 [i5]: https://github.com/pikax/swgoh/issues/5
+[i6]: https://github.com/pikax/swgoh/issues/6
 
 
 
