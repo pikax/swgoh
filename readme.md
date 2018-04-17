@@ -4,6 +4,7 @@
 [![dependencies Status](https://david-dm.org/pikax/swgoh/status.svg)][dependencies]
 [![devDependencies Status](https://david-dm.org/pikax/swgoh/dev-status.svg)][devDependencies]
 [![Discord](https://img.shields.io/badge/discord-chat-blue.svg)][discord]
+[![Known Vulnerabilities](https://snyk.io/test/npm/swgoh/badge.svg)][snyk]
 
 
 [changelog](#changelog)
