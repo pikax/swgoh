@@ -139,3 +139,4 @@ The developer of this application does not have any affiliation with the Capital
 [dependencies]: https://david-dm.org/pikax/swgoh
 [devDependencies]: https://david-dm.org/pikax/swgoh?type=dev
 [discord]: https://discord.gg/5HPbT5K
+[snyk]: https://snyk.io/test/npm/swgoh
