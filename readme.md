@@ -74,6 +74,9 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.4.7] 2018-04-26
+- Cache for Characters (Bossk added)
+
 # [0.4.6] 2018-04-12
 - Fix [#6 - imageSrc is undefined][i6]
 
@@ -86,30 +89,30 @@ All notable changes to this project will be documented in this file.
 # [0.4.2] 2018-02-08
 - Updated cached files
 
-# [0.4.1] - 2018-01-07
+# [0.4.1] 2018-01-07
 - Cache for Characters & Ship stats 
 - Added Jest Tests
 
-# [0.3.2] - 2017-12-02
-- Fix [#4 - Mods Lookup Failing][i4]
+# [0.3.2] 2017-12-02
+- Fix [#4 Mods Lookup Failing][i4]
 
-# [0.3.1] - 2017-09-28
+# [0.3.1] 2017-09-28
 - Player mods collection
 
-# [0.2.1] - 2017-09-22
+# [0.2.1] 2017-09-22
 - Fix 7* ships not parse star correctly ([#3][i3])
 - Added guild units fetch (Same as the [swgoh][swgoh] [guild unit API][swgohApiGuildUnit] )
 
-# [0.1.3] - 2017-09-20
+# [0.1.3] 2017-09-20
 - Fix "Profile Data undefined" when not showing AllyCode on Swgoh ([#2][i2])
 
-# [0.1.2] - 2017-09-20
+# [0.1.2] 2017-09-20
 - Added support for ships
 
-# [0.1.1] - 2017-08-19
+# [0.1.1] 2017-08-19
 - Fixed issue with stars when getting collection
 
-# [0.1.0] - 2017-08-19
+# [0.1.0] 2017-08-19
 - First release, support collection (toons), player info and guild info.
 
 
