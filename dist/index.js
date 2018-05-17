@@ -106,7 +106,14 @@ var ModSet;
     ModSet[ModSet["Speed"] = 7] = "Speed";
 })(ModSet || (ModSet = {}));
 // todo probably replace this names on the enum
-var TranslatedModName = (_a = {}, _a[ModSlot.Transmitter] = "Square", _a[ModSlot.Receiver] = "Arrow", _a[ModSlot.Processor] = "Diamond", _a[ModSlot.HoloArray] = "Triangle", _a[ModSlot.DataBus] = "Circle", _a[ModSlot.Multiplexer] = "Cross", _a);
+var TranslatedModName = (_a = {},
+    _a[ModSlot.Transmitter] = "Square",
+    _a[ModSlot.Receiver] = "Arrow",
+    _a[ModSlot.Processor] = "Diamond",
+    _a[ModSlot.HoloArray] = "Triangle",
+    _a[ModSlot.DataBus] = "Circle",
+    _a[ModSlot.Multiplexer] = "Cross",
+    _a);
 var ModPrimary;
 (function (ModPrimary) {
     ModPrimary["Speed"] = "Speed";
@@ -283,6 +290,18 @@ function parseCollection($) {
     })
         .get();
 }
+function parseCollectionPages($) {
+    var txt = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > ul > li:nth-child(1) > a').text();
+    if (!txt) {
+        return 0;
+    }
+    var m = txt.match(/\d+$/);
+    if (!m) {
+        return 0;
+    }
+    debugger;
+    return +m[0];
+}
 function parseProfile($) {
     return __assign({}, parseInfo($), parseStats($), parseUser($));
 }
@@ -436,7 +455,6 @@ var Swgoh = /** @class */ (function () {
                             }
                         };
                         jar.setCookie(request.cookie('csrftoken=' + csrf), uri);
-                        console.log(jar.getCookieString(uri));
                         return [4 /*yield*/, this._queue.queue(r).then(function (x) { return x.body; })];
                     case 2:
                         html = _a.sent();
@@ -452,8 +470,30 @@ var Swgoh = /** @class */ (function () {
         return this.getCheerio(uri).then(parseProfile);
     };
     Swgoh.prototype.collection = function (username) {
-        var uri = url.resolve(swgohgg, "/u/" + username + "/collection/");
-        return this.getCheerio(uri).then(parseCollection);
+        return __awaiter(this, void 0, void 0, function () {
+            var uri, $, pages, promises, i, collections;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        uri = url.resolve(swgohgg, "/u/" + username + "/collection/");
+                        return [4 /*yield*/, this.getCheerio(uri)];
+                    case 1:
+                        $ = _a.sent();
+                        pages = parseCollectionPages($);
+                        promises = [Promise.resolve(parseCollection($))];
+                        for (i = 2; i <= pages; i++) {
+                            promises.push(this.getCheerio(url.resolve(uri, "?page=" + i)).then(parseCollection));
+                        }
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 2:
+                        collections = _a.sent();
+                        return [2 /*return*/, collections.reduce(function (v, c) {
+                                c.push.apply(c, v);
+                                return c;
+                            }, [])];
+                }
+            });
+        });
     };
     Swgoh.prototype.mods = function (username) {
         return __awaiter(this, void 0, void 0, function () {
