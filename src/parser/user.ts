@@ -121,3 +121,25 @@ const parseInfo = ($: CheerioStatic): UserInfo => {
     }
 
 };
+
+const _CHAR_PAGES_REGEX = /(?:of )(\d+)$/gm;
+export const getCollectionPages = ($: CheerioStatic): number => {
+    const selector = 'li.media.list-group-item.p-a.collection-char-list > ul.pagination > li > a';
+    const numPages = $(selector).text();
+   /* const elements = $(selector);
+
+    const e1 = elements[0]; //if first page
+    const e2 = elements[1]; //if other pages
+
+    let numPages = e1.children.length === 1
+        ? e1.children[0].nodeValue
+        : e2.children[0].nodeValue;*/
+
+
+    const m = _CHAR_PAGES_REGEX.exec(numPages);
+
+    if (!m) {
+        return null;
+    }
+    return +m[1];
+};
