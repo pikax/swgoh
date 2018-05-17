@@ -74,6 +74,10 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.4.8] 2018-05-17
+- Cache for Characters & Ship stats
+- Fix [#8 - collection method not returning the full collection][i8]
+
 # [0.4.7] 2018-04-26
 - Cache for Characters (Bossk added)
 
@@ -132,7 +136,8 @@ The developer of this application does not have any affiliation with the Capital
 [i4]: https://github.com/pikax/swgoh/issues/4
 [i5]: https://github.com/pikax/swgoh/issues/5
 [i6]: https://github.com/pikax/swgoh/issues/6
-
+[i7]: https://github.com/pikax/swgoh/issues/7
+[i8]: https://github.com/pikax/swgoh/issues/8
 
 
 [badgeFury]: https://badge.fury.io/js/swgoh
