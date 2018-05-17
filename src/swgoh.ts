@@ -14,6 +14,7 @@ import {isNumber} from "util";
 import {swgohgg} from "./config";
 import {OptionsWithUri} from "request";
 import {defaults, jar} from "request";
+import {parseCollectionPages} from "./parser/user";
 
 
 const swgohJar = jar();
@@ -77,7 +78,7 @@ export class Swgoh {
 
         jar.setCookie(request.cookie('csrftoken=' + csrf), uri);
 
-        console.log(jar.getCookieString(uri));
+        // console.log(jar.getCookieString(uri));
 
         // console.log(r)
         const html = await this._queue.queue(r as any).then(x => x.body as string);
@@ -92,9 +93,23 @@ export class Swgoh {
         return this.getCheerio(uri).then(parseProfile);
     }
 
-    collection(username: string): Promise<Collection> {
+    async collection(username: string): Promise<Collection> {
         const uri = url.resolve(swgohgg, `/u/${username}/collection/`);
-        return this.getCheerio(uri).then(parseCollection);
+        const $ = await this.getCheerio(uri);
+
+        const pages = parseCollectionPages($);
+
+        const promises = [Promise.resolve(parseCollection($))];
+        for (let i = 2; i <= pages; i++) {
+            promises.push(this.getCheerio(url.resolve(uri, "?page=" + i)).then(parseCollection));
+        }
+
+        const collections: Collection[] = await Promise.all(promises)
+
+        return collections.reduce((v, c)=>{
+            c.push(...v);
+            return c;
+        }, []);
     }
 
     async mods(username: string): Promise<ModCollection> {

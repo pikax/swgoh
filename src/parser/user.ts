@@ -34,6 +34,24 @@ export function parseCollection($: CheerioStatic): Collection {
         .get();
 }
 
+
+export function parseCollectionPages($: CheerioStatic): number {
+    const txt = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > ul > li:nth-child(1) > a').text();
+
+
+    if (!txt) {
+        return 0;
+    }
+
+    const m = txt.match(/\d+$/);
+    if (!m) {
+        return 0;
+    }
+
+    debugger;
+    return +m[0];
+}
+
 export function parseProfile($: CheerioStatic): Profile {
     return {...parseInfo($), ...parseStats($), ...parseUser($)} as Profile;
 
