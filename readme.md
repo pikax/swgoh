@@ -73,6 +73,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Toon info parsing
 - Login support
+- Add static images to the static folder [#10 - Static resource links are not working][i10]
 
 # [0.4.8] 2018-05-17
 - Cache for Characters & Ship stats
@@ -138,7 +139,10 @@ The developer of this application does not have any affiliation with the Capital
 [i6]: https://github.com/pikax/swgoh/issues/6
 [i7]: https://github.com/pikax/swgoh/issues/7
 [i8]: https://github.com/pikax/swgoh/issues/8
+[i10]: https://github.com/pikax/swgoh/issues/10
 
+
+[staticImg]: https://github.com/pikax/swgoh/tree/master/static/img
 
 [badgeFury]: https://badge.fury.io/js/swgoh
 [travis]: https://travis-ci.org/pikax/swgoh

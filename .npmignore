@@ -120,3 +120,6 @@ src/**/*.js.map
 __tests__
 test
 co
+
+#do not copy images
+static/img
