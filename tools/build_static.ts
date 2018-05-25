@@ -21,7 +21,7 @@ const queue = new ConcurrentQueue();
 const charactersUrl = "https://swgoh.gg/characters/stats";
 const shipsUrl = "https://swgoh.gg/ships/stats/";
 const allchar = "https://swgoh.gg/";
-
+const allship = "https://swgoh.gg/ships/";
 
 const getCheerio = (uri) => {
     return queue.queue(uri).then(x => cheerio.load(x.body));
@@ -47,6 +47,7 @@ const saveImage = (uri) => {
 
 const a = [];
 
+// static characters
 let p: any = getCheerio(charactersUrl)
     .then(parseCharacterStats)
     .then(x => {
@@ -60,7 +61,7 @@ let p: any = getCheerio(charactersUrl)
 
 a.push(p);
 
-
+// static ships
 p = getCheerio(shipsUrl)
     .then(parseShipStats)
     .then(x => {
@@ -74,12 +75,22 @@ p = getCheerio(shipsUrl)
 
 a.push(p);
 
-
+// character images
 p = getCheerio(allchar)
     .then($ => $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list.homepage-list.char-search > ul > li > a > div.char-portrait > div > img').toArray())
     .then(x => x.map(t => t.attribs['data-src']))
     // .then(x => x.slice(0, 5))
-    // .then(console.log)
+    .then(x=>x.map(saveImage))
+    .then(x=>Promise.all(x));
+
+a.push(p)
+
+
+// ship images
+p = getCheerio(allship)
+    .then($ => $('img.ship-portrait-frame-img').toArray())
+    .then(x => x.map(t => t.attribs['src']))
+    // .then(x => x.slice(0, 5))
     .then(x=>x.map(saveImage))
     .then(x=>Promise.all(x));
 

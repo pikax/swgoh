@@ -1,8 +1,8 @@
 import {Character, Collection, GearLevel, Guild, Profile, User, UserInfo, UserStats} from "../interface";
 import * as path from 'path';
 
+// TODO move to a shared location
 const imgLocation = "https://raw.githubusercontent.com/pikax/swgoh/master/static/img/";
-
 
 export function parseCollection($: CheerioStatic): Collection {
     return <any>$("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div > div.player-char-portrait")
