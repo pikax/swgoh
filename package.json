@@ -13,7 +13,7 @@
     "test:watch": "cross-env mock=1 jest --watch",
     "coverage": "jest --coverage",
     "snapshot": "jest --updateSnapshot",
-    "static": "ts-node tools/build_static.ts"
+    "static": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" tools/build_static.ts"
   },
   "jest": {
     "moduleFileExtensions": [
