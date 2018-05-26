@@ -53,6 +53,31 @@ import {getCharacters, getShips} from 'swgoh';
 
 ```
 
+
+
+### Get swogh.gg assets
+The asset location by default is to [swogh/static/img][staticImg], but you can reset to swgoh.gg using
+the environment config `USE_SWGOH_ASSET=1`
+
+in code:
+```javascript
+process.env.USE_SWGOH_ASSET = 1;
+
+import {swgoh} from 'swgoh';
+```
+
+### Get custom asset location
+You can set a custom asset location by specifying it using environment config `SWGOH_ASSET_LOCATION={assetpath}`
+
+in code
+```javascript
+process.env.SWGOH_ASSET_LOCATION = "https://assets.mysupawebsite.web/swgoh";
+
+import {swgoh} from 'swgoh';
+```
+
+
+
 ## Motivation
 
 With TB just released, this library provides easy way to get data from [swgoh.gg][swgoh]

@@ -6,7 +6,6 @@ import {
   IToonStats
 } from "../interface";
 import {fixNumber, parsePercent100} from "../util";
-import {darthMaul} from "../../__tests__/__config__/results";
 
 export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
   const c = $("#characters").find("tbody > tr")

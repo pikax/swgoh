@@ -3,12 +3,8 @@ import {
     ShipCollection, ShipStats,
     ShipType
 } from "../interface";
-import {fixNumber, parsePercent100} from "../util";
+import {assetUrl, fixNumber, parsePercent100} from "../util";
 import * as path from "path";
-
-// TODO move to a shared location
-const imgLocation = "https://raw.githubusercontent.com/pikax/swgoh/master/static/img/";
-
 
 export function parseShips($: CheerioStatic): ShipCollection {
     return <any> $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
@@ -55,7 +51,7 @@ export function parseShips($: CheerioStatic): ShipCollection {
                         code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
                         description: name,
 
-                        imageSrc: `${imgLocation}${path.basename(imgsrc)}`,
+                        imageSrc: `${assetUrl}${path.basename(imgsrc)}`,
 
                         star: 7 - a$.find("div.star-inactive").length,
                         gearLevel: <GearLevel> (GearLevel[gl] as any), //todo fix this cast
@@ -67,7 +63,7 @@ export function parseShips($: CheerioStatic): ShipCollection {
 
             const hasShip = na$.attr("href").startsWith('/u');
 
-            const imgsrc = img === undefined ? `${imgLocation}${path.basename(ship$.find(".ship-portrait-frame-img").attr("src"))}` : img;
+            const imgsrc = img === undefined ? `${assetUrl}${path.basename(ship$.find(".ship-portrait-frame-img").attr("src"))}` : img;
             return <Ship>{
                 code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
                 description: na$.text(),

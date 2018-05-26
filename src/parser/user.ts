@@ -1,8 +1,7 @@
 import {Character, Collection, GearLevel, Guild, Profile, User, UserInfo, UserStats} from "../interface";
 import * as path from 'path';
+import {assetUrl} from "../util";
 
-// TODO move to a shared location
-const imgLocation = "https://raw.githubusercontent.com/pikax/swgoh/master/static/img/";
 
 export function parseCollection($: CheerioStatic): Collection {
     return <any>$("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div > div.player-char-portrait")
@@ -26,7 +25,7 @@ export function parseCollection($: CheerioStatic): Collection {
                 code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
                 description: na$.text(),
 
-                imageSrc: `${imgLocation}${path.basename(imgsrc)}`,
+                imageSrc: `${assetUrl}${path.basename(imgsrc)}`,
 
                 star: 7 - a$.find("div.star-inactive").length,
                 gearLevel: <GearLevel> (GearLevel[gl] as any), //todo fix this cast
