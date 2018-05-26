@@ -1,7 +1,9 @@
+/* eslint-disable */
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+var path = require('path');
 var cheerio = require('cheerio');
 var request = require('request');
 var url = require('url');
@@ -213,6 +215,11 @@ var getModPages = function ($) {
     return +m[1];
 };
 
+var swgohAsset = "https://swgoh.gg/static/img/assets/";
+var githubAsset = "https://raw.githubusercontent.com/pikax/swgoh/master/static/img/";
+var assetLocation = process.env.SWGOH_ASSET_LOCATION || githubAsset;
+var assetUrl = process.env.USE_SWGOH_ASSET && swgohAsset || assetLocation;
+
 function parseShips($) {
     return $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-a.collection-char-list > div > div > div')
         .map(function (x) {
@@ -228,7 +235,6 @@ function parseShips($) {
             : [undefined, undefined, undefined];
         var stars = ship$.find("div.ship-portrait-full-star-inactive").length;
         var img = ship$.find(".ship-portrait-full-frame-img").attr("src");
-        // todo move to other place
         var crewMembers = crew$.find('.collection-ship-crew-member')
             .map(function (x) {
             var _$ = $(this);
@@ -240,10 +246,11 @@ function parseShips($) {
             // NOTE if the user doesn't have that crew member unlocked it should skip it
             if (!na$.attr("href"))
                 return;
+            var imgsrc = i$.attr("src").slice(2);
             return {
                 code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
                 description: name,
-                imageSrc: i$.attr("src").slice(2),
+                imageSrc: "" + assetUrl + path.basename(imgsrc),
                 star: 7 - a$.find("div.star-inactive").length,
                 gearLevel: GearLevel[gl],
                 level: +(a$.find("div.char-portrait-full-level").text()),
@@ -251,10 +258,11 @@ function parseShips($) {
         })
             .get();
         var hasShip = na$.attr("href").startsWith('/u');
+        var imgsrc = img === undefined ? "" + assetUrl + path.basename(ship$.find(".ship-portrait-frame-img").attr("src")) : img;
         return {
             code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
             description: na$.text(),
-            imageSrc: img === undefined ? ship$.find(".ship-portrait-frame-img").attr("src") : img,
+            imageSrc: imgsrc,
             star: hasShip ? 7 - stars : 0,
             level: +ship$.find(".ship-portrait-full-frame-level").text(),
             crew: crewMembers,
@@ -277,10 +285,11 @@ function parseCollection($) {
         var gp$ = p$.find("div.collection-char-gp");
         var gp = gp$.attr("title").replace(/,/g, '').match(/\d+/g); // fix points
         var gl = a$.find("div.char-portrait-full-gear-level").text();
+        var imgsrc = i$.attr("data-src").slice(2);
         return {
             code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
             description: na$.text(),
-            imageSrc: i$.attr("data-src").slice(2),
+            imageSrc: "" + assetUrl + path.basename(imgsrc),
             star: 7 - a$.find("div.star-inactive").length,
             gearLevel: GearLevel[gl],
             level: +(a$.find("div.char-portrait-full-level").text()),
@@ -591,3 +600,4 @@ exports.swgoh = swgoh;
 exports.Swgoh = Swgoh;
 exports.getCharacters = getCharacters;
 exports.getShips = getShips;
+//# sourceMappingURL=index.cjs.js.map

@@ -5,13 +5,23 @@ module.exports =  {
   input: 'index.ts',
 
   plugins:[
-    typescript({clean:true}),
+    typescript({clean:false}),
   ],
 
-  output:{
-    file: pkg.main,
+    output: [
+        {
+            format: "cjs",
+            file: pkg.main,
+            sourcemap: true,
+            banner: "/* eslint-disable */",
+        },
+        {
+            format: "es",
+            file: pkg.module,
+            sourcemap: true,
+            banner: "/* eslint-disable */",
+        },
 
-    format:'cjs' //probably changing to es when node supports it
-  },
-  external: [ 'cheerio', 'request', 'lodash', 'debug', 'url', 'vm', 'util']
+    ],
+  external: [ 'cheerio', 'request', 'lodash', 'debug', 'url', 'path', 'vm', 'util']
 };
