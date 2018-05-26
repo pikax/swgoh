@@ -98,6 +98,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Toon info parsing
 - Login support
+
+# [0.4.9] 2018-05-26
 - Add static images(toon/ships) to the static folder [#10 - Static resource links are not working][i10]
 
 # [0.4.8] 2018-05-17
