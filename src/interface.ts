@@ -69,6 +69,7 @@ export type Guild = {username:string, description: string}[];
 
 export interface User {
     username: string;
+    playername: string;
     userId: number;
     arenaRank: number;
     level: number;

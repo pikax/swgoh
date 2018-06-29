@@ -24,6 +24,7 @@ export const pikax = {
   gearIX: 6,
   gearVIII: 39,
   username: 'pikax',
+  playername: 'pikax',
   userId: 17421,
   arenaRank: 87,
   level: 85,

@@ -77,6 +77,7 @@ describe('swgoh', () => {
         expect(profile.characters).toBeGreaterThanOrEqual(pikax.characters);
         expect(profile.characters7).toBeGreaterThanOrEqual(pikax.characters7);
         expect(profile.username).toBe(pikax.username);
+        expect(profile.playername).toBe(pikax.playername);
         expect(profile.userId).toBe(pikax.userId);
         expect(profile.allyCode).toBe(pikax.allyCode);
         expect(profile.joined).toBe(pikax.joined);
@@ -215,6 +216,18 @@ describe('swgoh', () => {
         }
     });
 
+
+
+    it('should parse swgoh.gg username and in game name: xajx', async ()=>{
+        const profile = await swgoh.profile("xajx");
+
+        const playername= "AJ";
+        const username = "xAJx";
+
+        expect(profile.username).toBe(username);
+        expect(profile.playername).toBe(playername);
+
+    });
 
     /*
     it('should try to get logged in only info', async ()=>{

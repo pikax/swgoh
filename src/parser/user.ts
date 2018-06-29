@@ -74,8 +74,7 @@ export function parseGuild($: CheerioStatic): Guild {
 
 const parseUser = ($: CheerioStatic): User => {
     const b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
-
-    const name = b$.find("h5.panel-title").text();
+    const username = b$.find("h5.panel-title").text();
     const panelMenus = b$.find("ul > li > h5").get().map((x: any) => +x.lastChild.nodeValue);
     const p = b$.find("p > strong").slice(1).get().map((x: any) => x.lastChild.nodeValue);
 
@@ -84,9 +83,12 @@ const parseUser = ($: CheerioStatic): User => {
     const aGuildUrl = g.attr("href");
 
     const lastUpdatedUTC = $('li > span.header-text > div > span').attr("data-datetime");
+    const playername = $('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
 
     return {
-        username: name,
+        username,
+        playername,
+
 
         userId: panelMenus[0],
         arenaRank: panelMenus[1],
