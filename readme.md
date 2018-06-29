@@ -99,6 +99,10 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.4.10] 2018-06-29
+- Cache for Characters & Ship stats
+- Added playername to profile [#12 - swgoh.profile should return also the profile's character name][i10]
+
 # [0.4.9] 2018-05-26
 - Add static images(toon/ships) to the static folder [#10 - Static resource links are not working][i10]
 
@@ -122,7 +126,7 @@ All notable changes to this project will be documented in this file.
 - Updated cached files
 
 # [0.4.1] 2018-01-07
-- Cache for Characters & Ship stats 
+- Cache for Characters & Ship stats
 - Added Jest Tests
 
 # [0.3.2] 2017-12-02
@@ -167,6 +171,7 @@ The developer of this application does not have any affiliation with the Capital
 [i7]: https://github.com/pikax/swgoh/issues/7
 [i8]: https://github.com/pikax/swgoh/issues/8
 [i10]: https://github.com/pikax/swgoh/issues/10
+[i12]: https://github.com/pikax/swgoh/issues/12
 
 
 [staticImg]: https://github.com/pikax/swgoh/tree/master/static/img
