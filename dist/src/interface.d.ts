@@ -10,7 +10,7 @@ export declare enum GearLevel {
     IX = 9,
     X = 10,
     XI = 11,
-    XII = 12,
+    XII = 12
 }
 export interface CharacterCore {
     code: string;
@@ -40,13 +40,14 @@ export declare type Guild = {
 }[];
 export interface User {
     username: string;
+    playername: string;
     userId: number;
     arenaRank: number;
     level: number;
     guild: string;
     guildUrl: string;
     allyCode: string;
-    joined: Date;
+    joined: string;
     lastUpdatedUTC?: string;
 }
 export interface UserStats {
@@ -84,7 +85,7 @@ export declare enum ModSlot {
     Processor = 2,
     HoloArray = 3,
     DataBus = 4,
-    Multiplexer = 5,
+    Multiplexer = 5
 }
 export declare enum ModSet {
     Health = 0,
@@ -94,7 +95,7 @@ export declare enum ModSet {
     Tenacity = 4,
     Offense = 5,
     Potency = 6,
-    Speed = 7,
+    Speed = 7
 }
 export declare const TranslatedModName: {
     [ModSlot.Transmitter]: string;
@@ -115,7 +116,7 @@ export declare enum ModPrimary {
     Offense = "Offense",
     Defense = "Defense",
     Health = "Health",
-    Protection = "Protection",
+    Protection = "Protection"
 }
 export declare enum ModSecondary {
     Speed = "Speed",
@@ -129,7 +130,7 @@ export declare enum ModSecondary {
     Offense100 = "Offense %",
     Defense100 = "Defense %",
     Health100 = "Health %",
-    Protection100 = "Protection %",
+    Protection100 = "Protection %"
 }
 export declare type ModPrimaryValue = {
     type: ModPrimary;

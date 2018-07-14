@@ -48,8 +48,8 @@ function __generator(thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -70,6 +70,7 @@ function __generator(thisArg, body) {
 }
 
 // TODO mode refactor this and prefix interfaces with I
+var _a;
 var GearLevel;
 (function (GearLevel) {
     GearLevel[GearLevel["I"] = 1] = "I";
@@ -145,7 +146,6 @@ var ModSecondary;
     ModSecondary["Health100"] = "Health %";
     ModSecondary["Protection100"] = "Protection %";
 })(ModSecondary || (ModSecondary = {}));
-var _a;
 
 var parseModCollection = function ($) {
     var m = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.mod-list > ul > li.media.list-group-item.p-a.collection-mod-list > div > div > div")
@@ -326,20 +326,30 @@ function parseGuild($) {
 }
 var parseUser = function ($) {
     var b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
-    var name = b$.find("h5.panel-title").text();
-    var panelMenus = b$.find("ul > li > h5").get().map(function (x) { return +x.lastChild.nodeValue; });
+    var username = b$.find("h5.panel-title").text();
+    var panelMenus = b$.find("ul > li > h5").get().map(function (x) { return +(x.lastChild || {}).nodeValue; });
     var p = b$.find("p > strong").slice(1).get().map(function (x) { return x.lastChild.nodeValue; });
+    var userInfo = b$.find("p")
+        .map(function (i, x) { return ({
+        key: x.firstChild.nodeValue || '',
+        value: x.children[1] && x.children[1].lastChild.nodeValue || null
+    }); })
+        .toArray();
     var g = b$.find("p > strong > a");
     var aGuild = g.text(); //get
     var aGuildUrl = g.attr("href");
     var lastUpdatedUTC = $('li > span.header-text > div > span').attr("data-datetime");
+    var playername = $('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
+    var allyCode = userInfo.find(function (x) { return x.key.startsWith("Ally Code"); });
+    var joined = userInfo.find(function (x) { return x.key.startsWith("Joined"); });
     return {
-        username: name,
+        username: username,
+        playername: playername,
         userId: panelMenus[0],
-        arenaRank: panelMenus[1],
+        arenaRank: panelMenus[1] || null,
         level: panelMenus[2],
-        allyCode: p[1] && p[0],
-        joined: p[1] || p[0],
+        allyCode: allyCode && allyCode.value || null,
+        joined: joined && joined.value || null,
         guild: aGuild,
         guildUrl: aGuildUrl,
         lastUpdatedUTC: lastUpdatedUTC
@@ -506,8 +516,8 @@ var Swgoh = /** @class */ (function () {
     };
     Swgoh.prototype.mods = function (username) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var modsUri, uri, $, modsPage, promises, pMods;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:

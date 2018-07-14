@@ -1,4 +1,3 @@
-/// <reference types="request" />
 import { RequiredUriUrl } from "request";
 export interface QueueConfig {
     simultaneousRequests: number;
