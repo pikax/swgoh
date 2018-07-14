@@ -76,7 +76,7 @@ export interface User {
     guild: string;
     guildUrl: string;
     allyCode: string;
-    joined: Date,
+    joined: string,
 
     lastUpdatedUTC?: string;
 }

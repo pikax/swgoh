@@ -99,6 +99,11 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+
+# [0.4.11] 2018-07-14
+- Cache for Characters & Ship stats
+- Fix profile parser when the user doesn't have a guild [#13 - panelMenus nodeValue = null][i13]
+
 # [0.4.10] 2018-06-29
 - Cache for Characters & Ship stats
 - Added playername to profile [#12 - swgoh.profile should return also the profile's character name][i10]
@@ -172,6 +177,7 @@ The developer of this application does not have any affiliation with the Capital
 [i8]: https://github.com/pikax/swgoh/issues/8
 [i10]: https://github.com/pikax/swgoh/issues/10
 [i12]: https://github.com/pikax/swgoh/issues/12
+[i13]: https://github.com/pikax/swgoh/issues/13
 
 
 [staticImg]: https://github.com/pikax/swgoh/tree/master/static/img

@@ -3,7 +3,7 @@
 
 import {swgoh, Swgoh} from "../index";
 import {ConcurrentQueue, QueueConfig} from '../src/queue'
-import {pikax, collection, ships, mods, guildUrl, gattsu} from "./__config__/results";
+import {pikax, collection, ships, mods, guildUrl, gattsu, ledia} from "./__config__/results";
 
 
 jest.setTimeout(30000);
@@ -23,39 +23,6 @@ describe('swgoh', () => {
 
         expect(p).not.toBeNull();
         expect(p.username).toBe(pikax.username);
-    });
-
-    it('should get profile "gattsu" #2', async () => {
-        const profile = await swgoh.profile("gattsu");
-
-        expect(profile.galacticPower).toBeGreaterThanOrEqual(gattsu.galacticPower);
-        expect(profile.charactersGalacticPower).toBeGreaterThanOrEqual(gattsu.charactersGalacticPower);
-        expect(profile.shipsGalacticPower).toBeGreaterThanOrEqual(gattsu.shipsGalacticPower);
-        expect(profile.pVEBattlesWon).toBeGreaterThanOrEqual(gattsu.pVEBattlesWon);
-        expect(profile.pVEHardBattlesWon).toBeGreaterThanOrEqual(gattsu.pVEHardBattlesWon);
-        expect(profile.galacticWarBattlesWon).toBeGreaterThanOrEqual(gattsu.galacticWarBattlesWon);
-        expect(profile.arenaBattlesWon).toBeGreaterThanOrEqual(gattsu.arenaBattlesWon);
-        expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(gattsu.guildCurrencyEarned);
-        expect(profile.raidsWon).toBeGreaterThanOrEqual(gattsu.raidsWon);
-        expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(gattsu.shipBattlesWon);
-        expect(profile.collectionScore).toBeGreaterThanOrEqual(gattsu.collectionScore);
-        expect(profile.characters).toBeGreaterThanOrEqual(gattsu.characters);
-        expect(profile.characters7).toBeGreaterThanOrEqual(gattsu.characters7);
-        expect(profile.username).toBe(gattsu.username);
-        expect(profile.userId).toBe(gattsu.userId);
-        expect(profile.allyCode).toBeUndefined();
-        expect(profile.joined).toBe(gattsu.joined);
-        expect(profile.lastUpdatedUTC).toBeDefined();
-
-        expect(profile.characters6).toBeGreaterThanOrEqual(0);
-        expect(profile.gearXII).toBeGreaterThanOrEqual(0);
-        expect(profile.gearXI).toBeGreaterThanOrEqual(0);
-        expect(profile.gearX).toBeGreaterThanOrEqual(0);
-        expect(profile.gearIX).toBeGreaterThanOrEqual(0);
-        expect(profile.gearVIII).toBeGreaterThanOrEqual(0);
-        expect(profile.arenaRank).toBeGreaterThanOrEqual(1);
-        expect(profile.level).toBeGreaterThanOrEqual(gattsu.level);
-
     });
 
     it('should get profile info', async () => {
@@ -99,6 +66,73 @@ describe('swgoh', () => {
         expect(profile.guild).not.toBeNull();
         expect(profile.guildUrl).not.toBeNull();
     });
+
+
+
+    it('should get profile "gattsu" #2', async () => {
+        const profile = await swgoh.profile("gattsu");
+
+        expect(profile.galacticPower).toBeGreaterThanOrEqual(gattsu.galacticPower);
+        expect(profile.charactersGalacticPower).toBeGreaterThanOrEqual(gattsu.charactersGalacticPower);
+        expect(profile.shipsGalacticPower).toBeGreaterThanOrEqual(gattsu.shipsGalacticPower);
+        expect(profile.pVEBattlesWon).toBeGreaterThanOrEqual(gattsu.pVEBattlesWon);
+        expect(profile.pVEHardBattlesWon).toBeGreaterThanOrEqual(gattsu.pVEHardBattlesWon);
+        expect(profile.galacticWarBattlesWon).toBeGreaterThanOrEqual(gattsu.galacticWarBattlesWon);
+        expect(profile.arenaBattlesWon).toBeGreaterThanOrEqual(gattsu.arenaBattlesWon);
+        expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(gattsu.guildCurrencyEarned);
+        expect(profile.raidsWon).toBeGreaterThanOrEqual(gattsu.raidsWon);
+        expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(gattsu.shipBattlesWon);
+        expect(profile.collectionScore).toBeGreaterThanOrEqual(gattsu.collectionScore);
+        expect(profile.characters).toBeGreaterThanOrEqual(gattsu.characters);
+        expect(profile.characters7).toBeGreaterThanOrEqual(gattsu.characters7);
+        expect(profile.username).toBe(gattsu.username);
+        expect(profile.userId).toBe(gattsu.userId);
+        expect(profile.allyCode).toBeNull();
+        expect(profile.joined).toBe(gattsu.joined);
+        expect(profile.lastUpdatedUTC).toBeDefined();
+
+        expect(profile.characters6).toBeGreaterThanOrEqual(0);
+        expect(profile.gearXII).toBeGreaterThanOrEqual(0);
+        expect(profile.gearXI).toBeGreaterThanOrEqual(0);
+        expect(profile.gearX).toBeGreaterThanOrEqual(0);
+        expect(profile.gearIX).toBeGreaterThanOrEqual(0);
+        expect(profile.gearVIII).toBeGreaterThanOrEqual(0);
+        expect(profile.arenaRank).toBeGreaterThanOrEqual(1);
+        expect(profile.level).toBeGreaterThanOrEqual(gattsu.level);
+    });
+
+
+    it('should get profile "ledia" #13', async () => {
+        const profile = await swgoh.profile("ledia");
+
+        expect(profile.galacticPower).toBeGreaterThanOrEqual(ledia.galacticPower);
+        expect(profile.charactersGalacticPower).toBeGreaterThanOrEqual(ledia.charactersGalacticPower);
+        expect(profile.shipsGalacticPower).toBeGreaterThanOrEqual(ledia.shipsGalacticPower);
+        expect(profile.pVEBattlesWon).toBeGreaterThanOrEqual(ledia.pVEBattlesWon);
+        expect(profile.pVEHardBattlesWon).toBeGreaterThanOrEqual(ledia.pVEHardBattlesWon);
+        expect(profile.galacticWarBattlesWon).toBeGreaterThanOrEqual(ledia.galacticWarBattlesWon);
+        expect(profile.arenaBattlesWon).toBeGreaterThanOrEqual(ledia.arenaBattlesWon);
+        expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(ledia.guildCurrencyEarned);
+        expect(profile.raidsWon).toBeGreaterThanOrEqual(ledia.raidsWon);
+        expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(ledia.shipBattlesWon);
+        expect(profile.collectionScore).toBeGreaterThanOrEqual(ledia.collectionScore);
+        expect(profile.characters).toBeGreaterThanOrEqual(ledia.characters);
+        expect(profile.characters7).toBeGreaterThanOrEqual(ledia.characters7);
+        expect(profile.username).toBe(ledia.username);
+        expect(profile.userId).toBe(ledia.userId);
+        expect(profile.allyCode).toBeDefined();
+        expect(profile.joined).toBe(ledia.joined);
+        expect(profile.lastUpdatedUTC).toBeDefined();
+
+        expect(profile.characters6).toBeGreaterThanOrEqual(0);
+        expect(profile.gearXII).toBeGreaterThanOrEqual(0);
+        expect(profile.gearXI).toBeGreaterThanOrEqual(0);
+        expect(profile.gearX).toBeGreaterThanOrEqual(0);
+        expect(profile.gearIX).toBeGreaterThanOrEqual(0);
+        expect(profile.gearVIII).toBeGreaterThanOrEqual(0);
+        expect(profile.level).toBeGreaterThanOrEqual(ledia.level);
+    });
+
 
     it('should get collection', async () => {
         const toons = await swgoh.collection(pikax.username);

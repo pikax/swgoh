@@ -5,6 +5,10 @@
     "sourceMap": false,
     "declaration": true,
     "moduleResolution": "node",
+    "types": [
+      "node",
+      "jest"
+    ],
     "lib": ["es2015"]
   },
   "exclude": [

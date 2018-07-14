@@ -75,8 +75,15 @@ export function parseGuild($: CheerioStatic): Guild {
 const parseUser = ($: CheerioStatic): User => {
     const b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
     const username = b$.find("h5.panel-title").text();
-    const panelMenus = b$.find("ul > li > h5").get().map((x: any) => +x.lastChild.nodeValue);
+    const panelMenus = b$.find("ul > li > h5").get().map((x: any) => +(x.lastChild || {}).nodeValue);
     const p = b$.find("p > strong").slice(1).get().map((x: any) => x.lastChild.nodeValue);
+
+    const userInfo: {key: string, value: string}[] = b$.find("p")
+        .map((i, x)=>({
+            key: x.firstChild.nodeValue || '',
+            value: x.children[1] && x.children[1].lastChild.nodeValue || null
+        }))
+        .toArray() as any;
 
     const g = b$.find("p > strong > a");
     const aGuild = g.text(); //get
@@ -85,18 +92,22 @@ const parseUser = ($: CheerioStatic): User => {
     const lastUpdatedUTC = $('li > span.header-text > div > span').attr("data-datetime");
     const playername = $('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
 
+
+    const allyCode = userInfo.find(x=>x.key.startsWith("Ally Code"));
+    const joined = userInfo.find(x=>x.key.startsWith("Joined"));
+
+
     return {
         username,
         playername,
 
 
         userId: panelMenus[0],
-        arenaRank: panelMenus[1],
+        arenaRank: panelMenus[1] || null,
         level: panelMenus[2],
 
-
-        allyCode: p[1] && p[0],
-        joined: p[1] || p[0],
+        allyCode: allyCode && allyCode.value || null,
+        joined: joined && joined.value || null,
 
 
         guild: aGuild,
