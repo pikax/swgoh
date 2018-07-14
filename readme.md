@@ -100,7 +100,7 @@ All notable changes to this project will be documented in this file.
 - Login support
 
 
-# [0.4.11] 2018-07-14
+# [0.5.11] 2018-07-14
 - Cache for Characters & Ship stats
 - Fix profile parser when the user doesn't have a guild [#13 - panelMenus nodeValue = null][i13]
 
