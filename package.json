@@ -11,13 +11,14 @@
   "license": "MIT",
   "scripts": {
     "dist": "rollup -c",
-    "test": "jest",
+    "test": "jest --env=node",
     "test:watch": "cross-env mock=1 jest --watch",
-    "coverage": "jest --coverage",
-    "snapshot": "jest --updateSnapshot",
+    "coverage": "jest --env=node --coverage",
+    "snapshot": "jest --env=node --updateSnapshot",
     "static": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" tools/build_static.ts"
   },
   "jest": {
+    "verbose": true,
     "moduleFileExtensions": [
       "ts",
       "js"
@@ -36,14 +37,14 @@
     "cheerio": "^1.0.0-rc.2",
     "promise-queue": "^2.2.5",
     "request": "^2.87.0",
-    "requestretry": "^1.13.0"
+    "requestretry": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^23.1.6",
     "coveralls": "^3.0.2",
     "jest": "^23.4.1",
-    "rollup": "^0.62.0",
-    "rollup-plugin-typescript2": "^0.15.1",
+    "rollup": "^0.63.4",
+    "rollup-plugin-typescript2": "^0.16.1",
     "ts-jest": "^23.0.0",
     "ts-node": "^7.0.0",
     "typescript": "^2.9.2"
