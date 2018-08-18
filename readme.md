@@ -99,6 +99,8 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
+# [0.5.12] 2019-08-18
+- Update static and dependencies
 
 # [0.5.11] 2018-07-14
 - Cache for Characters & Ship stats
