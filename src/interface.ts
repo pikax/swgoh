@@ -55,18 +55,43 @@ export interface Ship {
 }
 
 
-/*
-export interface Guild {
-
-    users: {
-        username: string,
-        description: string,
-    }
+export interface Guild extends GuildInfo{
+    users: GuildUser[],
 }
-*/
 
-export type Guild = {username:string, description: string}[];
+export interface GuildInfo {
+    name: string,
+    imageSrc: string;
+    description: string;
 
+
+    galacticPower: number,
+    averageGalacticPower: number;
+
+    rank: string;
+
+    raidPoints: number;
+    arenaRank: number;
+
+
+    memberCount: number;
+    profileCount: number;
+
+    lastUpdated: Date;
+}
+
+export interface GuildUser{
+    username: string,
+    description: string,
+
+    galacticPower: number,
+    collectionScore: number;
+    arenaRank?: number;
+    arenaAverage: number;
+}
+
+// export type Guild = {username:string, description: string}[];
+//
 export interface User {
     username: string;
     playername: string;

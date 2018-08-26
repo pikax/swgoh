@@ -1,7 +1,7 @@
 // jest.setMock('../src/queue', require("./__mocks__/queue").default)
 
 import {getCharacters, getShips, swgoh} from '../index'
-import {ConcurrentQueue, QueueConfig} from '../src/queue'
+import {ConcurrentQueue, QueueConfig} from '../src/queue' 
 import {parseCharacterStats, parseShipStats} from '../src/parser/index'
 import * as cheerio from 'cheerio'
 

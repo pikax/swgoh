@@ -37,6 +37,8 @@ swgoh.ship(username).then(console.log);
 const guild = "/g/232/requiem/"; // or {id:232}
 swgoh.units(guild).then(console.log);
 
+swgoh.guild(guild).then(console.log);
+
 swgoh.mods(username).then(console.log);
 
 // login
@@ -99,7 +101,8 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
-# [0.5.12] 2019-08-25
+# [0.6.0] 2019-08-26
+- Add guild information [#14 - add guild information][i14]
 - Update static and dependencies
 
 # [0.5.11] 2018-07-14
@@ -180,6 +183,7 @@ The developer of this application does not have any affiliation with the Capital
 [i10]: https://github.com/pikax/swgoh/issues/10
 [i12]: https://github.com/pikax/swgoh/issues/12
 [i13]: https://github.com/pikax/swgoh/issues/13
+[i14]: https://github.com/pikax/swgoh/issues/14
 
 
 [staticImg]: https://github.com/pikax/swgoh/tree/master/static/img

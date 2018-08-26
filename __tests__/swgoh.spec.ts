@@ -169,13 +169,13 @@ describe('swgoh', () => {
         const g = await swgoh.guild(guildUrl.uri);
         expect(g).not.toBeNull();
 
-        expect(g.length).toBeGreaterThanOrEqual(20);
+        expect(g.users.length).toBeGreaterThanOrEqual(20);
     });
 
     it('should get guild info: opts', async () => {
         const g = await swgoh.guild({id: 232, name: "requiem"})
         expect(g).not.toBeNull();
-        expect(g.length).toBeGreaterThanOrEqual(20);
+        expect(g.users.length).toBeGreaterThanOrEqual(20);
     });
 
 

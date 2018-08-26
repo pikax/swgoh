@@ -18,6 +18,9 @@ const map: MapValue[] = [
   {r: /mods\/\?page/, p: 'mods_last.html'},
   {r: /g\/\d+\//, p: 'guild.html'},
   {r: /api\/guilds\/\d+\//, p: 'units.json'},
+
+  {r: /g\/232\/requiem\//, p: 'requiem.html'},
+
 ];
 
 
