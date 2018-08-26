@@ -34,10 +34,30 @@ export interface Ship {
     crew: CharacterCore[];
     maxGalacticPower: number;
 }
-export declare type Guild = {
+export interface Guild extends GuildInfo {
+    users: GuildUser[];
+}
+export interface GuildInfo {
+    name: string;
+    imageSrc: string;
+    description: string;
+    galacticPower: number;
+    averageGalacticPower: number;
+    rank: string;
+    raidPoints: number;
+    arenaRank: number;
+    memberCount: number;
+    profileCount: number;
+    lastUpdated: Date;
+}
+export interface GuildUser {
     username: string;
     description: string;
-}[];
+    galacticPower: number;
+    collectionScore: number;
+    arenaRank?: number;
+    arenaAverage: number;
+}
 export interface User {
     username: string;
     playername: string;

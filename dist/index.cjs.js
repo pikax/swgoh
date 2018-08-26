@@ -24,12 +24,15 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 
-var __assign = Object.assign || function __assign(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -215,6 +218,7 @@ var getModPages = function ($) {
     return +m[1];
 };
 
+var fixNumber = function (txt) { return txt && +txt.replace(/,/g, '') || null; };
 var swgohAsset = "https://swgoh.gg/static/img/assets/";
 var githubAsset = "https://raw.githubusercontent.com/pikax/swgoh/master/static/img/";
 var assetLocation = process.env.SWGOH_ASSET_LOCATION || githubAsset;
@@ -314,16 +318,6 @@ function parseCollectionPages($) {
 function parseProfile($) {
     return __assign({}, parseInfo($), parseStats($), parseUser($));
 }
-//TODO change to have information about guild
-function parseGuild($) {
-    return $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-0.b-t-0 > div > table > tbody > tr > td > a")
-        .map(function () {
-        var _$ = $(this);
-        var username = _$.attr("href").slice(3, -1);
-        var description = _$.find("strong").text();
-        return { username: username, description: description };
-    }).get();
-}
 var parseUser = function ($) {
     var b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
     var username = b$.find("h5.panel-title").text();
@@ -386,6 +380,67 @@ var parseInfo = function ($) {
         shipBattlesWon: p[9],
     };
 };
+
+//TODO change to have information about guild
+function parseGuild($) {
+    return __assign({}, parseGuildInfo($), { users: parseUsers($) });
+}
+function parseUsers($) {
+    return $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.media.list-group-item.p-0.b-t-0 > div > table > tbody > tr")
+        .map(function () {
+        var _$ = $(this);
+        var a = _$.find('td > a');
+        var username = a.attr("href").slice(3, -1);
+        var description = a.find("strong").text();
+        var tds = _$.find("td").slice(1).contents(); // skip a
+        var galacticPower = +tds[0].nodeValue;
+        var collectionScore = +tds[1].nodeValue;
+        var arenaRank = +tds[2].nodeValue || undefined;
+        var arenaAverage = +tds[3].nodeValue;
+        return {
+            username: username,
+            description: description,
+            galacticPower: galacticPower,
+            collectionScore: collectionScore,
+            arenaRank: arenaRank,
+            arenaAverage: arenaAverage
+        };
+    }).get();
+    // return {}
+}
+function parseGuildInfo($) {
+    var imageSrc = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > h1 > img').attr('src');
+    var guildMembers = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > h1 > small').text();
+    var description = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > p > i").text();
+    var name = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > h1')
+        .children()[1].next.nodeValue.trimLeft();
+    var gp = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > div:nth-child(4) > div:nth-child(1) > div > div.stat-item-value').text();
+    var agp = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > div:nth-child(4) > div:nth-child(2) > div > div.stat-item-value").text();
+    var rank = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > div:nth-child(5) > div:nth-child(1) > div > div.stat-item-value").text();
+    var arank = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > div:nth-child(5) > div:nth-child(3) > div > div.stat-item-value").text();
+    var raidPoints = +$("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > div:nth-child(5) > div:nth-child(2) > div > div.stat-item-value").text();
+    var lp = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a > div.media-heading.text-right > small > strong > span").attr("data-datetime");
+    var galacticPower = fixNumber(gp);
+    var averageGalacticPower = fixNumber(agp);
+    var arenaRank = fixNumber(arank);
+    var m = guildMembers.match(/\d+/g);
+    var memberCount = +m[0];
+    var profileCount = +m[1];
+    var lastUpdated = new Date(lp);
+    return {
+        name: name,
+        imageSrc: imageSrc,
+        description: description,
+        galacticPower: galacticPower,
+        averageGalacticPower: averageGalacticPower,
+        rank: rank,
+        raidPoints: raidPoints,
+        arenaRank: arenaRank,
+        memberCount: memberCount,
+        profileCount: profileCount,
+        lastUpdated: lastUpdated
+    };
+}
 
 var requestretry = require("requestretry");
 var Queue = require("promise-queue");
