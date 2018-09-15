@@ -1,9 +1,9 @@
 //updated 02-12-2017
 
-import {Collection, Profile, ShipCollection, IToonStats} from "../../src/interface";
+import {Collection, Profile, ShipCollection, IToonStats, User} from "../../src/interface";
 
 
-export const pikax = {
+export const pikax : Profile = {
   galacticPower: 1806596,
   charactersGalacticPower: 1154876,
   shipsGalacticPower: 651720,
@@ -12,9 +12,9 @@ export const pikax = {
   galacticWarBattlesWon: 4248,
   arenaBattlesWon: 1706,
   guildCurrencyEarned: 317582,
+  guildDonatedGear: 1000,
   raidsWon: 258,
   shipBattlesWon: 191,
-  collectionScore: 44.77,
   characters: 132,
   characters7: 78,
   characters6: 8,

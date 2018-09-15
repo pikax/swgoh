@@ -88,8 +88,14 @@ export class Swgoh {
         return html.indexOf(username) >= 0;
     }
 
+    // NOTE swgoh.gg changed the default to be ally code
     profile(username: string): Promise<Profile> {
         const uri = url.resolve(swgohgg, `/u/${username}/`);
+        return this.getCheerio(uri).then(parseProfile);
+    }
+
+    profileAlly(allyCode: string): Promise<Profile> {
+        const uri = url.resolve(swgohgg, `/p/${allyCode}/`);
         return this.getCheerio(uri).then(parseProfile);
     }
 

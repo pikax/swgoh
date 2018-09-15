@@ -1,6 +1,6 @@
-import {Character, Collection, GearLevel, Guild, Profile, User, UserInfo, UserStats} from "../interface";
+import { Character, Collection, GearLevel, Guild, Profile, User, UserInfo, UserStats } from "../interface";
 import * as path from 'path';
-import {assetUrl} from "../util";
+import { assetUrl } from "../util";
 
 
 export function parseCollection($: CheerioStatic): Collection {
@@ -20,15 +20,15 @@ export function parseCollection($: CheerioStatic): Collection {
 
             const gl: number = a$.find("div.char-portrait-full-gear-level").text() as any;
 
-            const imgsrc = i$.attr("data-src").slice(2);
+            const imgsrc = (i$.attr("data-src") || i$.attr("src")).slice(2);
             return <Character>{
-                code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
+                code: na$.attr("href").split('/').reverse()[0],
                 description: na$.text(),
 
                 imageSrc: `${assetUrl}${path.basename(imgsrc)}`,
 
                 star: 7 - a$.find("div.star-inactive").length,
-                gearLevel: <GearLevel> (GearLevel[gl] as any), //todo fix this cast
+                gearLevel: <GearLevel>(GearLevel[gl] as any), //todo fix this cast
                 level: +(a$.find("div.char-portrait-full-level").text()),
 
                 galacticPower: +gp[0],
@@ -55,19 +55,19 @@ export function parseCollectionPages($: CheerioStatic): number {
 }
 
 export function parseProfile($: CheerioStatic): Profile {
-    return {...parseInfo($), ...parseStats($), ...parseUser($)} as Profile;
+    return { ...parseInfo($), ...parseStats($), ...parseUser($) } as Profile;
 
 }
 
 
 const parseUser = ($: CheerioStatic): User => {
     const b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
-    const username = b$.find("h5.panel-title").text();
+    const username = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div:nth-child(1) > div.panel-body > h5").text().trim();
     const panelMenus = b$.find("ul > li > h5").get().map((x: any) => +(x.lastChild || {}).nodeValue);
     const p = b$.find("p > strong").slice(1).get().map((x: any) => x.lastChild.nodeValue);
 
-    const userInfo: {key: string, value: string}[] = b$.find("p")
-        .map((i, x)=>({
+    const userInfo: { key: string, value: string }[] = b$.find("p")
+        .map((i, x) => ({
             key: x.firstChild.nodeValue || '',
             value: x.children[1] && x.children[1].lastChild.nodeValue || null
         }))
@@ -77,12 +77,12 @@ const parseUser = ($: CheerioStatic): User => {
     const aGuild = g.text(); //get
     const aGuildUrl = g.attr("href");
 
-    const lastUpdatedUTC = $('li > span.header-text > div > span').attr("data-datetime");
-    const playername = $('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
+    const lastUpdatedUTC = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a.list-group-header > div.header-text > div > span').attr("data-datetime");
+    const playername = username;//$('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
 
 
-    const allyCode = userInfo.find(x=>x.key.startsWith("Ally Code"));
-    const joined = userInfo.find(x=>x.key.startsWith("Joined"));
+    const allyCode = userInfo.find(x => x.key.startsWith("Ally Code"));
+    const joined = userInfo.find(x => x.key.startsWith("Joined"));
 
 
     return {
@@ -112,33 +112,33 @@ const parseStats = ($: CheerioStatic): UserStats => {
 
 
     return {
-        collectionScore: p[0],
-        characters: p[1],
-        characters7: p[2],
-        characters6: p[3],
-        gearXII: p[4],
-        gearXI: p[5],
-        gearX: p[6],
-        gearIX: p[7],
-        gearVIII: p[8],
+        characters: p[0],
+        characters7: p[1],
+        characters6: p[2],
+        gearXII: p[3],
+        gearXI: p[4],
+        gearX: p[5],
+        gearIX: p[6],
+        gearVIII: p[7],
     }
 };
 
 const parseInfo = ($: CheerioStatic): UserInfo => {
-    const p: number[] = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div:nth-child(4) > div > div > p > strong").get()
+    const p: number[] = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div:nth-child(5) > div > p > strong").get()
         .map((x: any) => +x.lastChild.nodeValue.replace(/,/g, ""));
 
     return {
         galacticPower: p[0],
         charactersGalacticPower: p[1],
         shipsGalacticPower: p[2],
-        pVEBattlesWon: p[3],
-        pVEHardBattlesWon: p[4],
-        galacticWarBattlesWon: p[5],
-        arenaBattlesWon: p[6],
-        guildCurrencyEarned: p[7],
+        shipBattlesWon: p[3],
+        arenaBattlesWon: p[4],
+        pVEBattlesWon: p[5],
+        pVEHardBattlesWon: p[6],
+        galacticWarBattlesWon: p[7],
         raidsWon: p[8],
-        shipBattlesWon: p[9],
+        guildCurrencyEarned: p[9],
+        guildDonatedGear: p[10],
     }
 
 };

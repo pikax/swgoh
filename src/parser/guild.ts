@@ -29,15 +29,14 @@ function parseUsers($: CheerioStatic): GuildUser[] {
             const tds = _$.find("td").slice(1).contents(); // skip a
 
             const galacticPower = +tds[0].nodeValue;
-            const collectionScore = +tds[1].nodeValue;
-            const arenaRank = +tds[2].nodeValue || undefined;
-            const arenaAverage = +tds[3].nodeValue;
+            const arenaRank = +tds[1].nodeValue || undefined;
+            const arenaAverage = +tds[2].nodeValue;
 
             return {
                 username,
                 description,
                 galacticPower,
-                collectionScore,
+                // collectionScore,
                 arenaRank,
                 arenaAverage
             };

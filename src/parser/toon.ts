@@ -31,7 +31,7 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
         power: +tds[0],
         speed: +tds[1],
         health: fixNumber(tds[2]),
-        maxAbility: tds[3] !== "None" ? +tds[3] : null,
+        maxAbility: fixNumber(tds[3]),
       };
       const offensive: CharacterBaseOffensive = {
         physicalDmg: +tds[4],
@@ -64,9 +64,9 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
 
 
       const abilities: CharacterBaseAbilities = {
-        maxDamageAbility: tds[24] !== "None" ? +tds[24] : null,
-        baseAbility: tds[25] !== "None" ? +tds[25] : null,
-        aoeAbility: +tds[26],
+        maxDamageAbility: fixNumber(tds[24]),
+        baseAbility: fixNumber(tds[25]),
+        aoeAbility: fixNumber(tds[26]),
       };
 
       return {

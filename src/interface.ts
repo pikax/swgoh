@@ -55,8 +55,35 @@ export interface Ship {
 }
 
 
-export interface Guild extends GuildInfo{
-    users: GuildUser[],
+export interface Guild extends GuildInfo {
+    name: string,
+    imageSrc: string;
+    description: string;
+
+
+    galacticPower: number,
+    averageGalacticPower: number;
+
+    rank: string;
+
+    raidPoints: number;
+    arenaRank: number;
+
+
+    memberCount: number;
+    profileCount: number;
+
+    lastUpdated: Date;
+    
+    users: Array<{
+        username: string,
+        description: string,
+
+        galacticPower: number,
+        // collectionScore: number;
+        arenaRank?: number;
+        arenaAverage: number;
+    }>,
 }
 
 export interface GuildInfo {
@@ -80,12 +107,11 @@ export interface GuildInfo {
     lastUpdated: Date;
 }
 
-export interface GuildUser{
+export interface GuildUser {
     username: string,
     description: string,
 
     galacticPower: number,
-    collectionScore: number;
     arenaRank?: number;
     arenaAverage: number;
 }
@@ -107,7 +133,6 @@ export interface User {
 }
 
 export interface UserStats {
-    collectionScore: number;
     characters: number;
     characters7: number;
     characters6: number;
@@ -122,13 +147,18 @@ export interface UserInfo {
     galacticPower: number;
     charactersGalacticPower: number;
     shipsGalacticPower: number;
+
+    shipBattlesWon: number;
+    arenaBattlesWon: number;
+
     pVEBattlesWon: number;
     pVEHardBattlesWon: number;
+    
     galacticWarBattlesWon: number;
-    arenaBattlesWon: number;
-    guildCurrencyEarned: number;
     raidsWon: number;
-    shipBattlesWon: number;
+    
+    guildCurrencyEarned: number;
+    guildDonatedGear: number;
 }
 
 

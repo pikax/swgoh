@@ -48,7 +48,7 @@ export function parseShips($: CheerioStatic): ShipCollection {
 
                     const imgsrc = i$.attr("src").slice(2);
                     return <CharacterCore>{
-                        code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
+                        code:  na$.attr("href").split('/').reverse()[0],
                         description: name,
 
                         imageSrc: `${assetUrl}${path.basename(imgsrc)}`,
@@ -65,7 +65,7 @@ export function parseShips($: CheerioStatic): ShipCollection {
 
             const imgsrc = img === undefined ? `${assetUrl}${path.basename(ship$.find(".ship-portrait-frame-img").attr("src"))}` : img;
             return <Ship>{
-                code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
+                code: na$.attr("href").split('/').reverse()[0],
                 description: na$.text(),
 
                 imageSrc: imgsrc,

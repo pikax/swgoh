@@ -33,6 +33,9 @@ swgoh.profile(username).then(function (p) {
 swgoh.collection(username).then(console.log);
 swgoh.ship(username).then(console.log);
 
+const allyCode= "495616697";
+swgoh.profileAlly(allyCode).then(console.log);
+
 
 const guild = "/g/232/requiem/"; // or {id:232}
 swgoh.units(guild).then(console.log);
@@ -101,7 +104,13 @@ All notable changes to this project will be documented in this file.
 - Toon info parsing
 - Login support
 
-# [0.6.0] 2019-08-26
+# [0.7.0] 2018-09-15 
+- Update static and dependencies
+- Remove `collectionScore` property from the contract, since swogh.gg doesn't provide it anymore
+- Add `profileAlly(allyCode)` method, same as `profile(username)` but you pass the ally, `username` will be dropped.
+- `username` is no longer `swgoh.gg` username, now is `playername`, username will be dropped.
+
+# [0.6.0] 2018-08-26
 - Add guild information [#14 - add guild information][i14]
 - Update static and dependencies
 

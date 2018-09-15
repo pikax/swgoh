@@ -38,9 +38,9 @@ describe('swgoh', () => {
         expect(profile.galacticWarBattlesWon).toBeGreaterThanOrEqual(pikax.galacticWarBattlesWon);
         expect(profile.arenaBattlesWon).toBeGreaterThanOrEqual(pikax.arenaBattlesWon);
         expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(pikax.guildCurrencyEarned);
+        expect(profile.guildDonatedGear).toBeGreaterThanOrEqual(pikax.guildDonatedGear);
         expect(profile.raidsWon).toBeGreaterThanOrEqual(pikax.raidsWon);
         expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(pikax.shipBattlesWon);
-        expect(profile.collectionScore).toBeGreaterThanOrEqual(pikax.collectionScore);
         expect(profile.characters).toBeGreaterThanOrEqual(pikax.characters);
         expect(profile.characters7).toBeGreaterThanOrEqual(pikax.characters7);
         expect(profile.username).toBe(pikax.username);
@@ -82,12 +82,11 @@ describe('swgoh', () => {
         expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(gattsu.guildCurrencyEarned);
         expect(profile.raidsWon).toBeGreaterThanOrEqual(gattsu.raidsWon);
         expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(gattsu.shipBattlesWon);
-        expect(profile.collectionScore).toBeGreaterThanOrEqual(gattsu.collectionScore);
         expect(profile.characters).toBeGreaterThanOrEqual(gattsu.characters);
         expect(profile.characters7).toBeGreaterThanOrEqual(gattsu.characters7);
         expect(profile.username).toBe(gattsu.username);
         expect(profile.userId).toBe(gattsu.userId);
-        expect(profile.allyCode).toBeNull();
+        expect(profile.allyCode).not.toBeNull();
         expect(profile.joined).toBe(gattsu.joined);
         expect(profile.lastUpdatedUTC).toBeDefined();
 
@@ -115,7 +114,6 @@ describe('swgoh', () => {
         expect(profile.guildCurrencyEarned).toBeGreaterThanOrEqual(ledia.guildCurrencyEarned);
         expect(profile.raidsWon).toBeGreaterThanOrEqual(ledia.raidsWon);
         expect(profile.shipBattlesWon).toBeGreaterThanOrEqual(ledia.shipBattlesWon);
-        expect(profile.collectionScore).toBeGreaterThanOrEqual(ledia.collectionScore);
         expect(profile.characters).toBeGreaterThanOrEqual(ledia.characters);
         expect(profile.characters7).toBeGreaterThanOrEqual(ledia.characters7);
         expect(profile.username).toBe(ledia.username);
@@ -256,7 +254,7 @@ describe('swgoh', () => {
         const profile = await swgoh.profile("xajx");
 
         const playername= "AJ";
-        const username = "xAJx";
+        const username = playername;// "xAJx"; // there is no difference between username and playername anymore
 
         expect(profile.username).toBe(username);
         expect(profile.playername).toBe(playername);
