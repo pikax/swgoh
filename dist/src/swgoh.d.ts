@@ -7,6 +7,7 @@ export declare class Swgoh {
     private validateRequest;
     login(username: string, password: string): Promise<boolean>;
     profile(username: string): Promise<Profile>;
+    profileAlly(allyCode: string): Promise<Profile>;
     collection(username: string): Promise<Collection>;
     mods(username: string): Promise<ModCollection>;
     ship(username: string): Promise<ShipCollection>;

@@ -248,7 +248,7 @@ function parseShips($) {
                 return;
             var imgsrc = i$.attr("src").slice(2);
             return {
-                code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)collection\/)(.*)(?:\/)$/)[1],
+                code: na$.attr("href").split('/').reverse()[0],
                 description: name,
                 imageSrc: "" + assetUrl + basename(imgsrc),
                 star: 7 - a$.find("div.star-inactive").length,
@@ -260,7 +260,7 @@ function parseShips($) {
         var hasShip = na$.attr("href").startsWith('/u');
         var imgsrc = img === undefined ? "" + assetUrl + basename(ship$.find(".ship-portrait-frame-img").attr("src")) : img;
         return {
-            code: na$.attr("href").match(/(?:\/(?:u\/.*\/|)ships\/)(.*)(?:\/)$/)[1],
+            code: na$.attr("href").split('/').reverse()[0],
             description: na$.text(),
             imageSrc: imgsrc,
             star: hasShip ? 7 - stars : 0,
@@ -285,9 +285,9 @@ function parseCollection($) {
         var gp$ = p$.find("div.collection-char-gp");
         var gp = gp$.attr("title").replace(/,/g, '').match(/\d+/g); // fix points
         var gl = a$.find("div.char-portrait-full-gear-level").text();
-        var imgsrc = i$.attr("data-src").slice(2);
+        var imgsrc = (i$.attr("data-src") || i$.attr("src")).slice(2);
         return {
-            code: na$.attr("href").match(/(?:\/u\/.*collection\/)(.*)(?:\/)$/)[1],
+            code: na$.attr("href").split('/').reverse()[0],
             description: na$.text(),
             imageSrc: "" + assetUrl + basename(imgsrc),
             star: 7 - a$.find("div.star-inactive").length,
@@ -316,7 +316,7 @@ function parseProfile($) {
 }
 var parseUser = function ($) {
     var b$ = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div.panel.panel-default.panel-profile.m-b-sm > div.panel-body");
-    var username = b$.find("h5.panel-title").text();
+    var username = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div:nth-child(1) > div.panel-body > h5").text().trim();
     var panelMenus = b$.find("ul > li > h5").get().map(function (x) { return +(x.lastChild || {}).nodeValue; });
     var p = b$.find("p > strong").slice(1).get().map(function (x) { return x.lastChild.nodeValue; });
     var userInfo = b$.find("p")
@@ -328,8 +328,8 @@ var parseUser = function ($) {
     var g = b$.find("p > strong > a");
     var aGuild = g.text(); //get
     var aGuildUrl = g.attr("href");
-    var lastUpdatedUTC = $('li > span.header-text > div > span').attr("data-datetime");
-    var playername = $('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
+    var lastUpdatedUTC = $('body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li.list-group-item.p-a.list-group-header > div.header-text > div > span').attr("data-datetime");
+    var playername = username; //$('h5.panel-title:nth-child(1) > a:nth-child(1)').text();
     var allyCode = userInfo.find(function (x) { return x.key.startsWith("Ally Code"); });
     var joined = userInfo.find(function (x) { return x.key.startsWith("Joined"); });
     return {
@@ -349,31 +349,31 @@ var parseStats = function ($) {
     var p = $("body > div.container.p-t-md > div.content-container > div.content-container-primary.character-list > ul > li:nth-child(3) > div > div > ul > li > h5")
         .get().map(function (x) { return +x.lastChild.nodeValue; });
     return {
-        collectionScore: p[0],
-        characters: p[1],
-        characters7: p[2],
-        characters6: p[3],
-        gearXII: p[4],
-        gearXI: p[5],
-        gearX: p[6],
-        gearIX: p[7],
-        gearVIII: p[8],
+        characters: p[0],
+        characters7: p[1],
+        characters6: p[2],
+        gearXII: p[3],
+        gearXI: p[4],
+        gearX: p[5],
+        gearIX: p[6],
+        gearVIII: p[7],
     };
 };
 var parseInfo = function ($) {
-    var p = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div:nth-child(4) > div > div > p > strong").get()
+    var p = $("body > div.container.p-t-md > div.content-container > div.content-container-aside > div:nth-child(5) > div > p > strong").get()
         .map(function (x) { return +x.lastChild.nodeValue.replace(/,/g, ""); });
     return {
         galacticPower: p[0],
         charactersGalacticPower: p[1],
         shipsGalacticPower: p[2],
-        pVEBattlesWon: p[3],
-        pVEHardBattlesWon: p[4],
-        galacticWarBattlesWon: p[5],
-        arenaBattlesWon: p[6],
-        guildCurrencyEarned: p[7],
+        shipBattlesWon: p[3],
+        arenaBattlesWon: p[4],
+        pVEBattlesWon: p[5],
+        pVEHardBattlesWon: p[6],
+        galacticWarBattlesWon: p[7],
         raidsWon: p[8],
-        shipBattlesWon: p[9],
+        guildCurrencyEarned: p[9],
+        guildDonatedGear: p[10],
     };
 };
 
@@ -390,14 +390,13 @@ function parseUsers($) {
         var description = a.find("strong").text();
         var tds = _$.find("td").slice(1).contents(); // skip a
         var galacticPower = +tds[0].nodeValue;
-        var collectionScore = +tds[1].nodeValue;
-        var arenaRank = +tds[2].nodeValue || undefined;
-        var arenaAverage = +tds[3].nodeValue;
+        var arenaRank = +tds[1].nodeValue || undefined;
+        var arenaAverage = +tds[2].nodeValue;
         return {
             username: username,
             description: description,
             galacticPower: galacticPower,
-            collectionScore: collectionScore,
+            // collectionScore,
             arenaRank: arenaRank,
             arenaAverage: arenaAverage
         };
@@ -535,8 +534,13 @@ var Swgoh = /** @class */ (function () {
             });
         });
     };
+    // NOTE swgoh.gg changed the default to be ally code
     Swgoh.prototype.profile = function (username) {
         var uri = resolve(swgohgg, "/u/" + username + "/");
+        return this.getCheerio(uri).then(parseProfile);
+    };
+    Swgoh.prototype.profileAlly = function (allyCode) {
+        var uri = resolve(swgohgg, "/p/" + allyCode + "/");
         return this.getCheerio(uri).then(parseProfile);
     };
     Swgoh.prototype.collection = function (username) {

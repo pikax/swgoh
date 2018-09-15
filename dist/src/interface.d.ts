@@ -35,7 +35,24 @@ export interface Ship {
     maxGalacticPower: number;
 }
 export interface Guild extends GuildInfo {
-    users: GuildUser[];
+    name: string;
+    imageSrc: string;
+    description: string;
+    galacticPower: number;
+    averageGalacticPower: number;
+    rank: string;
+    raidPoints: number;
+    arenaRank: number;
+    memberCount: number;
+    profileCount: number;
+    lastUpdated: Date;
+    users: Array<{
+        username: string;
+        description: string;
+        galacticPower: number;
+        arenaRank?: number;
+        arenaAverage: number;
+    }>;
 }
 export interface GuildInfo {
     name: string;
@@ -54,7 +71,6 @@ export interface GuildUser {
     username: string;
     description: string;
     galacticPower: number;
-    collectionScore: number;
     arenaRank?: number;
     arenaAverage: number;
 }
@@ -71,7 +87,6 @@ export interface User {
     lastUpdatedUTC?: string;
 }
 export interface UserStats {
-    collectionScore: number;
     characters: number;
     characters7: number;
     characters6: number;
@@ -85,13 +100,14 @@ export interface UserInfo {
     galacticPower: number;
     charactersGalacticPower: number;
     shipsGalacticPower: number;
+    shipBattlesWon: number;
+    arenaBattlesWon: number;
     pVEBattlesWon: number;
     pVEHardBattlesWon: number;
     galacticWarBattlesWon: number;
-    arenaBattlesWon: number;
-    guildCurrencyEarned: number;
     raidsWon: number;
-    shipBattlesWon: number;
+    guildCurrencyEarned: number;
+    guildDonatedGear: number;
 }
 export interface SwgohggUnit {
     player: string;
