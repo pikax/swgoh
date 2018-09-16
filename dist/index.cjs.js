@@ -261,7 +261,7 @@ function parseShips($) {
             };
         })
             .get();
-        var hasShip = na$.attr("href").startsWith('/u');
+        var hasShip = na$.attr("href").startsWith('/p');
         var imgsrc = img === undefined ? "" + assetUrl + path.basename(ship$.find(".ship-portrait-frame-img").attr("src")) : img;
         return {
             code: na$.attr("href").split('/').reverse()[0],

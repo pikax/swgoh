@@ -1,6 +1,6 @@
 {
   "name": "swgoh",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Unofficial node library for swgoh.gg",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
