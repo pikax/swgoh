@@ -17,7 +17,7 @@ export const parseCharacterStats = ($: CheerioStatic): CharacterStats[] => {
       const href = a.attr("href");
 
       const code = href.match(/(?:\/characters\/)([^\/]*)/)[1];
-      const description = a.text();
+      const description = a.text().trim();
       const tds = _$.find("td").get().slice(1).map((x: any) => x.lastChild.nodeValue);
 
 

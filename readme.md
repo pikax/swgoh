@@ -9,6 +9,13 @@
 
 [changelog](#changelog)
 
+
+# INFORMATION *2018-09-16*
+[swgoh][swgoh] is providing an API at [https://swgoh.gg/api/](https://swgoh.gg/api/), I strongly recommend using that, because this library currently is scrapping data from HTML.
+I will probably move this library to use swgoh.gg API, but that will be a breaking change and not backwards compatible because the interface contract will change aka the data return will be different.
+
+
+
 ## Synopsis
 
 Node library to get information of **swgoh** parsing [swgoh.gg][swgoh], you can get **profile**, **characters**, **guild members**, **ships**, **units** and **mods**.
@@ -47,7 +54,7 @@ swgoh.mods(username).then(console.log);
 // login
 const user = {
     username: 'pikax',
-    password: 'MysuperSecurePassword'
+    password: 'MySuperSecurePassword'
 }
 
 swgoh.login(user.username, user.password); //Promise<boolean>
@@ -100,9 +107,18 @@ npm i swgoh
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
+# KNOWN issues
+[swgoh.gg][swgoh] is capping the number of mods you can get in your profile, I can't fix this without making breaking changes, you should use [swoghApi][swgohapi].
+
+
 ## [Unreleased]
 - Toon info parsing
 - Login support
+
+# [0.7.1] 2018-09-16
+- Trim toon description
+- fix star count on ships
 
 # [0.7.0] 2018-09-15 
 - Update static and dependencies
@@ -180,6 +196,7 @@ All notable changes to this project will be documented in this file.
 The developer of this application does not have any affiliation with the Capital Games, Disney, Lucasfilm Limited or swgoh.gg.
 
 [swgoh]: https://swgoh.gg
+[swgohapi]: https://swgoh.gg/api/
 [license]: https://github.com/pikax/swgoh/blob/master/LICENSE
 [swgohApiGuildUnit]: https://swgoh.gg/api/guilds/1/units/
 [i2]: https://github.com/pikax/swgoh/issues/2

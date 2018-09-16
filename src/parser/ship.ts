@@ -61,7 +61,7 @@ export function parseShips($: CheerioStatic): ShipCollection {
                 .get();
 
 
-            const hasShip = na$.attr("href").startsWith('/u');
+            const hasShip = na$.attr("href").startsWith('/p');
 
             const imgsrc = img === undefined ? `${assetUrl}${path.basename(ship$.find(".ship-portrait-frame-img").attr("src"))}` : img;
             return <Ship>{
