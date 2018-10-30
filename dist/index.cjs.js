@@ -553,7 +553,33 @@ var Swgoh = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        uri = url.resolve(swgohgg, "/u/" + username + "/collection/");
+                        uri = url.resolve(swgohgg, "/u/" + username + "/characters/");
+                        return [4 /*yield*/, this.getCheerio(uri)];
+                    case 1:
+                        $ = _a.sent();
+                        pages = parseCollectionPages($);
+                        promises = [Promise.resolve(parseCollection($))];
+                        for (i = 2; i <= pages; i++) {
+                            promises.push(this.getCheerio(url.resolve(uri, "?page=" + i)).then(parseCollection));
+                        }
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 2:
+                        collections = _a.sent();
+                        return [2 /*return*/, collections.reduce(function (v, c) {
+                                c.push.apply(c, v);
+                                return c;
+                            }, [])];
+                }
+            });
+        });
+    };
+    Swgoh.prototype.collectionAlly = function (allyCode) {
+        return __awaiter(this, void 0, void 0, function () {
+            var uri, $, pages, promises, i, collections;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        uri = url.resolve(swgohgg, "/p/" + allyCode + "/characters/");
                         return [4 /*yield*/, this.getCheerio(uri)];
                     case 1:
                         $ = _a.sent();
@@ -598,8 +624,37 @@ var Swgoh = /** @class */ (function () {
             });
         });
     };
+    Swgoh.prototype.modsAlly = function (allyCode) {
+        return __awaiter(this, void 0, void 0, function () {
+            var modsUri, uri, $, modsPage, promises, pMods;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        modsUri = "/p/" + allyCode + "/mods/";
+                        uri = url.resolve(swgohgg, modsUri);
+                        return [4 /*yield*/, this.getCheerio(uri)];
+                    case 1:
+                        $ = _a.sent();
+                        modsPage = getModPages($) - 1;
+                        promises = Array.from({ length: modsPage }, function (k, i) { return i + 2; })
+                            .map(function (x) { return _this.getCheerio(uri + ("?page=" + x))
+                            .then(function (x) { return parseModCollection(x); }); });
+                        return [4 /*yield*/, Promise.all(promises.slice())];
+                    case 2:
+                        pMods = _a.sent();
+                        pMods.unshift(parseModCollection($)); //insert at the beginning
+                        return [2 /*return*/, [].concat.apply([], pMods)]; //flat
+                }
+            });
+        });
+    };
     Swgoh.prototype.ship = function (username) {
         var uri = url.resolve(swgohgg, "/u/" + username + "/ships/");
+        return this.getCheerio(uri).then(parseShips);
+    };
+    Swgoh.prototype.shipAlly = function (allyCode) {
+        var uri = url.resolve(swgohgg, "/p/" + allyCode + "/ships/");
         return this.getCheerio(uri).then(parseShips);
     };
     Swgoh.prototype.guild = function (opts) {

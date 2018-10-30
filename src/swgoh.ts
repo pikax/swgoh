@@ -99,8 +99,9 @@ export class Swgoh {
         return this.getCheerio(uri).then(parseProfile);
     }
 
+    
     async collection(username: string): Promise<Collection> {
-        const uri = url.resolve(swgohgg, `/u/${username}/collection/`);
+        const uri = url.resolve(swgohgg, `/u/${username}/characters/`);
         const $ = await this.getCheerio(uri);
 
         const pages = parseCollectionPages($);
@@ -118,6 +119,24 @@ export class Swgoh {
         }, []);
     }
 
+    async collectionAlly(allyCode: string): Promise<Collection> {
+        const uri = url.resolve(swgohgg, `/p/${allyCode}/characters/`);
+        const $ = await this.getCheerio(uri);
+
+        const pages = parseCollectionPages($);
+
+        const promises = [Promise.resolve(parseCollection($))];
+        for (let i = 2; i <= pages; i++) {
+            promises.push(this.getCheerio(url.resolve(uri, "?page=" + i)).then(parseCollection));
+        }
+
+        const collections: Collection[] = await Promise.all(promises)
+
+        return collections.reduce((v, c)=>{
+            c.push(...v);
+            return c;
+        }, []);
+    }
     async mods(username: string): Promise<ModCollection> {
         const modsUri = `/u/${username}/mods/`;
 
@@ -142,8 +161,37 @@ export class Swgoh {
         return [].concat.apply([], pMods); //flat
     }
 
+    async modsAlly(allyCode: string): Promise<ModCollection> {
+        const modsUri = `/p/${allyCode}/mods/`;
+
+        const uri = url.resolve(swgohgg, modsUri);
+
+        const $: CheerioStatic = await this.getCheerio(uri);
+
+        const modsPage = getModPages($) - 1;
+
+        const promises = Array.from({length: modsPage},
+            (k, i) => i + 2)
+            .map(x => this.getCheerio(uri + `?page=${x}`)
+                .then(x => parseModCollection(x))
+            );
+
+
+        const pMods: ModCollection[] = await Promise.all([
+            ...promises,
+        ]);
+
+        pMods.unshift(parseModCollection($)); //insert at the beginning
+        return [].concat.apply([], pMods); //flat
+    }
+
     ship(username: string): Promise<ShipCollection> {
         const uri = url.resolve(swgohgg, `/u/${username}/ships/`);
+        return this.getCheerio(uri).then(parseShips);
+    }
+    
+    shipAlly(allyCode: string): Promise<ShipCollection> {
+        const uri = url.resolve(swgohgg, `/p/${allyCode}/ships/`);
         return this.getCheerio(uri).then(parseShips);
     }
 

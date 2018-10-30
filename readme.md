@@ -42,6 +42,9 @@ swgoh.ship(username).then(console.log);
 
 const allyCode= "495616697";
 swgoh.profileAlly(allyCode).then(console.log);
+swgoh.collectionAlly(allyCode).then(console.log);
+swgoh.shipAlly(allyCode).then(console.log);
+swgoh.modsAlly(allyCode).then(console.log);
 
 
 const guild = "/g/232/requiem/"; // or {id:232}
@@ -115,6 +118,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Toon info parsing
 - Login support
+
+# [0.8.0] 2018-10-30
+- Added Ally methods to use *allyCode*
 
 # [0.7.1] 2018-09-16
 - Trim toon description

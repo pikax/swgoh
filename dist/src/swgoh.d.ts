@@ -9,8 +9,11 @@ export declare class Swgoh {
     profile(username: string): Promise<Profile>;
     profileAlly(allyCode: string): Promise<Profile>;
     collection(username: string): Promise<Collection>;
+    collectionAlly(allyCode: string): Promise<Collection>;
     mods(username: string): Promise<ModCollection>;
+    modsAlly(allyCode: string): Promise<ModCollection>;
     ship(username: string): Promise<ShipCollection>;
+    shipAlly(allyCode: string): Promise<ShipCollection>;
     guild(guildUrl: string): Promise<Guild>;
     guild(opts: {
         id: number;

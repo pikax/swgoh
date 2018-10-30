@@ -1,16 +1,17 @@
 // import {swgoh} from '../dist'
 
-const swgoh = require('../dist').swgoh;
+const swgoh = require('../dist/index.cjs').swgoh;
 
 const process = async (profile)=>{
-    return swgoh.mods(profile);
+    return swgoh.collectionAlly(profile)
 };
 
 
 const start = new Date();
 
 
-process('pikax')
+process('495616697')
+.then(console.log)
     .then(p=>{
         var end = new Date() - start;
         console.info("Execution time: %dms", end);
